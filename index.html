@@ -52,7 +52,6 @@
             padding: 40px;
             background: #f8f9fa;
         }
-
         .upload-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -186,153 +185,11 @@
             background: #dee2e6;
         }
 
-        .comparison-container {
-            margin-bottom: 40px;
-        }
-
-        .comparison-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .period-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-
-        .period-1 {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-
-        .period-2 {
-            background: #f3e5f5;
-            color: #7b1fa2;
-        }
-
         .table-container {
             overflow-x: auto;
             margin-bottom: 30px;
         }
 
-        /* ---------------------------------- */
-        /* 🚀 表格樣式優化區         */
-        /* ---------------------------------- */
-        table {
-            width: 100%;
-            border-collapse: separate; /* 使用 separate 以利圓角和邊框間隔 */
-            border-spacing: 0;
-            background: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* 略微加強陰影 */
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        /* 表格主標題 (例如: 銷售數量) */
-        table thead tr:first-child th {
-            background: linear-gradient(135deg, #4a69bd 0%, #3b5998 100%); /* 深色漸變 */
-            color: white;
-            padding: 15px 8px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 0.95em;
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        table thead tr:first-child th:last-child {
-            border-right: none;
-        }
-
-        /* 子表頭 (例如: 去年, 今年, 成長率) */
-        table thead tr:nth-child(2) th {
-            padding: 10px 8px;
-            text-align: center; /* 子標題文字置中 */
-            font-weight: 600;
-            font-size: 0.8em;
-            color: #333;
-            background: #e9ecef; /* 淺灰背景 */
-            border-right: 1px solid #d0d5dd; /* 加上淺色右邊線 */
-        }
-
-        table th[rowspan="2"],
-        table th[colspan] {
-            font-size: 1em; /* 保持大分類字體大小 */
-            white-space: nowrap;
-        }
-
-        table td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 0.85em;
-            background: white;
-            vertical-align: middle; /* 垂直置中 */
-        }
-
-        table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        table tbody tr:hover {
-            background: #f5f7fa; /* 淺一點的懸停色 */
-        }
-
-        /* 🚀 數字欄位優化：強制右對齊與等寬字體 */
-        .number {
-            text-align: right !important;
-            font-family: 'Consolas', 'Courier New', monospace; /* 等寬字體讓數字對齊更漂亮 */
-            color: #333;
-            white-space: nowrap; /* 防止數字被換行 */
-        }
-
-        /* 🚀 成長率徽章優化：美觀與寬度統一 */
-        .yoy-badge {
-            display: inline-block;
-            padding: 4px 8px; /* 略微縮小內距 */
-            border-radius: 4px;
-            font-size: 0.8em;
-            font-weight: 700;
-            min-width: 75px; /* 固定最小寬度，讓成長率列對齊 */
-            text-align: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* 添加輕微陰影 */
-        }
-
-        .yoy-up {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #c8e6c9;
-        }
-
-        .yoy-down {
-            background: #ffebee;
-            color: #c62828;
-            border: 1px solid #ffcdd2;
-        }
-
-        /* 🚀 總計列樣式優化 */
-        tr.summary-row td {
-            background: #fffdf0 !important; /* 淺黃色系作為總計行的底色 */
-            font-weight: 600 !important;
-            border-top: 2px solid #f39c12 !important; /* 上方加粗邊線 */
-        }
-
-        .peripheral-row td {
-            background: #f0f4f8 !important; 
-            border-left: 4px solid #5a6c7d;
-        }
-
-        .total-row td {
-            background: #fffbf0 !important; 
-            border-left: 4px solid #f39c12;
-        }
-
-        /* ---------------------------------- */
-        /* 其他區塊 (保持不變)       */
-        /* ---------------------------------- */
         .loading {
             text-align: center;
             padding: 40px;
@@ -358,6 +215,121 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* ---------------------------------- */
+        /* 🚀 表格樣式優化區 (簡潔、數字放大) */
+        /* ---------------------------------- */
+        table {
+            width: 100%;
+            border-collapse: separate; 
+            border-spacing: 0;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* 表格主標題 (例如: 銷售數量) */
+        table thead tr:first-child th {
+            background: linear-gradient(135deg, #4a69bd 0%, #3b5998 100%); 
+            color: white;
+            padding: 18px 10px; /* 增加 padding */
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.0em; 
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        table thead tr:first-child th:last-child {
+            border-right: none;
+        }
+
+        /* 子表頭 (例如: 去年, 今年, 成長率) */
+        table thead tr:nth-child(2) th {
+            padding: 12px 10px; /* 增加 padding */
+            text-align: center; 
+            font-weight: 600;
+            font-size: 0.85em;
+            color: #333;
+            background: #e9ecef; 
+            border-right: 1px solid #d0d5dd; 
+        }
+
+        table th[rowspan="2"],
+        table th[colspan] {
+            font-size: 1em; 
+            white-space: nowrap;
+        }
+
+        table td {
+            padding: 12px 10px; /* 增加 padding，讓行高更寬鬆，提升易讀性 */
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9em; /* 基礎文字略微放大 */
+            background: white;
+            vertical-align: middle; 
+        }
+
+        table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        table tbody tr:hover {
+            background: #f5f7fa; 
+        }
+
+        /* 🚀 數字欄位優化：強制右對齊與等寬字體，並放大數字 */
+        .number {
+            text-align: right !important;
+            font-family: 'Consolas', 'Courier New', monospace; /* 等寬字體保持對齊 */
+            color: #1a1a1a; /* 更深的顏色 */
+            font-weight: 600; /* 加粗 */
+            font-size: 1.1em !important; /* 明確放大數字 */
+            white-space: nowrap; 
+        }
+
+        /* 🚀 成長率徽章優化：美觀與寬度統一 */
+        .yoy-badge {
+            display: inline-block;
+            padding: 5px 10px; /* 調整 padding */
+            border-radius: 5px;
+            font-size: 0.9em; /* 略微放大徽章文字 */
+            font-weight: 700;
+            min-width: 85px; /* 固定最小寬度 */
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+        }
+
+        .yoy-up {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .yoy-down {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+
+        /* 🚀 總計列樣式優化 (使用 class 控制) */
+        tr.summary-row td {
+            background: #fffdf0 !important; 
+            font-weight: 600 !important;
+            border-top: 2px solid #f39c12 !important; 
+        }
+
+        .peripheral-row td {
+            background: #f0f4f8 !important; 
+            border-left: 4px solid #5a6c7d;
+        }
+
+        .total-row td {
+            background: #fffbf0 !important; 
+            border-left: 4px solid #f39c12;
+        }
+
+        /* ---------------------------------- */
+        /* Top 3 區塊 (保持不變)       */
+        /* ---------------------------------- */
         .top3-section {
             margin-top: 40px;
         }
@@ -367,31 +339,6 @@
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-bottom: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .top3-grid {
-                grid-template-columns: 1fr;
-            }
-            .upload-grid {
-                grid-template-columns: 1fr;
-            }
-            table th, table td {
-                font-size: 0.75em;
-                padding: 8px 5px;
-            }
-            .yoy-badge {
-                font-size: 0.7em;
-                padding: 3px 6px;
-                min-width: 50px;
-            }
-        }
-
-        @media (max-width: 1400px) {
-            table th, table td {
-                font-size: 0.8em;
-                padding: 9px 6px;
-            }
         }
 
         .top3-card {
@@ -480,6 +427,39 @@
         .period-section h4 {
             margin-bottom: 15px;
             color: #667eea;
+        }
+
+        /* ---------------------------------- */
+        /* RWD 響應式調整 (優化)     */
+        /* ---------------------------------- */
+        @media (max-width: 768px) {
+            .top3-grid {
+                grid-template-columns: 1fr;
+            }
+            .upload-grid {
+                grid-template-columns: 1fr;
+            }
+            table th, table td {
+                font-size: 0.8em;
+                padding: 10px 6px; 
+            }
+            .number {
+                font-size: 1.0em !important; /* RWD 時數字保持較大 */
+            }
+            .yoy-badge {
+                font-size: 0.8em;
+                padding: 4px 8px;
+                min-width: 60px;
+            }
+        }
+        @media (max-width: 1400px) {
+            table th, table td {
+                font-size: 0.85em; 
+                padding: 10px 8px;
+            }
+            .number {
+                font-size: 1.05em !important;
+            }
         }
     </style>
 </head>
@@ -936,7 +916,7 @@
             const pProfitYoY = calculateYoY(peripheral1.profit, peripheral2.profit);
             const pProfitRateYoY = peripheral2.profitRate - peripheral1.profitRate;
 
-            // 🚀 周邊業績列：替換為 class="peripheral-row summary-row" 並移除所有行內樣式
+            // **優化處 A: 使用 CSS Class，移除行內樣式**
             html += `
                 <tr class="peripheral-row summary-row">
                     <td><strong>周邊業績</strong></td>
@@ -995,7 +975,7 @@
             const tProfitYoY = calculateYoY(total1.profit, total2.profit);
             const tProfitRateYoY = total2.profitRate - total1.profitRate;
 
-            // 🚀 總計列：替換為 class="total-row summary-row" 並移除所有行內樣式
+            // **優化處 B: 使用 CSS Class，移除行內樣式**
             html += `
                 <tr class="total-row summary-row">
                     <td><strong>總計（排除Care）</strong></td>
