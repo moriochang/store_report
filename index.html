@@ -788,6 +788,9 @@
 
             const period1Name = document.getElementById('sales1Name').value || '去年';
             const period2Name = document.getElementById('sales2Name').value || '今年';
+            
+            // 表頭第二層顏色，用於品項欄位
+            const headerSecondColor = '#E8EDF7';
 
             let html = `
                 <h3 style="font-size: 1.5em; color: #667eea; margin-bottom: 20px;">
@@ -833,8 +836,7 @@
 
                 html += `
                     <tr>
-                        <td><strong>${category}</strong></td>
-                        <td class="number">${cat1.qty.toLocaleString()}</td>
+                        <td style="background: ${headerSecondColor};"><strong>${category}</strong></td> <td class="number">${cat1.qty.toLocaleString()}</td>
                         <td class="number">${cat2.qty.toLocaleString()}</td>
                         <td class="number">
                             <span class="yoy-badge ${qtyYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
@@ -999,12 +1001,6 @@
                     </td>
                     <td class="number" style="background: #fffbf0 !important;">${formatAmount(total1.amt)}</td>
                     <td class="number" style="background: #fffbf0 !important;">${formatAmount(total2.amt)}</td>
-                    <td class="number" style="background: #fffbf0 !important;">
-                        <span class="yoy-badge ${tAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(tAmtYoY)}
-                        </span>
-                    </td>
-                    <td class="number" style="background: #fffbf0 !important;">${formatAmount(total1.profit)}</td>
                     <td class="number" style="background: #fffbf0 !important;">${formatAmount(total2.profit)}</td>
                     <td class="number" style="background: #fffbf0 !important;">
                         <span class="yoy-badge ${tProfitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
