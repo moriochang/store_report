@@ -224,45 +224,55 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border-radius: 10px;
             overflow: hidden;
-            border: 1px solid #e0e0e0;
+            /* 修改點 1: 表格邊框使用淺色實線 */
+            border: 1px solid #dcdcdc; 
         }
 
         table thead {
-            background: #5a6c7d;
+            /* 移除原來的背景色，改由 th 設定 */
+            background: none; 
             color: white;
         }
 
-        table th {
+        /* 修改點 2: 表頭第一層 (品項/銷售數量/銷售金額/毛利額/毛利率) */
+        table th[rowspan="2"],
+        table th[colspan] {
+            background: #4A69BD; /* 藍色系 */
+            color: white;
             padding: 12px 8px;
-            text-align: left;
+            text-align: center !important; /* 強制居中 */
+            font-weight: bold;
+            white-space: nowrap;
+            font-size: calc(0.85em + 3px);
+            border: 1px solid #dcdcdc;
+        }
+
+        /* 修改點 3: 表頭第二層 (去年/今年/成長率/差異) */
+        table th {
+            padding: 10px 8px;
+            text-align: right;
             font-weight: bold;
             white-space: nowrap;
             font-size: 0.85em;
-            color: white;
-        }
-
-        table th[rowspan="2"],
-        table th[colspan] {
-            font-size: calc(0.85em + 3px);
+            color: #333; /* 文字顏色改為深色 */
+            background: #E8EDF7; /* 相近的淺藍色 */
+            border: 1px solid #dcdcdc;
         }
 
         table td {
             padding: 10px 8px;
-            border-bottom: 1px solid #f0f0f0;
+            /* 修改點 4: 儲存格邊框使用淺色實線 */
+            border: 1px solid #f0f0f0; 
             font-size: 0.85em;
             background: white;
         }
 
         table tbody tr:last-child td {
-            border-bottom: none;
+            border-bottom: 1px solid #f0f0f0; /* 保留底線避免突兀 */
         }
 
         table tbody tr:hover {
             background: #fafbfc;
-        }
-
-        table tbody tr:last-child td {
-            border-bottom: none;
         }
 
         .number {
@@ -712,6 +722,11 @@
             if (yoy < 0) return 'yoy-decrease';
             return 'yoy-neutral';
         }
+        
+        // 新增金額格式化函數，不含貨幣符號
+        function formatAmount(amount) {
+            return amount.toLocaleString('zh-TW', {maximumFractionDigits: 0});
+        }
 
         function displayResults() {
             const tabsContainer = document.getElementById('storeTabs');
@@ -783,25 +798,25 @@
                     <table>
                         <thead>
                             <tr>
-                                <th rowspan="2" style="background: #5a6c7d; text-align: center; color: white;">品項</th>
-                                <th colspan="3" class="number" style="background: #5a6c7d; text-align: center; color: white;">銷售數量</th>
-                                <th colspan="3" class="number" style="background: #5a6c7d; text-align: center; color: white;">銷售金額</th>
-                                <th colspan="3" class="number" style="background: #5a6c7d; text-align: center; color: white;">毛利額</th>
-                                <th colspan="3" class="number" style="background: #5a6c7d; text-align: center; color: white;">毛利率</th>
+                                <th rowspan="2">品項</th>
+                                <th colspan="3" class="number">銷售數量</th>
+                                <th colspan="3" class="number">銷售金額</th>
+                                <th colspan="3" class="number">毛利額</th>
+                                <th colspan="3" class="number">毛利率</th>
                             </tr>
                             <tr>
-                                <th class="number" style="background: #e8eaf0; color: #333;">${period1Name}</th>
-                                <th class="number" style="background: #d0d5dd; color: #333;">${period2Name}</th>
-                                <th class="number" style="background: #f5f5f5; color: #333;">成長率</th>
-                                <th class="number" style="background: #e8eaf0; color: #333;">${period1Name}</th>
-                                <th class="number" style="background: #d0d5dd; color: #333;">${period2Name}</th>
-                                <th class="number" style="background: #f5f5f5; color: #333;">成長率</th>
-                                <th class="number" style="background: #e8eaf0; color: #333;">${period1Name}</th>
-                                <th class="number" style="background: #d0d5dd; color: #333;">${period2Name}</th>
-                                <th class="number" style="background: #f5f5f5; color: #333;">成長率</th>
-                                <th class="number" style="background: #e8eaf0; color: #333;">${period1Name}</th>
-                                <th class="number" style="background: #d0d5dd; color: #333;">${period2Name}</th>
-                                <th class="number" style="background: #f5f5f5; color: #333;">差異</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">成長率</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">成長率</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">成長率</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">差異</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -826,15 +841,15 @@
                                 ${formatYoY(qtyYoY)}
                             </span>
                         </td>
-                        <td class="number">$${cat1.amt.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
-                        <td class="number">$${cat2.amt.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
+                        <td class="number">${formatAmount(cat1.amt)}</td>
+                        <td class="number">${formatAmount(cat2.amt)}</td>
                         <td class="number">
                             <span class="yoy-badge ${amtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
                                 ${formatYoY(amtYoY)}
                             </span>
                         </td>
-                        <td class="number">$${cat1.profit.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
-                        <td class="number">$${cat2.profit.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
+                        <td class="number">${formatAmount(cat1.profit)}</td>
+                        <td class="number">${formatAmount(cat2.profit)}</td>
                         <td class="number">
                             <span class="yoy-badge ${profitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
                                 ${formatYoY(profitYoY)}
@@ -868,25 +883,25 @@
                     <table>
                         <thead>
                             <tr>
-                                <th rowspan="2" style="background: #5a6c7d; text-align: center; color: white;">項目</th>
-                                <th colspan="3" class="number" style="background: #5a6c7d; text-align: center; color: white;">銷售數量</th>
-                                <th colspan="3" class="number" style="background: #5a6c7d; text-align: center; color: white;">銷售金額</th>
-                                <th colspan="3" class="number" style="background: #5a6c7d; text-align: center; color: white;">毛利額</th>
-                                <th colspan="3" class="number" style="background: #5a6c7d; text-align: center; color: white;">毛利率</th>
+                                <th rowspan="2">項目</th>
+                                <th colspan="3" class="number">銷售數量</th>
+                                <th colspan="3" class="number">銷售金額</th>
+                                <th colspan="3" class="number">毛利額</th>
+                                <th colspan="3" class="number">毛利率</th>
                             </tr>
                             <tr>
-                                <th class="number" style="background: #e8eaf0; color: #333;">${period1Name}</th>
-                                <th class="number" style="background: #d0d5dd; color: #333;">${period2Name}</th>
-                                <th class="number" style="background: #f5f5f5; color: #333;">成長率</th>
-                                <th class="number" style="background: #e8eaf0; color: #333;">${period1Name}</th>
-                                <th class="number" style="background: #d0d5dd; color: #333;">${period2Name}</th>
-                                <th class="number" style="background: #f5f5f5; color: #333;">成長率</th>
-                                <th class="number" style="background: #e8eaf0; color: #333;">${period1Name}</th>
-                                <th class="number" style="background: #d0d5dd; color: #333;">${period2Name}</th>
-                                <th class="number" style="background: #f5f5f5; color: #333;">成長率</th>
-                                <th class="number" style="background: #e8eaf0; color: #333;">${period1Name}</th>
-                                <th class="number" style="background: #d0d5dd; color: #333;">${period2Name}</th>
-                                <th class="number" style="background: #f5f5f5; color: #333;">差異</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">成長率</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">成長率</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">成長率</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">差異</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -924,15 +939,15 @@
                             ${formatYoY(pQtyYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: #f0f4f8 !important;">$${peripheral1.amt.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
-                    <td class="number" style="background: #f0f4f8 !important;">$${peripheral2.amt.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
+                    <td class="number" style="background: #f0f4f8 !important;">${formatAmount(peripheral1.amt)}</td>
+                    <td class="number" style="background: #f0f4f8 !important;">${formatAmount(peripheral2.amt)}</td>
                     <td class="number" style="background: #f0f4f8 !important;">
                         <span class="yoy-badge ${pAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
                             ${formatYoY(pAmtYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: #f0f4f8 !important;">$${peripheral1.profit.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
-                    <td class="number" style="background: #f0f4f8 !important;">$${peripheral2.profit.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
+                    <td class="number" style="background: #f0f4f8 !important;">${formatAmount(peripheral1.profit)}</td>
+                    <td class="number" style="background: #f0f4f8 !important;">${formatAmount(peripheral2.profit)}</td>
                     <td class="number" style="background: #f0f4f8 !important;">
                         <span class="yoy-badge ${pProfitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
                             ${formatYoY(pProfitYoY)}
@@ -982,15 +997,15 @@
                             ${formatYoY(tQtyYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: #fffbf0 !important;">$${total1.amt.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
-                    <td class="number" style="background: #fffbf0 !important;">$${total2.amt.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
+                    <td class="number" style="background: #fffbf0 !important;">${formatAmount(total1.amt)}</td>
+                    <td class="number" style="background: #fffbf0 !important;">${formatAmount(total2.amt)}</td>
                     <td class="number" style="background: #fffbf0 !important;">
                         <span class="yoy-badge ${tAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
                             ${formatYoY(tAmtYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: #fffbf0 !important;">$${total1.profit.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
-                    <td class="number" style="background: #fffbf0 !important;">$${total2.profit.toLocaleString('zh-TW', {maximumFractionDigits: 0})}</td>
+                    <td class="number" style="background: #fffbf0 !important;">${formatAmount(total1.profit)}</td>
+                    <td class="number" style="background: #fffbf0 !important;">${formatAmount(total2.profit)}</td>
                     <td class="number" style="background: #fffbf0 !important;">
                         <span class="yoy-badge ${tProfitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
                             ${formatYoY(tProfitYoY)}
@@ -1044,7 +1059,7 @@
                 if (hasData1) {
                     categoryData1.top3Qty.forEach((item, index) => {
                         const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
-                        const amtDisplay = item.amt > 0 ? `$${item.amt.toLocaleString('zh-TW', {maximumFractionDigits: 0})}` : '-';
+                        const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
                         html += `
                             <div class="rank-item">
                                 <div class="rank-number">${index + 1}</div>
@@ -1070,7 +1085,7 @@
                 if (hasData2) {
                     categoryData2.top3Qty.forEach((item, index) => {
                         const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
-                        const amtDisplay = item.amt > 0 ? `$${item.amt.toLocaleString('zh-TW', {maximumFractionDigits: 0})}` : '-';
+                        const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
                         html += `
                             <div class="rank-item">
                                 <div class="rank-number">${index + 1}</div>
@@ -1100,7 +1115,7 @@
                 if (hasData1) {
                     categoryData1.top3Amt.forEach((item, index) => {
                         const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
-                        const amtDisplay = item.amt > 0 ? `$${item.amt.toLocaleString('zh-TW', {maximumFractionDigits: 0})}` : '-';
+                        const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
                         html += `
                             <div class="rank-item">
                                 <div class="rank-number">${index + 1}</div>
@@ -1126,7 +1141,7 @@
                 if (hasData2) {
                     categoryData2.top3Amt.forEach((item, index) => {
                         const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
-                        const amtDisplay = item.amt > 0 ? `$${item.amt.toLocaleString('zh-TW', {maximumFractionDigits: 0})}` : '-';
+                        const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
                         html += `
                             <div class="rank-item">
                                 <div class="rank-number">${index + 1}</div>
