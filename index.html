@@ -224,17 +224,15 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border-radius: 10px;
             overflow: hidden;
-            /* 修改點 1: 表格邊框使用淺色實線 */
-            border: 1px solid #dcdcdc; 
+            border: 1px solid #e0e0e0;
         }
 
         table thead {
-            /* 移除原來的背景色，改由 th 設定 */
-            background: none; 
+            background: none;
             color: white;
         }
 
-        /* 修改點 2: 表頭第一層 (品項/銷售數量/銷售金額/毛利額/毛利率) */
+        /* 表頭第一層 (品項/銷售數量/銷售金額/毛利額/毛利率) */
         table th[rowspan="2"],
         table th[colspan] {
             background: #4A69BD; /* 藍色系 */
@@ -247,7 +245,7 @@
             border: 1px solid #dcdcdc;
         }
 
-        /* 修改點 3: 表頭第二層 (去年/今年/成長率/差異) */
+        /* 表頭第二層 (去年/今年/成長率/差異) */
         table th {
             padding: 10px 8px;
             text-align: right;
@@ -261,18 +259,25 @@
 
         table td {
             padding: 10px 8px;
-            /* 修改點 4: 儲存格邊框使用淺色實線 */
             border: 1px solid #f0f0f0; 
             font-size: 0.85em;
             background: white;
         }
 
         table tbody tr:last-child td {
-            border-bottom: 1px solid #f0f0f0; /* 保留底線避免突兀 */
+            border-bottom: 1px solid #f0f0f0;
         }
 
         table tbody tr:hover {
             background: #fafbfc;
+        }
+        
+        /* 針對總計摘要列優化 */
+        table tbody tr[style*="font-weight: 600;"] td {
+            background: #f0f4f8 !important;
+        }
+        table tbody tr[style*="font-weight: 700;"] td {
+            background: #fffbf0 !important;
         }
 
         .number {
@@ -836,7 +841,8 @@
 
                 html += `
                     <tr>
-                        <td style="background: ${headerSecondColor};"><strong>${category}</strong></td> <td class="number">${cat1.qty.toLocaleString()}</td>
+                        <td style="background: ${headerSecondColor};"><strong>${category}</strong></td>
+                        <td class="number">${cat1.qty.toLocaleString()}</td>
                         <td class="number">${cat2.qty.toLocaleString()}</td>
                         <td class="number">
                             <span class="yoy-badge ${qtyYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
@@ -1001,6 +1007,12 @@
                     </td>
                     <td class="number" style="background: #fffbf0 !important;">${formatAmount(total1.amt)}</td>
                     <td class="number" style="background: #fffbf0 !important;">${formatAmount(total2.amt)}</td>
+                    <td class="number" style="background: #fffbf0 !important;">
+                        <span class="yoy-badge ${tAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${formatYoY(tAmtYoY)}
+                        </span>
+                    </td>
+                    <td class="number" style="background: #fffbf0 !important;">${formatAmount(total1.profit)}</td>
                     <td class="number" style="background: #fffbf0 !important;">${formatAmount(total2.profit)}</td>
                     <td class="number" style="background: #fffbf0 !important;">
                         <span class="yoy-badge ${tProfitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
