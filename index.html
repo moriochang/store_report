@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>銷售報表分析系統（年度對比版）</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -476,6 +477,39 @@
             margin-bottom: 15px;
             color: #667eea;
         }
+
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+
+        .chart-container h4 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+        .percentage-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #e3f2fd;
+            color: #1976d2;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 8px;
+        }
     </style>
 </head>
 <body>
@@ -644,10 +678,12 @@
                     };
                 });
 
-                // 計算每個大分類的Top3
+                // 計算每個大分類的Top3和完整數據
                 targetCategories.forEach(bigCategory => {
                     const categoryItems = storeData.filter(item => item.大分類 === bigCategory);
                     const groupData = {};
+                    let categoryTotalQty = 0;
+                    let categoryTotalAmt = 0;
                     
                     categoryItems.forEach(item => {
                         // Audio、Care、Accy用小分類，其他用中分類
@@ -661,19 +697,26 @@
                         }
                         groupData[key].qty += item.total_qty || 0;
                         groupData[key].amt += item.total_amt_t1 || 0;
+                        categoryTotalQty += item.total_qty || 0;
+                        categoryTotalAmt += item.total_amt_t1 || 0;
                     });
 
-                    const top3Qty = Object.values(groupData)
+                    const allData = Object.values(groupData);
+                    
+                    const top3Qty = [...allData]
                         .sort((a, b) => b.qty - a.qty)
                         .slice(0, 3);
 
-                    const top3Amt = Object.values(groupData)
+                    const top3Amt = [...allData]
                         .sort((a, b) => b.amt - a.amt)
                         .slice(0, 3);
 
                     results[storeId].categoryTop3[bigCategory] = {
                         top3Qty: top3Qty,
-                        top3Amt: top3Amt
+                        top3Amt: top3Amt,
+                        allData: allData,
+                        totalQty: categoryTotalQty,
+                        totalAmt: categoryTotalAmt
                     };
                 });
             });
@@ -1065,14 +1108,19 @@
                 `;
 
                 if (hasData1) {
+                    const total1Qty = categoryData1.totalQty || 0;
                     categoryData1.top3Qty.forEach((item, index) => {
                         const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
                         const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
+                        const percentage = total1Qty > 0 ? ((item.qty / total1Qty) * 100).toFixed(1) : 0;
                         html += `
                             <div class="rank-item">
                                 <div class="rank-number">${index + 1}</div>
                                 <div class="rank-info">
-                                    <div class="rank-name">${item.name}</div>
+                                    <div class="rank-name">
+                                        ${item.name}
+                                        <span class="percentage-badge">佔比 ${percentage}%</span>
+                                    </div>
                                     <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
                                         數量: ${qtyDisplay} | 金額: ${amtDisplay}
                                     </div>
@@ -1091,14 +1139,19 @@
                 `;
 
                 if (hasData2) {
+                    const total2Qty = categoryData2.totalQty || 0;
                     categoryData2.top3Qty.forEach((item, index) => {
                         const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
                         const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
+                        const percentage = total2Qty > 0 ? ((item.qty / total2Qty) * 100).toFixed(1) : 0;
                         html += `
                             <div class="rank-item">
                                 <div class="rank-number">${index + 1}</div>
                                 <div class="rank-info">
-                                    <div class="rank-name">${item.name}</div>
+                                    <div class="rank-name">
+                                        ${item.name}
+                                        <span class="percentage-badge">佔比 ${percentage}%</span>
+                                    </div>
                                     <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
                                         數量: ${qtyDisplay} | 金額: ${amtDisplay}
                                     </div>
@@ -1121,14 +1174,19 @@
                 `;
 
                 if (hasData1) {
+                    const total1Amt = categoryData1.totalAmt || 0;
                     categoryData1.top3Amt.forEach((item, index) => {
                         const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
                         const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
+                        const percentage = total1Amt > 0 ? ((item.amt / total1Amt) * 100).toFixed(1) : 0;
                         html += `
                             <div class="rank-item">
                                 <div class="rank-number">${index + 1}</div>
                                 <div class="rank-info">
-                                    <div class="rank-name">${item.name}</div>
+                                    <div class="rank-name">
+                                        ${item.name}
+                                        <span class="percentage-badge">佔比 ${percentage}%</span>
+                                    </div>
                                     <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
                                         數量: ${qtyDisplay} | 金額: ${amtDisplay}
                                     </div>
@@ -1147,14 +1205,19 @@
                 `;
 
                 if (hasData2) {
+                    const total2Amt = categoryData2.totalAmt || 0;
                     categoryData2.top3Amt.forEach((item, index) => {
                         const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
                         const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
+                        const percentage = total2Amt > 0 ? ((item.amt / total2Amt) * 100).toFixed(1) : 0;
                         html += `
                             <div class="rank-item">
                                 <div class="rank-number">${index + 1}</div>
                                 <div class="rank-info">
-                                    <div class="rank-name">${item.name}</div>
+                                    <div class="rank-name">
+                                        ${item.name}
+                                        <span class="percentage-badge">佔比 ${percentage}%</span>
+                                    </div>
                                     <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
                                         數量: ${qtyDisplay} | 金額: ${amtDisplay}
                                     </div>
@@ -1166,10 +1229,26 @@
                     html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
                 }
 
-                html += `
+                // 添加圖表
+                if (hasData1 || hasData2) {
+                    const chartId = `chart-${storeId}-${bigCategory.replace(/\s+/g, '-')}`;
+                    html += `
                         </div>
                     </div>
-                `;
+                    
+                    <div class="chart-container">
+                        <h4>📊 ${bigCategory} ${classificationText}銷售數量對比</h4>
+                        <div class="chart-wrapper">
+                            <canvas id="${chartId}"></canvas>
+                        </div>
+                    </div>
+                    `;
+                } else {
+                    html += `
+                        </div>
+                    </div>
+                    `;
+                }
             });
 
             html += `
@@ -1177,6 +1256,203 @@
             `;
 
             contentContainer.innerHTML = html;
+
+            // 名稱標準化函數
+            function normalizeProductName(name, category) {
+                if (!name) return name;
+                
+                let normalizedName = name.trim();
+                
+                // CPU類：特殊處理和標準化
+                if (category === 'CPU') {
+                    // MacBook Pro -> MBP
+                    if (normalizedName.includes('MacBook Pro 14') || normalizedName.includes('MBP 14')) {
+                        return 'MBP 14';
+                    }
+                    if (normalizedName.includes('MacBook Pro 16') || normalizedName.includes('MBP 16')) {
+                        return 'MBP 16';
+                    }
+                    
+                    // 移除其他MacBook的晶片型號
+                    normalizedName = normalizedName.replace(/\s*\([^)]*\)/g, '').trim();
+                    
+                    return normalizedName;
+                }
+                
+                // iPad類：統一不同版本
+                if (category === 'iPad') {
+                    // iPad 9/10/iPad(A16) -> iPad
+                    if (normalizedName.includes('iPad 9') || 
+                        normalizedName.includes('iPad 10') || 
+                        normalizedName.includes('iPad(A16)') ||
+                        normalizedName.includes('iPad (A16)')) {
+                        return 'iPad';
+                    }
+                    
+                    // iPad Air 11in
+                    if (normalizedName.includes('iPad Air') && normalizedName.includes('11')) {
+                        return 'iPad Air 11in';
+                    }
+                    
+                    // iPad Air 13in
+                    if (normalizedName.includes('iPad Air') && normalizedName.includes('13')) {
+                        return 'iPad Air 13in';
+                    }
+                    
+                    // iPad mini 6/iPad mini(A17 Pro) -> iPad mini
+                    if (normalizedName.includes('iPad mini 6') || 
+                        normalizedName.includes('iPad mini(A17 Pro)') ||
+                        normalizedName.includes('iPad mini (A17 Pro)')) {
+                        return 'iPad mini';
+                    }
+                    
+                    // iPad Pro - 移除晶片型號
+                    if (normalizedName.includes('iPad Pro')) {
+                        normalizedName = normalizedName.replace(/\s*\([^)]*\)/g, '').trim();
+                        return normalizedName;
+                    }
+                    
+                    return normalizedName;
+                }
+                
+                // Apple Watch類：統一系列版本
+                if (category === 'Apple Watch') {
+                    // Series 10/11 -> Series
+                    if (normalizedName.includes('S10') || normalizedName.includes('S11')) {
+                        return normalizedName.replace(/S1[01]/g, 'Series').trim();
+                    }
+                    
+                    // SE 2/3 -> SE
+                    if (normalizedName.includes('SE 2') || normalizedName.includes('SE 3')) {
+                        return normalizedName.replace(/SE [23]/g, 'SE').trim();
+                    }
+                    
+                    // Ultra 2/3 -> Ultra
+                    if (normalizedName.includes('Ultra 2') || normalizedName.includes('Ultra 3')) {
+                        return normalizedName.replace(/Ultra [23]/g, 'Ultra').trim();
+                    }
+                    
+                    return normalizedName;
+                }
+                
+                // iPhone類：移除年份數字
+                if (category === 'iPhone') {
+                    // iPhone 17 Pro Max -> iPhone Pro Max
+                    // iPhone 16 -> iPhone
+                    normalizedName = normalizedName.replace(/iPhone\s+\d+/g, 'iPhone').trim();
+                    return normalizedName;
+                }
+                
+                return normalizedName;
+            }
+
+            // 渲染所有圖表
+            setTimeout(() => {
+                targetCategories.forEach(bigCategory => {
+                    const categoryData1 = data1.categoryTop3[bigCategory];
+                    const categoryData2 = data2.categoryTop3[bigCategory];
+                    
+                    const hasData1 = categoryData1 && categoryData1.allData && categoryData1.allData.length > 0;
+                    const hasData2 = categoryData2 && categoryData2.allData && categoryData2.allData.length > 0;
+                    
+                    if (!hasData1 && !hasData2) return;
+
+                    const chartId = `chart-${storeId}-${bigCategory.replace(/\s+/g, '-')}`;
+                    const canvas = document.getElementById(chartId);
+                    if (!canvas) return;
+
+                    // 收集並標準化中分類名稱
+                    const normalizedData1 = {};
+                    const normalizedData2 = {};
+                    
+                    if (hasData1) {
+                        categoryData1.allData.forEach(item => {
+                            const normalizedName = normalizeProductName(item.name, bigCategory);
+                            if (!normalizedData1[normalizedName]) {
+                                normalizedData1[normalizedName] = 0;
+                            }
+                            normalizedData1[normalizedName] += item.qty;
+                        });
+                    }
+                    
+                    if (hasData2) {
+                        categoryData2.allData.forEach(item => {
+                            const normalizedName = normalizeProductName(item.name, bigCategory);
+                            if (!normalizedData2[normalizedName]) {
+                                normalizedData2[normalizedName] = 0;
+                            }
+                            normalizedData2[normalizedName] += item.qty;
+                        });
+                    }
+
+                    // 收集所有標準化後的分類名稱
+                    const allCategories = new Set([
+                        ...Object.keys(normalizedData1),
+                        ...Object.keys(normalizedData2)
+                    ]);
+                    const categories = Array.from(allCategories).sort();
+
+                    // 準備數據
+                    const data1Values = categories.map(cat => normalizedData1[cat] || 0);
+                    const data2Values = categories.map(cat => normalizedData2[cat] || 0);
+
+                    // 創建圖表
+                    new Chart(canvas, {
+                        type: 'bar',
+                        data: {
+                            labels: categories,
+                            datasets: [
+                                {
+                                    label: period1Name,
+                                    data: data1Values,
+                                    backgroundColor: 'rgba(25, 118, 210, 0.7)',
+                                    borderColor: 'rgba(25, 118, 210, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: period2Name,
+                                    data: data2Values,
+                                    backgroundColor: 'rgba(123, 31, 162, 0.7)',
+                                    borderColor: 'rgba(123, 31, 162, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            label += context.parsed.y.toLocaleString() + ' 件';
+                                            return label;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return value.toLocaleString();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            }, 100);
         }
     </script>
 </body>
