@@ -1265,12 +1265,16 @@
                 
                 // CPU類：特殊處理和標準化
                 if (category === 'CPU') {
-                    // MacBook Pro -> MBP
-                    if (normalizedName.includes('MacBook Pro 14') || normalizedName.includes('MBP 14')) {
-                        return 'MBP 14';
-                    }
-                    if (normalizedName.includes('MacBook Pro 16') || normalizedName.includes('MBP 16')) {
-                        return 'MBP 16';
+                    // MacBook Pro -> MBP (不區分大小寫)
+                    const upperName = normalizedName.toUpperCase();
+                    
+                    if (upperName.includes('MACBOOK PRO') || upperName.includes('MBP')) {
+                        if (upperName.includes('14')) {
+                            return 'MBP 14';
+                        }
+                        if (upperName.includes('16')) {
+                            return 'MBP 16';
+                        }
                     }
                     
                     // 移除其他MacBook的晶片型號
@@ -1320,6 +1324,26 @@
                     if (normalizedName.includes('iPad Pro')) {
                         normalizedName = normalizedName.replace(/\s*\([^)]*\)/g, '').trim();
                         return normalizedName;
+                    }
+                    
+                    return normalizedName;
+                }
+                
+                // AirPods類：統一版本
+                if (category === 'AirPods') {
+                    // AirPods Max (不分版本)
+                    if (normalizedName.includes('AirPods Max')) {
+                        return 'AirPods Max';
+                    }
+                    
+                    // AirPods Pro (不分版本，移除代數)
+                    if (normalizedName.includes('AirPods Pro')) {
+                        return 'AirPods Pro';
+                    }
+                    
+                    // AirPods 3/4 -> AirPods (標準版)
+                    if (normalizedName.includes('AirPods') && !normalizedName.includes('Pro') && !normalizedName.includes('Max')) {
+                        return 'AirPods';
                     }
                     
                     return normalizedName;
