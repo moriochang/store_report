@@ -1306,10 +1306,35 @@
                         return 'iPad mini';
                     }
                     
+                    // iPad Pro 11 (移除晶片型號)
+                    if (normalizedName.includes('iPad Pro') && normalizedName.includes('11')) {
+                        return 'iPad Pro 11';
+                    }
+                    
+                    // iPad Pro 13 (移除晶片型號)
+                    if (normalizedName.includes('iPad Pro') && normalizedName.includes('13')) {
+                        return 'iPad Pro 13';
+                    }
+                    
                     // iPad Pro - 移除晶片型號
                     if (normalizedName.includes('iPad Pro')) {
                         normalizedName = normalizedName.replace(/\s*\([^)]*\)/g, '').trim();
                         return normalizedName;
+                    }
+                    
+                    return normalizedName;
+                }
+                
+                // Audio類：HomePod系列
+                if (category === 'Audio') {
+                    // HomePod mini
+                    if (normalizedName.includes('HomePod mini')) {
+                        return 'HomePod mini';
+                    }
+                    
+                    // HomePod (標準版，排除mini)
+                    if (normalizedName.includes('HomePod') && !normalizedName.includes('mini')) {
+                        return 'HomePod';
                     }
                     
                     return normalizedName;
