@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Microsoft JhengHei', 'PingFang TC', 'Noto Sans TC', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #667eea 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -30,7 +30,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4facfe 0%, #667eea 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -60,7 +60,7 @@
 
         .upload-box {
             background: white;
-            border: 3px dashed #667eea;
+            border: 3px dashed #4facfe;
             border-radius: 15px;
             padding: 25px;
             text-align: center;
@@ -70,14 +70,14 @@
         }
 
         .upload-box:hover {
-            border-color: #764ba2;
+            border-color: #667eea;
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
         }
 
         .upload-box.uploaded {
-            border-color: #28a745;
-            background: #f0fff4;
+            border-color: #10b981;
+            background: #ecfdf5;
         }
 
         .upload-box input[type="file"] {
@@ -88,7 +88,7 @@
             width: 100%;
             padding: 8px;
             margin-top: 10px;
-            border: 2px solid #667eea;
+            border: 2px solid #4facfe;
             border-radius: 5px;
             font-size: 0.9em;
             text-align: center;
@@ -112,7 +112,7 @@
 
         .file-name {
             margin-top: 10px;
-            color: #28a745;
+            color: #10b981;
             font-weight: bold;
             font-size: 0.85em;
         }
@@ -123,7 +123,7 @@
             max-width: 300px;
             margin: 0 auto;
             padding: 15px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4facfe 0%, #667eea 100%);
             color: white;
             border: none;
             border-radius: 50px;
@@ -135,7 +135,7 @@
 
         .analyze-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
         }
 
         .analyze-btn:disabled {
@@ -157,7 +157,7 @@
             color: #333;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
+            border-bottom: 3px solid #4facfe;
         }
 
         .store-tabs {
@@ -176,7 +176,7 @@
         }
 
         .store-tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4facfe 0%, #667eea 100%);
             color: white;
         }
 
@@ -288,7 +288,7 @@
         }
 
         .positive {
-            color: #28a745;
+            color: #10b981;
         }
 
         .negative {
@@ -296,7 +296,7 @@
         }
 
         .yoy-increase {
-            color: #28a745;
+            color: #10b981;
         }
 
         .yoy-decrease {
@@ -322,7 +322,7 @@
             width: 50px;
             height: 50px;
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #667eea;
+            border-top: 5px solid #4facfe;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -377,7 +377,7 @@
         }
 
         .top3-card h4 {
-            color: #667eea;
+            color: #4facfe;
             margin-bottom: 15px;
             font-size: 1.1em;
             padding-bottom: 10px;
@@ -389,7 +389,7 @@
             margin-bottom: 10px;
             background: #f8f9fa;
             border-radius: 8px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #4facfe;
             display: flex;
             align-items: flex-start;
         }
@@ -409,7 +409,7 @@
         .rank-number {
             font-size: 1.5em;
             font-weight: bold;
-            color: #667eea;
+            color: #4facfe;
             margin-right: 15px;
         }
 
@@ -429,11 +429,11 @@
             padding: 15px 20px;
             border-radius: 10px;
             margin: 25px 0 15px 0;
-            border-left: 5px solid #764ba2;
+            border-left: 5px solid #667eea;
         }
 
         .category-header h4 {
-            color: #764ba2;
+            color: #667eea;
             font-size: 1.3em;
             margin: 0;
         }
@@ -475,7 +475,7 @@
 
         .period-section h4 {
             margin-bottom: 15px;
-            color: #667eea;
+            color: #4facfe;
         }
 
         .chart-container {
@@ -488,7 +488,7 @@
         }
 
         .chart-container h4 {
-            color: #667eea;
+            color: #4facfe;
             margin-bottom: 20px;
             font-size: 1.2em;
             text-align: center;
@@ -522,7 +522,7 @@
         <div class="upload-section">
             <div class="upload-grid">
                 <div class="upload-box" id="sales1UploadBox" onclick="document.getElementById('sales1File').click()">
-                    <div class="upload-icon">📈</div>
+                    <div class="upload-icon">📊</div>
                     <h3>銷售報表 1</h3>
                     <p>上傳第一份報表 (.xls/.xlsx)</p>
                     <input type="file" id="sales1File" accept=".xls,.xlsx" onchange="handleFileUpload('sales1', this)">
@@ -531,7 +531,7 @@
                 </div>
 
                 <div class="upload-box" id="sales2UploadBox" onclick="handleBoxClick('sales2', event)">
-                    <div class="upload-icon">📈</div>
+                    <div class="upload-icon">📊</div>
                     <h3>銷售報表 2</h3>
                     <p>上傳第二份報表 (.xls/.xlsx)</p>
                     <input type="file" id="sales2File" accept=".xls,.xlsx" onchange="handleFileUpload('sales2', this)">
@@ -812,7 +812,7 @@
                 regionDiv.style.cssText = `margin-bottom: 15px; padding: 15px; background: ${regionColors[region]}; border-radius: 10px;`;
                 
                 const regionLabel = document.createElement('div');
-                regionLabel.style.cssText = 'font-weight: 600; color: #667eea; margin-bottom: 10px; font-size: 1em;';
+                regionLabel.style.cssText = 'font-weight: 600; color: #4facfe; margin-bottom: 10px; font-size: 1em;';
                 regionLabel.textContent = region;
                 regionDiv.appendChild(regionLabel);
                 
@@ -856,7 +856,7 @@
             const headerSecondColor = '#E8EDF7';
 
             let html = `
-                <h3 style="font-size: 1.5em; color: #667eea; margin-bottom: 20px;">
+                <h3 style="font-size: 1.5em; color: #4facfe; margin-bottom: 20px;">
                     店鋪 ${storeId} 銷售數據對比
                 </h3>
 
@@ -937,7 +937,7 @@
                     </table>
                 </div>
 
-                <h3 style="font-size: 1.5em; color: #667eea; margin: 40px 0 15px 0;">
+                <h3 style="font-size: 1.5em; color: #4facfe; margin: 40px 0 15px 0;">
                     📊 總計摘要
                 </h3>
                 <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
@@ -1090,7 +1090,7 @@
                 </div>
 
                 <!-- Care 搭售率分析 -->
-                <h3 style="font-size: 1.5em; color: #667eea; margin: 40px 0 15px 0;">
+                <h3 style="font-size: 1.5em; color: #4facfe; margin: 40px 0 15px 0;">
                     💚 Care 產品搭售率分析
                 </h3>
                 <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
@@ -1194,7 +1194,7 @@
                 </div>
 
                 <div class="top3-section">
-                    <h3 style="font-size: 1.5em; color: #667eea; margin-bottom: 15px;">
+                    <h3 style="font-size: 1.5em; color: #4facfe; margin-bottom: 15px;">
                         🏆 各大分類熱銷品項 Top 3 對比
                     </h3>
                     <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
@@ -1220,7 +1220,7 @@
                         <h4>${bigCategory} - ${classificationText}排名</h4>
                     </div>
                     
-                    <h4 style="color: #667eea; margin: 20px 0 10px 0;">📦 按銷售數量排名</h4>
+                    <h4 style="color: #4facfe; margin: 20px 0 10px 0;">📦 按銷售數量排名</h4>
                     <div class="comparison-split">
                         <div class="period-section">
                             <h4><span class="period-badge period-1">${period1Name}</span></h4>
@@ -1247,6 +1247,14 @@
                             </div>
                         `;
                     });
+                    // 顯示大分類總銷售數量
+                    const bigCatQty1 = data1.categories[bigCategory]?.qty || 0;
+                    html += `
+                        <div style="margin-top: 15px; padding: 12px; background: #e8f4fd; border-left: 4px solid #4facfe; border-radius: 5px;">
+                            <strong style="color: #333;">📊 ${bigCategory} 總銷售數量：</strong>
+                            <span style="color: #4facfe; font-weight: bold; font-size: 1.1em;">${bigCatQty1.toLocaleString()} 件</span>
+                        </div>
+                    `;
                 } else {
                     html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
                 }
@@ -1278,6 +1286,14 @@
                             </div>
                         `;
                     });
+                    // 顯示大分類總銷售數量
+                    const bigCatQty2 = data2.categories[bigCategory]?.qty || 0;
+                    html += `
+                        <div style="margin-top: 15px; padding: 12px; background: #f3e5f5; border-left: 4px solid #667eea; border-radius: 5px;">
+                            <strong style="color: #333;">📊 ${bigCategory} 總銷售數量：</strong>
+                            <span style="color: #667eea; font-weight: bold; font-size: 1.1em;">${bigCatQty2.toLocaleString()} 件</span>
+                        </div>
+                    `;
                 } else {
                     html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
                 }
@@ -1286,7 +1302,7 @@
                         </div>
                     </div>
 
-                    <h4 style="color: #667eea; margin: 20px 0 10px 0;">💰 按銷售金額排名</h4>
+                    <h4 style="color: #4facfe; margin: 20px 0 10px 0;">💰 按銷售金額排名</h4>
                     <div class="comparison-split">
                         <div class="period-section">
                             <h4><span class="period-badge period-1">${period1Name}</span></h4>
@@ -1313,6 +1329,14 @@
                             </div>
                         `;
                     });
+                    // 顯示大分類總銷售金額
+                    const bigCatAmt1 = data1.categories[bigCategory]?.amt || 0;
+                    html += `
+                        <div style="margin-top: 15px; padding: 12px; background: #e8f4fd; border-left: 4px solid #4facfe; border-radius: 5px;">
+                            <strong style="color: #333;">💰 ${bigCategory} 總銷售金額：</strong>
+                            <span style="color: #4facfe; font-weight: bold; font-size: 1.1em;">${formatAmount(bigCatAmt1)}</span>
+                        </div>
+                    `;
                 } else {
                     html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
                 }
@@ -1344,6 +1368,14 @@
                             </div>
                         `;
                     });
+                    // 顯示大分類總銷售金額
+                    const bigCatAmt2 = data2.categories[bigCategory]?.amt || 0;
+                    html += `
+                        <div style="margin-top: 15px; padding: 12px; background: #f3e5f5; border-left: 4px solid #667eea; border-radius: 5px;">
+                            <strong style="color: #333;">💰 ${bigCategory} 總銷售金額：</strong>
+                            <span style="color: #667eea; font-weight: bold; font-size: 1.1em;">${formatAmount(bigCatAmt2)}</span>
+                        </div>
+                    `;
                 } else {
                     html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
                 }
