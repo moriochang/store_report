@@ -655,7 +655,8 @@
                 results[storeId] = {
                     id: storeId,
                     categories: {},
-                    categoryTop3: {}
+                    categoryTop3: {},
+                    careByMidCategory: {}  // 新增：Care的中分類統計
                 };
 
                 // 按大分類統計
@@ -676,6 +677,20 @@
                         profit: profit,
                         profitRate: profitRate
                     };
+                });
+
+                // 統計Care的中分類數據（用於計算搭售率）
+                const careData = storeData.filter(item => item.大分類 === 'Care');
+                careData.forEach(item => {
+                    const midCategory = item.中分類;
+                    if (!results[storeId].careByMidCategory[midCategory]) {
+                        results[storeId].careByMidCategory[midCategory] = {
+                            qty: 0,
+                            amt: 0
+                        };
+                    }
+                    results[storeId].careByMidCategory[midCategory].qty += item.total_qty || 0;
+                    results[storeId].careByMidCategory[midCategory].amt += item.total_amt_t1 || 0;
                 });
 
                 // 計算每個大分類的Top3和完整數據
@@ -1070,6 +1085,110 @@
                         </span>
                     </td>
                 </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Care 搭售率分析 -->
+                <h3 style="font-size: 1.5em; color: #667eea; margin: 40px 0 15px 0;">
+                    💚 Care 產品搭售率分析
+                </h3>
+                <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
+                    ※ 搭售率 = (ACPP+ + iCPP) / 主機銷售數量 × 100%
+                </p>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="2">產品類別</th>
+                                <th colspan="3" class="number">Care 銷售數量</th>
+                                <th colspan="3" class="number">主機銷售數量</th>
+                                <th colspan="3" class="number">搭售率</th>
+                            </tr>
+                            <tr>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">成長率</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">成長率</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">差異</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            // Care搭售率計算
+            const careProducts = [
+                { name: 'CPU', careKeys: ['CPU ACPP+', 'CPU iCPP'], mainCategory: 'CPU' },
+                { name: 'iPad', careKeys: ['iPad ACPP+', 'iPad iCPP'], mainCategory: 'iPad' },
+                { name: 'iPhone', careKeys: ['iPhone ACPP+', 'iPhone iCPP'], mainCategory: 'iPhone' },
+                { name: 'Apple Watch', careKeys: ['AW ACPP+', 'AW iCPP'], mainCategory: 'Apple Watch' },
+                { name: 'AirPods', careKeys: ['AirPods ACPP+', 'AirPods iCPP', 'AirPords iCPP'], mainCategory: 'AirPods' }
+            ];
+
+            careProducts.forEach(product => {
+                // 計算去年的Care數量
+                let care1Qty = 0;
+                if (data1.careByMidCategory) {
+                    product.careKeys.forEach(key => {
+                        care1Qty += data1.careByMidCategory[key]?.qty || 0;
+                    });
+                }
+
+                // 計算今年的Care數量
+                let care2Qty = 0;
+                if (data2.careByMidCategory) {
+                    product.careKeys.forEach(key => {
+                        care2Qty += data2.careByMidCategory[key]?.qty || 0;
+                    });
+                }
+
+                // 主機數量
+                const main1Qty = data1.categories[product.mainCategory]?.qty || 0;
+                const main2Qty = data2.categories[product.mainCategory]?.qty || 0;
+
+                // 搭售率
+                const rate1 = main1Qty > 0 ? (care1Qty / main1Qty * 100) : 0;
+                const rate2 = main2Qty > 0 ? (care2Qty / main2Qty * 100) : 0;
+
+                // YoY
+                const careYoY = calculateYoY(care1Qty, care2Qty);
+                const mainYoY = calculateYoY(main1Qty, main2Qty);
+                const rateDiff = rate2 - rate1;
+
+                html += `
+                    <tr>
+                        <td><strong>${product.name}</strong></td>
+                        <td class="number">${care1Qty.toLocaleString()}</td>
+                        <td class="number">${care2Qty.toLocaleString()}</td>
+                        <td class="number">
+                            <span class="yoy-badge ${careYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                                ${formatYoY(careYoY)}
+                            </span>
+                        </td>
+                        <td class="number">${main1Qty.toLocaleString()}</td>
+                        <td class="number">${main2Qty.toLocaleString()}</td>
+                        <td class="number">
+                            <span class="yoy-badge ${mainYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                                ${formatYoY(mainYoY)}
+                            </span>
+                        </td>
+                        <td class="number">${rate1.toFixed(2)}%</td>
+                        <td class="number">${rate2.toFixed(2)}%</td>
+                        <td class="number">
+                            <span class="yoy-badge ${rateDiff >= 0 ? 'yoy-up' : 'yoy-down'}">
+                                ${rateDiff >= 0 ? '+' : ''}${rateDiff.toFixed(2)}%
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
                         </tbody>
                     </table>
                 </div>
