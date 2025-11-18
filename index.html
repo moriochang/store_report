@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Microsoft JhengHei', 'PingFang TC', 'Noto Sans TC', sans-serif;
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #667eea 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -30,7 +30,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #4facfe 0%, #667eea 100%);
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -60,7 +60,7 @@
 
         .upload-box {
             background: white;
-            border: 3px dashed #4facfe;
+            border: 3px dashed #3b82f6;
             border-radius: 15px;
             padding: 25px;
             text-align: center;
@@ -70,9 +70,9 @@
         }
 
         .upload-box:hover {
-            border-color: #667eea;
+            border-color: #8b5cf6;
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
         }
 
         .upload-box.uploaded {
@@ -88,7 +88,7 @@
             width: 100%;
             padding: 8px;
             margin-top: 10px;
-            border: 2px solid #4facfe;
+            border: 2px solid #3b82f6;
             border-radius: 5px;
             font-size: 0.9em;
             text-align: center;
@@ -123,7 +123,7 @@
             max-width: 300px;
             margin: 0 auto;
             padding: 15px 30px;
-            background: linear-gradient(135deg, #4facfe 0%, #667eea 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             color: white;
             border: none;
             border-radius: 50px;
@@ -135,7 +135,7 @@
 
         .analyze-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.4);
         }
 
         .analyze-btn:disabled {
@@ -157,7 +157,7 @@
             color: #333;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 3px solid #4facfe;
+            border-bottom: 3px solid #3b82f6;
         }
 
         .store-tabs {
@@ -176,7 +176,7 @@
         }
 
         .store-tab.active {
-            background: linear-gradient(135deg, #4facfe 0%, #667eea 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             color: white;
         }
 
@@ -204,13 +204,13 @@
         }
 
         .period-1 {
-            background: #e3f2fd;
-            color: #1976d2;
+            background: #dbeafe;
+            color: #1e40af;
         }
 
         .period-2 {
-            background: #f3e5f5;
-            color: #7b1fa2;
+            background: #ede9fe;
+            color: #7c3aed;
         }
 
         .table-container {
@@ -236,7 +236,7 @@
         /* 表頭第一層 (品項/銷售數量/銷售金額/毛利額/毛利率) */
         table th[rowspan="2"],
         table th[colspan] {
-            background: #4A69BD; /* 藍色系 */
+            background: #1e40af; /* 藍色系 */
             color: white;
             padding: 12px 8px;
             text-align: center !important; /* 強制居中 */
@@ -322,7 +322,7 @@
             width: 50px;
             height: 50px;
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #4facfe;
+            border-top: 5px solid #3b82f6;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -377,7 +377,7 @@
         }
 
         .top3-card h4 {
-            color: #4facfe;
+            color: #3b82f6;
             margin-bottom: 15px;
             font-size: 1.1em;
             padding-bottom: 10px;
@@ -389,7 +389,7 @@
             margin-bottom: 10px;
             background: #f8f9fa;
             border-radius: 8px;
-            border-left: 4px solid #4facfe;
+            border-left: 4px solid #3b82f6;
             display: flex;
             align-items: flex-start;
         }
@@ -409,7 +409,7 @@
         .rank-number {
             font-size: 1.5em;
             font-weight: bold;
-            color: #4facfe;
+            color: #3b82f6;
             margin-right: 15px;
         }
 
@@ -429,11 +429,11 @@
             padding: 15px 20px;
             border-radius: 10px;
             margin: 25px 0 15px 0;
-            border-left: 5px solid #667eea;
+            border-left: 5px solid #8b5cf6;
         }
 
         .category-header h4 {
-            color: #667eea;
+            color: #8b5cf6;
             font-size: 1.3em;
             margin: 0;
         }
@@ -475,7 +475,7 @@
 
         .period-section h4 {
             margin-bottom: 15px;
-            color: #4facfe;
+            color: #3b82f6;
         }
 
         .chart-container {
@@ -488,7 +488,7 @@
         }
 
         .chart-container h4 {
-            color: #4facfe;
+            color: #3b82f6;
             margin-bottom: 20px;
             font-size: 1.2em;
             text-align: center;
@@ -575,16 +575,43 @@
         let analysisResults2 = null;
 
         // 店鋪代號直接顯示
-        const storeIds = [45, 47, 48, 51, 57, 61, 65, 75, 76, 77, 81, 84, 86, 88, 89, 97, 115, 116, 117, 820, 821];
+        const storeIds = [0, 45, 47, 48, 51, 57, 61, 65, 75, 76, 77, 81, 84, 86, 88, 89, 97, 115, 116, 117, 820, 821];
 
         // 區域分類
         const regionGroups = {
+            '總公司': [0],
             '北一區': [45, 47, 48],
             '北二區': [51, 57, 61, 65],
             '中區': [75, 76, 77, 81, 84],
             '台南區': [86, 88, 89, 97],
             '高雄區': [115, 116, 117],
             '線上EC': [820, 821]
+        };
+
+        // 店鋪名稱映射
+        const storeNames = {
+            0: '全社',
+            45: '45',
+            47: '47',
+            48: '48',
+            51: '51',
+            57: '57',
+            61: '61',
+            65: '65',
+            75: '75',
+            76: '76',
+            77: '77',
+            81: '81',
+            84: '84',
+            86: '86',
+            88: '88',
+            89: '89',
+            97: '97',
+            115: '115',
+            116: '116',
+            117: '117',
+            820: '820',
+            821: '821'
         };
 
         const targetCategories = ['CPU', 'iPad', 'iPhone', 'Apple Watch', 'AirPods', 'Audio', 'Care', 'Accy', '3rd Party'];
@@ -650,6 +677,9 @@
             const results = {};
             
             storeIds.forEach(storeId => {
+                // 跳過ID為0（全社），稍後會自動計算
+                if (storeId === 0) return;
+                
                 const storeData = filteredData.filter(item => item.store_code_id == storeId);
                 
                 results[storeId] = {
@@ -736,6 +766,106 @@
                 });
             });
 
+            // 計算「全社」數據（所有店別的加總）
+            results[0] = {
+                id: 0,
+                categories: {},
+                categoryTop3: {},
+                careByMidCategory: {}
+            };
+
+            // 初始化全社的大分類數據
+            targetCategories.forEach(category => {
+                results[0].categories[category] = {
+                    qty: 0,
+                    amt: 0,
+                    profit: 0,
+                    profitRate: 0
+                };
+            });
+
+            // 加總所有店鋪的大分類數據（排除ID為0的自己）
+            storeIds.forEach(storeId => {
+                if (storeId === 0) return; // 跳過自己
+                
+                targetCategories.forEach(category => {
+                    const storeData = results[storeId].categories[category];
+                    results[0].categories[category].qty += storeData.qty;
+                    results[0].categories[category].amt += storeData.amt;
+                    results[0].categories[category].profit += storeData.profit;
+                });
+            });
+
+            // 計算全社的毛利率
+            targetCategories.forEach(category => {
+                const amt = results[0].categories[category].amt;
+                const profit = results[0].categories[category].profit;
+                results[0].categories[category].profitRate = amt > 0 ? (profit / amt * 100) : 0;
+            });
+
+            // 加總Care的中分類數據
+            storeIds.forEach(storeId => {
+                if (storeId === 0) return;
+                
+                Object.keys(results[storeId].careByMidCategory).forEach(midCategory => {
+                    if (!results[0].careByMidCategory[midCategory]) {
+                        results[0].careByMidCategory[midCategory] = {
+                            qty: 0,
+                            amt: 0
+                        };
+                    }
+                    results[0].careByMidCategory[midCategory].qty += results[storeId].careByMidCategory[midCategory].qty;
+                    results[0].careByMidCategory[midCategory].amt += results[storeId].careByMidCategory[midCategory].amt;
+                });
+            });
+
+            // 計算全社的Top3（需要合併所有店鋪的中分類/小分類數據）
+            targetCategories.forEach(bigCategory => {
+                const allGroupData = {};
+                let totalQty = 0;
+                let totalAmt = 0;
+
+                // 合併所有店鋪的數據
+                storeIds.forEach(storeId => {
+                    if (storeId === 0) return;
+                    
+                    const storeTop3 = results[storeId].categoryTop3[bigCategory];
+                    if (storeTop3 && storeTop3.allData) {
+                        storeTop3.allData.forEach(item => {
+                            if (!allGroupData[item.name]) {
+                                allGroupData[item.name] = {
+                                    name: item.name,
+                                    qty: 0,
+                                    amt: 0
+                                };
+                            }
+                            allGroupData[item.name].qty += item.qty;
+                            allGroupData[item.name].amt += item.amt;
+                        });
+                        totalQty += storeTop3.totalQty;
+                        totalAmt += storeTop3.totalAmt;
+                    }
+                });
+
+                const allData = Object.values(allGroupData);
+                
+                const top3Qty = [...allData]
+                    .sort((a, b) => b.qty - a.qty)
+                    .slice(0, 3);
+
+                const top3Amt = [...allData]
+                    .sort((a, b) => b.amt - a.amt)
+                    .slice(0, 3);
+
+                results[0].categoryTop3[bigCategory] = {
+                    top3Qty: top3Qty,
+                    top3Amt: top3Amt,
+                    allData: allData,
+                    totalQty: totalQty,
+                    totalAmt: totalAmt
+                };
+            });
+
             return results;
         }
 
@@ -799,12 +929,13 @@
             
             // 創建區域標籤
             const regionColors = {
-                '北一區': '#e3f2fd',
-                '北二區': '#f3e5f5',
-                '中區': '#fff9e6',
-                '台南區': '#e8f5e9',
-                '高雄區': '#fce4ec',
-                '線上EC': '#f0f4f8'
+                '總公司': '#fef3c7',  // 淡金色
+                '北一區': '#dbeafe',  // 淡藍色
+                '北二區': '#ede9fe',  // 淡紫色
+                '中區': '#fef9c3',    // 淡黃色
+                '台南區': '#d1fae5',  // 淡綠色
+                '高雄區': '#fce7f3',  // 淡粉色
+                '線上EC': '#f1f5f9'   // 淡灰藍
             };
 
             Object.keys(regionGroups).forEach((region, index) => {
@@ -812,7 +943,7 @@
                 regionDiv.style.cssText = `margin-bottom: 15px; padding: 15px; background: ${regionColors[region]}; border-radius: 10px;`;
                 
                 const regionLabel = document.createElement('div');
-                regionLabel.style.cssText = 'font-weight: 600; color: #4facfe; margin-bottom: 10px; font-size: 1em;';
+                regionLabel.style.cssText = 'font-weight: 600; color: #3b82f6; margin-bottom: 10px; font-size: 1em;';
                 regionLabel.textContent = region;
                 regionDiv.appendChild(regionLabel);
                 
@@ -825,7 +956,8 @@
                     if (index === 0 && storeIndex === 0) {
                         tab.classList.add('active');
                     }
-                    tab.textContent = storeId;
+                    tab.textContent = storeNames[storeId] || storeId;
+                    tab.dataset.storeId = storeId;  // 儲存實際的店鋪ID
                     tab.onclick = () => showStoreData(storeId);
                     storeTabsDiv.appendChild(tab);
                 });
@@ -840,7 +972,7 @@
         function showStoreData(storeId) {
             document.querySelectorAll('.store-tab').forEach(tab => {
                 tab.classList.remove('active');
-                if (tab.textContent == storeId) {
+                if (tab.dataset.storeId == storeId) {
                     tab.classList.add('active');
                 }
             });
@@ -856,8 +988,8 @@
             const headerSecondColor = '#E8EDF7';
 
             let html = `
-                <h3 style="font-size: 1.5em; color: #4facfe; margin-bottom: 20px;">
-                    店鋪 ${storeId} 銷售數據對比
+                <h3 style="font-size: 1.5em; color: #3b82f6; margin-bottom: 20px;">
+                    店鋪 ${storeNames[storeId] || storeId} 銷售數據對比
                 </h3>
 
                 <div class="table-container">
@@ -937,7 +1069,7 @@
                     </table>
                 </div>
 
-                <h3 style="font-size: 1.5em; color: #4facfe; margin: 40px 0 15px 0;">
+                <h3 style="font-size: 1.5em; color: #3b82f6; margin: 40px 0 15px 0;">
                     📊 總計摘要
                 </h3>
                 <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
@@ -1090,7 +1222,7 @@
                 </div>
 
                 <!-- Care 搭售率分析 -->
-                <h3 style="font-size: 1.5em; color: #4facfe; margin: 40px 0 15px 0;">
+                <h3 style="font-size: 1.5em; color: #3b82f6; margin: 40px 0 15px 0;">
                     💚 Care 產品搭售率分析
                 </h3>
                 <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
@@ -1194,7 +1326,7 @@
                 </div>
 
                 <div class="top3-section">
-                    <h3 style="font-size: 1.5em; color: #4facfe; margin-bottom: 15px;">
+                    <h3 style="font-size: 1.5em; color: #3b82f6; margin-bottom: 15px;">
                         🏆 各大分類熱銷品項 Top 3 對比
                     </h3>
                     <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
@@ -1220,7 +1352,7 @@
                         <h4>${bigCategory} - ${classificationText}排名</h4>
                     </div>
                     
-                    <h4 style="color: #4facfe; margin: 20px 0 10px 0;">📦 按銷售數量排名</h4>
+                    <h4 style="color: #3b82f6; margin: 20px 0 10px 0;">📦 按銷售數量排名</h4>
                     <div class="comparison-split">
                         <div class="period-section">
                             <h4><span class="period-badge period-1">${period1Name}</span></h4>
@@ -1250,9 +1382,9 @@
                     // 顯示大分類總銷售數量
                     const bigCatQty1 = data1.categories[bigCategory]?.qty || 0;
                     html += `
-                        <div style="margin-top: 15px; padding: 12px; background: #e8f4fd; border-left: 4px solid #4facfe; border-radius: 5px;">
+                        <div style="margin-top: 15px; padding: 12px; background: #dbeafe; border-left: 4px solid #3b82f6; border-radius: 5px;">
                             <strong style="color: #333;">📊 ${bigCategory} 總銷售數量：</strong>
-                            <span style="color: #4facfe; font-weight: bold; font-size: 1.1em;">${bigCatQty1.toLocaleString()} 件</span>
+                            <span style="color: #3b82f6; font-weight: bold; font-size: 1.1em;">${bigCatQty1.toLocaleString()} 件</span>
                         </div>
                     `;
                 } else {
@@ -1289,9 +1421,9 @@
                     // 顯示大分類總銷售數量
                     const bigCatQty2 = data2.categories[bigCategory]?.qty || 0;
                     html += `
-                        <div style="margin-top: 15px; padding: 12px; background: #f3e5f5; border-left: 4px solid #667eea; border-radius: 5px;">
+                        <div style="margin-top: 15px; padding: 12px; background: #ede9fe; border-left: 4px solid #8b5cf6; border-radius: 5px;">
                             <strong style="color: #333;">📊 ${bigCategory} 總銷售數量：</strong>
-                            <span style="color: #667eea; font-weight: bold; font-size: 1.1em;">${bigCatQty2.toLocaleString()} 件</span>
+                            <span style="color: #8b5cf6; font-weight: bold; font-size: 1.1em;">${bigCatQty2.toLocaleString()} 件</span>
                         </div>
                     `;
                 } else {
@@ -1302,7 +1434,7 @@
                         </div>
                     </div>
 
-                    <h4 style="color: #4facfe; margin: 20px 0 10px 0;">💰 按銷售金額排名</h4>
+                    <h4 style="color: #3b82f6; margin: 20px 0 10px 0;">💰 按銷售金額排名</h4>
                     <div class="comparison-split">
                         <div class="period-section">
                             <h4><span class="period-badge period-1">${period1Name}</span></h4>
@@ -1332,9 +1464,9 @@
                     // 顯示大分類總銷售金額
                     const bigCatAmt1 = data1.categories[bigCategory]?.amt || 0;
                     html += `
-                        <div style="margin-top: 15px; padding: 12px; background: #e8f4fd; border-left: 4px solid #4facfe; border-radius: 5px;">
+                        <div style="margin-top: 15px; padding: 12px; background: #dbeafe; border-left: 4px solid #3b82f6; border-radius: 5px;">
                             <strong style="color: #333;">💰 ${bigCategory} 總銷售金額：</strong>
-                            <span style="color: #4facfe; font-weight: bold; font-size: 1.1em;">${formatAmount(bigCatAmt1)}</span>
+                            <span style="color: #3b82f6; font-weight: bold; font-size: 1.1em;">${formatAmount(bigCatAmt1)}</span>
                         </div>
                     `;
                 } else {
@@ -1371,9 +1503,9 @@
                     // 顯示大分類總銷售金額
                     const bigCatAmt2 = data2.categories[bigCategory]?.amt || 0;
                     html += `
-                        <div style="margin-top: 15px; padding: 12px; background: #f3e5f5; border-left: 4px solid #667eea; border-radius: 5px;">
+                        <div style="margin-top: 15px; padding: 12px; background: #ede9fe; border-left: 4px solid #8b5cf6; border-radius: 5px;">
                             <strong style="color: #333;">💰 ${bigCategory} 總銷售金額：</strong>
-                            <span style="color: #667eea; font-weight: bold; font-size: 1.1em;">${formatAmount(bigCatAmt2)}</span>
+                            <span style="color: #8b5cf6; font-weight: bold; font-size: 1.1em;">${formatAmount(bigCatAmt2)}</span>
                         </div>
                     `;
                 } else {
