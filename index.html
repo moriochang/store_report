@@ -6,6 +6,7 @@
     <title>銷售報表分析系統（年度對比版）</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -158,6 +159,34 @@
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 3px solid #3b82f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .export-pdf-btn {
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .export-pdf-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .export-pdf-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
         }
 
         .store-tabs {
@@ -559,7 +588,13 @@
         </div>
 
         <div class="results-section" id="results">
-            <h2 class="section-title">📊 銷售分析結果與年度對比</h2>
+            <h2 class="section-title">
+                <span>📊 銷售分析結果與年度對比</span>
+                <button class="export-pdf-btn" id="exportPdfBtn" onclick="exportCurrentStoreToPDF()" style="display: none;">
+                    <span>📥</span>
+                    <span>匯出PDF</span>
+                </button>
+            </h2>
             
             <div class="store-tabs" id="storeTabs"></div>
 
@@ -573,6 +608,9 @@
         let refData = null;
         let analysisResults1 = null;
         let analysisResults2 = null;
+        let currentStoreId = null;  // 當前選擇的店別
+        let period1Name = '';  // 對比A的名稱
+        let period2Name = '';  // 對比B的名稱
 
         // 店鋪代號直接顯示
         const storeIds = [0, 45, 47, 48, 51, 57, 61, 65, 75, 76, 77, 81, 84, 86, 88, 89, 97, 115, 116, 117, 820, 821];
@@ -970,6 +1008,14 @@
         }
 
         function showStoreData(storeId) {
+            // 更新全域變數
+            currentStoreId = storeId;
+            period1Name = document.getElementById('sales1Name').value || '去年';
+            period2Name = document.getElementById('sales2Name').value || '今年';
+            
+            // 顯示PDF匯出按鈕
+            document.getElementById('exportPdfBtn').style.display = 'flex';
+            
             document.querySelectorAll('.store-tab').forEach(tab => {
                 tab.classList.remove('active');
                 if (tab.dataset.storeId == storeId) {
@@ -981,8 +1027,8 @@
             const data2 = analysisResults2[storeId];
             const contentContainer = document.getElementById('storeContent');
 
-            const period1Name = document.getElementById('sales1Name').value || '去年';
-            const period2Name = document.getElementById('sales2Name').value || '今年';
+            const localPeriod1Name = document.getElementById('sales1Name').value || '去年';
+            const localPeriod2Name = document.getElementById('sales2Name').value || '今年';
             
             // 表頭第二層顏色，用於品項欄位
             const headerSecondColor = '#E8EDF7';
@@ -1003,17 +1049,17 @@
                                 <th colspan="3" class="number">毛利率</th>
                             </tr>
                             <tr>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
+                                <th class="number">${localPeriod1Name}</th>
+                                <th class="number">${localPeriod2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
+                                <th class="number">${localPeriod1Name}</th>
+                                <th class="number">${localPeriod2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
+                                <th class="number">${localPeriod1Name}</th>
+                                <th class="number">${localPeriod2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
+                                <th class="number">${localPeriod1Name}</th>
+                                <th class="number">${localPeriod2Name}</th>
                                 <th class="number">差異</th>
                             </tr>
                         </thead>
@@ -1088,17 +1134,17 @@
                                 <th colspan="3" class="number">毛利率</th>
                             </tr>
                             <tr>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
+                                <th class="number">${localPeriod1Name}</th>
+                                <th class="number">${localPeriod2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
+                                <th class="number">${localPeriod1Name}</th>
+                                <th class="number">${localPeriod2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
+                                <th class="number">${localPeriod1Name}</th>
+                                <th class="number">${localPeriod2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
+                                <th class="number">${localPeriod1Name}</th>
+                                <th class="number">${localPeriod2Name}</th>
                                 <th class="number">差異</th>
                             </tr>
                         </thead>
@@ -1239,14 +1285,14 @@
                                 <th colspan="3" class="number">搭售率</th>
                             </tr>
                             <tr>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
+                                <th class="number">${localPeriod1Name}</th>
+                                <th class="number">${localPeriod2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
+                                <th class="number">${localPeriod1Name}</th>
+                                <th class="number">${localPeriod2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
+                                <th class="number">${localPeriod1Name}</th>
+                                <th class="number">${localPeriod2Name}</th>
                                 <th class="number">差異</th>
                             </tr>
                         </thead>
@@ -1355,7 +1401,7 @@
                     <h4 style="color: #3b82f6; margin: 20px 0 10px 0;">📦 按銷售數量排名</h4>
                     <div class="comparison-split">
                         <div class="period-section">
-                            <h4><span class="period-badge period-1">${period1Name}</span></h4>
+                            <h4><span class="period-badge period-1">${localPeriod1Name}</span></h4>
                 `;
 
                 if (hasData1) {
@@ -1394,7 +1440,7 @@
                 html += `
                         </div>
                         <div class="period-section">
-                            <h4><span class="period-badge period-2">${period2Name}</span></h4>
+                            <h4><span class="period-badge period-2">${localPeriod2Name}</span></h4>
                 `;
 
                 if (hasData2) {
@@ -1437,7 +1483,7 @@
                     <h4 style="color: #3b82f6; margin: 20px 0 10px 0;">💰 按銷售金額排名</h4>
                     <div class="comparison-split">
                         <div class="period-section">
-                            <h4><span class="period-badge period-1">${period1Name}</span></h4>
+                            <h4><span class="period-badge period-1">${localPeriod1Name}</span></h4>
                 `;
 
                 if (hasData1) {
@@ -1476,7 +1522,7 @@
                 html += `
                         </div>
                         <div class="period-section">
-                            <h4><span class="period-badge period-2">${period2Name}</span></h4>
+                            <h4><span class="period-badge period-2">${localPeriod2Name}</span></h4>
                 `;
 
                 if (hasData2) {
@@ -1785,6 +1831,79 @@
                     });
                 });
             }, 100);
+        }
+
+        // PDF匯出函數
+        async function exportCurrentStoreToPDF() {
+            if (!currentStoreId) {
+                alert('請先選擇店別');
+                return;
+            }
+
+            const btn = document.getElementById('exportPdfBtn');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span><span>匯出中...</span>';
+
+            try {
+                // 取得當前店別內容
+                const content = document.getElementById('storeContent');
+                
+                // 建立一個臨時容器用於PDF
+                const pdfContainer = document.createElement('div');
+                pdfContainer.style.padding = '20px';
+                pdfContainer.style.backgroundColor = 'white';
+                
+                // 添加標題
+                const title = document.createElement('div');
+                title.style.textAlign = 'center';
+                title.style.marginBottom = '20px';
+                title.innerHTML = `
+                    <h2 style="color: #3b82f6; margin-bottom: 10px;">iStore Taiwan 銷售報表分析</h2>
+                    <h3 style="color: #666;">店鋪 ${storeNames[currentStoreId] || currentStoreId} - 年度對比</h3>
+                    <p style="color: #999; font-size: 14px;">${period1Name} vs ${period2Name}</p>
+                `;
+                pdfContainer.appendChild(title);
+                
+                // 複製內容（不包含區域選擇）
+                const contentClone = content.cloneNode(true);
+                pdfContainer.appendChild(contentClone);
+                
+                // 暫時添加到頁面（隱藏）
+                pdfContainer.style.position = 'absolute';
+                pdfContainer.style.left = '-9999px';
+                document.body.appendChild(pdfContainer);
+
+                // 設定PDF選項
+                const opt = {
+                    margin: [10, 10, 10, 10],
+                    filename: `${period2Name}_${storeNames[currentStoreId] || currentStoreId}.pdf`,
+                    image: { type: 'jpeg', quality: 0.95 },
+                    html2canvas: { 
+                        scale: 2,
+                        useCORS: true,
+                        logging: false
+                    },
+                    jsPDF: { 
+                        unit: 'mm', 
+                        format: 'a4', 
+                        orientation: 'landscape'  // 橫向
+                    }
+                };
+
+                // 生成PDF
+                await html2pdf().set(opt).from(pdfContainer).save();
+
+                // 移除臨時容器
+                document.body.removeChild(pdfContainer);
+
+            } catch (error) {
+                console.error('PDF匯出錯誤:', error);
+                alert('PDF匯出失敗，請稍後再試');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
         }
     </script>
 </body>
