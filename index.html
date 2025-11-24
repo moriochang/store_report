@@ -158,115 +158,6 @@
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 3px solid #3b82f6;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .export-pdf-btn {
-            padding: 10px 25px;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 0.9em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .export-pdf-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
-        }
-
-        .export-pdf-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        /* 列印專用樣式 */
-        @media print {
-            body {
-                background: white !important;
-                padding: 0 !important;
-            }
-            
-            .header,
-            .upload-section,
-            .store-tabs,
-            .export-pdf-btn {
-                display: none !important;
-            }
-            
-            .print-header {
-                display: block !important;
-                margin-bottom: 15px !important;
-                page-break-after: avoid !important;
-            }
-            
-            .container {
-                box-shadow: none !important;
-                border-radius: 0 !important;
-                max-width: 100% !important;
-            }
-            
-            .results-section {
-                padding: 15mm 10mm !important;
-                display: block !important;
-            }
-            
-            .section-title {
-                page-break-after: avoid !important;
-                border-bottom: 2px solid #3b82f6 !important;
-                margin-bottom: 15px !important;
-            }
-            
-            .section-title span:first-child {
-                display: block !important;
-            }
-            
-            table {
-                page-break-inside: auto !important;
-                font-size: 7pt !important;
-                margin-bottom: 10mm !important;
-            }
-            
-            table thead {
-                background: #f0f0f0 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            table tbody tr {
-                page-break-inside: avoid !important;
-            }
-            
-            canvas {
-                max-width: 100% !important;
-                page-break-inside: avoid !important;
-            }
-            
-            .comparison-container {
-                page-break-inside: avoid !important;
-                margin-bottom: 10mm !important;
-            }
-            
-            .chart-grid {
-                page-break-inside: avoid !important;
-            }
-            
-            h3 {
-                page-break-after: avoid !important;
-            }
-            
-            @page {
-                size: A4 landscape;
-                margin: 10mm;
-            }
         }
 
         .store-tabs {
@@ -668,13 +559,7 @@
         </div>
 
         <div class="results-section" id="results">
-            <h2 class="section-title">
-                <span>📊 銷售分析結果與年度對比</span>
-                <button class="export-pdf-btn" id="exportPdfBtn" onclick="exportCurrentStoreToPDF()" style="display: none;">
-                    <span>🖨️</span>
-                    <span>列印PDF</span>
-                </button>
-            </h2>
+            <h2 class="section-title">📊 銷售分析結果與年度對比</h2>
             
             <div class="store-tabs" id="storeTabs"></div>
 
@@ -688,10 +573,6 @@
         let refData = null;
         let analysisResults1 = null;
         let analysisResults2 = null;
-        let currentStoreId = null;  // 當前選擇的店別
-        let period1Name = '';  // 對比A的名稱
-        let period2Name = '';  // 對比B的名稱
-        let sales2FileName = '';  // 今年檔案名稱
 
         // 店鋪代號直接顯示
         const storeIds = [0, 45, 47, 48, 51, 57, 61, 65, 75, 76, 77, 81, 84, 86, 88, 89, 97, 115, 116, 117, 820, 821];
@@ -761,7 +642,6 @@
                     document.getElementById('sales1UploadBox').classList.add('uploaded');
                 } else if (type === 'sales2') {
                     sales2Data = jsonData;
-                    sales2FileName = file.name.replace(/\.(xls|xlsx)$/i, '');  // 儲存檔名並去除副檔名
                     document.getElementById('sales2FileName').textContent = `✓ ${file.name}`;
                     document.getElementById('sales2UploadBox').classList.add('uploaded');
                 } else {
@@ -1090,14 +970,6 @@
         }
 
         function showStoreData(storeId) {
-            // 更新全域變數
-            currentStoreId = storeId;
-            period1Name = document.getElementById('sales1Name').value || '去年';
-            period2Name = document.getElementById('sales2Name').value || '今年';
-            
-            // 顯示PDF匯出按鈕
-            document.getElementById('exportPdfBtn').style.display = 'flex';
-            
             document.querySelectorAll('.store-tab').forEach(tab => {
                 tab.classList.remove('active');
                 if (tab.dataset.storeId == storeId) {
@@ -1109,20 +981,13 @@
             const data2 = analysisResults2[storeId];
             const contentContainer = document.getElementById('storeContent');
 
-            const localPeriod1Name = document.getElementById('sales1Name').value || '去年';
-            const localPeriod2Name = document.getElementById('sales2Name').value || '今年';
+            const period1Name = document.getElementById('sales1Name').value || '去年';
+            const period2Name = document.getElementById('sales2Name').value || '今年';
             
             // 表頭第二層顏色，用於品項欄位
             const headerSecondColor = '#E8EDF7';
 
             let html = `
-                <!-- 列印專用標題 -->
-                <div style="display: none;" class="print-header">
-                    <h2 style="text-align: center; color: #3b82f6; margin-bottom: 5px;">iStore Taiwan 銷售報表分析</h2>
-                    <h3 style="text-align: center; color: #666; margin-bottom: 3px;">店鋪 ${storeNames[storeId] || storeId} - 年度對比</h3>
-                    <p style="text-align: center; color: #999; font-size: 12px; margin-bottom: 15px;">${localPeriod1Name} vs ${localPeriod2Name}</p>
-                </div>
-                
                 <h3 style="font-size: 1.5em; color: #3b82f6; margin-bottom: 20px;">
                     店鋪 ${storeNames[storeId] || storeId} 銷售數據對比
                 </h3>
@@ -1138,17 +1003,17 @@
                                 <th colspan="3" class="number">毛利率</th>
                             </tr>
                             <tr>
-                                <th class="number">${localPeriod1Name}</th>
-                                <th class="number">${localPeriod2Name}</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${localPeriod1Name}</th>
-                                <th class="number">${localPeriod2Name}</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${localPeriod1Name}</th>
-                                <th class="number">${localPeriod2Name}</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${localPeriod1Name}</th>
-                                <th class="number">${localPeriod2Name}</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
                                 <th class="number">差異</th>
                             </tr>
                         </thead>
@@ -1223,17 +1088,17 @@
                                 <th colspan="3" class="number">毛利率</th>
                             </tr>
                             <tr>
-                                <th class="number">${localPeriod1Name}</th>
-                                <th class="number">${localPeriod2Name}</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${localPeriod1Name}</th>
-                                <th class="number">${localPeriod2Name}</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${localPeriod1Name}</th>
-                                <th class="number">${localPeriod2Name}</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${localPeriod1Name}</th>
-                                <th class="number">${localPeriod2Name}</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
                                 <th class="number">差異</th>
                             </tr>
                         </thead>
@@ -1374,14 +1239,14 @@
                                 <th colspan="3" class="number">搭售率</th>
                             </tr>
                             <tr>
-                                <th class="number">${localPeriod1Name}</th>
-                                <th class="number">${localPeriod2Name}</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${localPeriod1Name}</th>
-                                <th class="number">${localPeriod2Name}</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
                                 <th class="number">成長率</th>
-                                <th class="number">${localPeriod1Name}</th>
-                                <th class="number">${localPeriod2Name}</th>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
                                 <th class="number">差異</th>
                             </tr>
                         </thead>
@@ -1490,7 +1355,7 @@
                     <h4 style="color: #3b82f6; margin: 20px 0 10px 0;">📦 按銷售數量排名</h4>
                     <div class="comparison-split">
                         <div class="period-section">
-                            <h4><span class="period-badge period-1">${localPeriod1Name}</span></h4>
+                            <h4><span class="period-badge period-1">${period1Name}</span></h4>
                 `;
 
                 if (hasData1) {
@@ -1529,7 +1394,7 @@
                 html += `
                         </div>
                         <div class="period-section">
-                            <h4><span class="period-badge period-2">${localPeriod2Name}</span></h4>
+                            <h4><span class="period-badge period-2">${period2Name}</span></h4>
                 `;
 
                 if (hasData2) {
@@ -1572,7 +1437,7 @@
                     <h4 style="color: #3b82f6; margin: 20px 0 10px 0;">💰 按銷售金額排名</h4>
                     <div class="comparison-split">
                         <div class="period-section">
-                            <h4><span class="period-badge period-1">${localPeriod1Name}</span></h4>
+                            <h4><span class="period-badge period-1">${period1Name}</span></h4>
                 `;
 
                 if (hasData1) {
@@ -1611,7 +1476,7 @@
                 html += `
                         </div>
                         <div class="period-section">
-                            <h4><span class="period-badge period-2">${localPeriod2Name}</span></h4>
+                            <h4><span class="period-badge period-2">${period2Name}</span></h4>
                 `;
 
                 if (hasData2) {
@@ -1919,29 +1784,6 @@
                         }
                     });
                 });
-            }, 100);
-        }
-
-        // PDF匯出函數
-        function exportCurrentStoreToPDF() {
-            if (!currentStoreId) {
-                alert('請先選擇店別');
-                return;
-            }
-
-            // 設定文件標題為檔名
-            const fileName = `${sales2FileName}_${storeNames[currentStoreId] || currentStoreId}`;
-            document.title = fileName;
-
-            // 建立列印提示
-            const originalContent = document.body.innerHTML;
-            
-            // 隱藏不需要的元素（透過CSS @media print已處理）
-            // 直接呼叫列印
-            setTimeout(() => {
-                window.print();
-                // 列印後恢復標題
-                document.title = '銷售報表分析系統（年度對比版）';
             }, 100);
         }
     </script>
