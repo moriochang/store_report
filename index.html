@@ -1521,12 +1521,46 @@
                 // 添加圖表
                 if (hasData1 || hasData2) {
                     const chartId = `chart-${storeId}-${bigCategory.replace(/\s+/g, '-')}`;
+                    
+                    // 判斷是否需要顯示大分類摘要
+                    const showCategorySummary = ['CPU', 'iPad', 'iPhone', 'Apple Watch', 'AirPods', 'Audio', 'Care', 'Accy', '3rd Party'].includes(bigCategory);
+                    
                     html += `
                         </div>
                     </div>
                     
                     <div class="chart-container">
                         <h4>📊 ${bigCategory} ${classificationText}銷售數量對比</h4>
+                    `;
+                    
+                    // 如果需要顯示大分類摘要
+                    if (showCategorySummary) {
+                        const qty1 = data1.categories[bigCategory]?.qty || 0;
+                        const qty2 = data2.categories[bigCategory]?.qty || 0;
+                        const growthRate = qty1 > 0 ? ((qty2 - qty1) / qty1 * 100) : 0;
+                        const growthQty = qty2 - qty1;
+                        const growthColor = growthRate >= 0 ? '#10b981' : '#ef4444';
+                        const growthQtyText = (growthQty >= 0 ? '+' : '') + growthQty.toLocaleString() + '件';
+                        const growthRateText = (growthRate >= 0 ? '+' : '') + growthRate.toFixed(2) + '%';
+                        
+                        html += `
+                        <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 30px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="display: inline-block; width: 16px; height: 16px; background: rgba(25, 118, 210, 0.7); border: 2px solid rgba(25, 118, 210, 1); border-radius: 3px;"></span>
+                                <span style="color: #1976d2; font-weight: bold;">去年：${qty1.toLocaleString()}件</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="display: inline-block; width: 16px; height: 16px; background: rgba(123, 31, 162, 0.7); border: 2px solid rgba(123, 31, 162, 1); border-radius: 3px;"></span>
+                                <span style="color: #7b1fa2; font-weight: bold;">今年：${qty2.toLocaleString()}件</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="color: ${growthColor}; font-weight: bold; font-size: 1.1em;">${growthQtyText} ${growthRateText}</span>
+                            </div>
+                        </div>
+                        `;
+                    }
+                    
+                    html += `
                         <div class="chart-wrapper">
                             <canvas id="${chartId}"></canvas>
                         </div>
@@ -1695,6 +1729,7 @@
                     
                     if (!hasData1 && !hasData2) return;
 
+                    // 渲染中分類圖表
                     const chartId = `chart-${storeId}-${bigCategory.replace(/\s+/g, '-')}`;
                     const canvas = document.getElementById(chartId);
                     if (!canvas) return;
@@ -1766,7 +1801,7 @@
                             plugins: {
                                 legend: {
                                     display: true,
-                                    position: 'top',
+                                    position: 'bottom',
                                 },
                                 tooltip: {
                                     callbacks: {
@@ -1801,6 +1836,7 @@
                             scales: {
                                 y: {
                                     beginAtZero: true,
+                                    grace: '10%',
                                     ticks: {
                                         callback: function(value) {
                                             return value.toLocaleString();
