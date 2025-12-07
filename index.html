@@ -54,7 +54,7 @@
 
         .upload-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 25px;
             margin-bottom: 30px;
         }
@@ -591,7 +591,7 @@
     <div class="container">
         <div class="header">
             <h1>📊 銷售報表分析系統（年度對比版）</h1>
-            <p>上傳兩份報表進行YoY對比分析 - 支援全區域店鋪</p>
+            <p>上傳兩份報表進行YoY對比分析 - 參照資料自動從 GitHub 載入</p>
         </div>
 
         <div class="upload-section">
@@ -613,14 +613,13 @@
                     <input type="text" id="sales2Name" placeholder="例如：2025年10月" value="今年">
                     <div class="file-name" id="sales2FileName"></div>
                 </div>
+            </div>
 
-                <div class="upload-box" id="refUploadBox" onclick="document.getElementById('refFile').click()">
-                    <div class="upload-icon">📋</div>
-                    <h3>參照資料</h3>
-                    <p>上傳參照資料 (.xlsx)</p>
-                    <input type="file" id="refFile" accept=".xlsx" onchange="handleFileUpload('ref', this)">
-                    <div class="file-name" id="refFileName"></div>
-                </div>
+            <div style="margin: 20px 0; padding: 15px; background: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 8px;">
+                <p style="color: #1e40af; margin: 0; font-size: 0.95em;">
+                    📌 <strong>參照資料：</strong>系統將自動從 GitHub 載入 lizan_reference.xlsx
+                </p>
+                <p id="refLoadStatus" style="color: #666; margin: 8px 0 0 0; font-size: 0.85em;">正在載入參照資料...</p>
             </div>
 
             <button class="analyze-btn" id="analyzeBtn" onclick="analyzeData()" disabled>
@@ -649,6 +648,9 @@
     </div>
 
     <script>
+        // GitHub 參照檔案 URL
+        const GITHUB_REF_FILE_URL = 'https://raw.githubusercontent.com/moriochang/store_report/main/data/lizan_reference.xlsx';
+        
         let sales1Data = null;
         let sales2Data = null;
         let refData = null;
@@ -705,6 +707,45 @@
             Chart.register(ChartDataLabels);
         }
 
+        // 頁面載入時自動載入 GitHub 參照檔案
+        window.addEventListener('DOMContentLoaded', function() {
+            loadReferenceFromGitHub();
+        });
+
+        // 從 GitHub 載入參照檔案
+        async function loadReferenceFromGitHub() {
+            const statusEl = document.getElementById('refLoadStatus');
+            
+            try {
+                statusEl.textContent = '⏳ 正在從 GitHub 載入參照資料...';
+                statusEl.style.color = '#666';
+                
+                const response = await fetch(GITHUB_REF_FILE_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const arrayBuffer = await response.arrayBuffer();
+                const data = new Uint8Array(arrayBuffer);
+                const workbook = XLSX.read(data, { type: 'array' });
+                
+                refData = workbook;
+                
+                statusEl.textContent = '✅ 參照資料載入成功！';
+                statusEl.style.color = '#10b981';
+                
+                checkAnalyzeButton();
+            } catch (error) {
+                console.error('載入參照檔案失敗:', error);
+                statusEl.innerHTML = `
+                    ❌ 載入失敗：${error.message}<br>
+                    <span style="font-size: 0.8em;">請確認 GitHub URL 是否正確設定</span>
+                `;
+                statusEl.style.color = '#ef4444';
+            }
+        }
+
         function handleBoxClick(type, event) {
             if (event.target.tagName !== 'INPUT' || event.target.type !== 'text') {
                 document.getElementById(type + 'File').click();
@@ -745,6 +786,11 @@
             if (sales1Data && sales2Data && refData) {
                 document.getElementById('analyzeBtn').disabled = false;
             }
+        }
+
+        // checkAnalyzeButton 的別名，用於 GitHub 載入完成後調用
+        function checkAnalyzeButton() {
+            checkReadyToAnalyze();
         }
 
         function processSalesData(salesData, refMap) {
