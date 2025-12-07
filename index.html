@@ -162,9 +162,9 @@
 
         /* 側邊欄 */
         .sidebar {
-            width: 160px;
+            width: 180px;
             background: linear-gradient(180deg, #2563eb 0%, #1e40af 100%);
-            padding: 15px 10px;
+            padding: 20px 12px;
             position: sticky;
             top: 0;
             height: 100vh;
@@ -191,47 +191,46 @@
         }
 
         .sidebar-header {
-            font-size: 1em;
+            font-size: 1.1em;
             font-weight: bold;
             color: #ffffff;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(96, 165, 250, 0.5);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
         }
 
         .store-tabs {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 8px;
         }
 
         .store-tab {
-            padding: 8px 10px;
-            background: #3b82f6;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
+            padding: 10px 12px;
+            background: rgba(96, 165, 250, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 0.85em;
+            font-size: 0.9em;
             font-weight: bold;
             transition: all 0.3s ease;
-            text-align: left;
+            text-align: center;
             color: #ffffff;
         }
 
         .store-tab.active {
-            background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
-            color: #ffffff;
-            border-color: #fb923c;
-            box-shadow: 0 3px 12px rgba(251, 146, 60, 0.5);
+            background: #ffffff;
+            color: #1e40af;
+            border-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             font-weight: 800;
-            transform: translateX(3px);
         }
 
         .store-tab:hover:not(.active) {
-            background: #2563eb;
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateX(2px);
+            background: rgba(96, 165, 250, 0.5);
+            border-color: rgba(255, 255, 255, 0.7);
         }
 
         .comparison-container {
@@ -1064,25 +1063,26 @@
 
             Object.keys(regionGroups).forEach((region, index) => {
                 const regionDiv = document.createElement('div');
-                regionDiv.style.cssText = `margin-bottom: 10px;`;
+                regionDiv.style.cssText = `margin-bottom: 15px;`;
                 
                 const regionLabel = document.createElement('div');
                 regionLabel.style.cssText = `
                     font-weight: 700; 
                     color: #ffffff; 
-                    margin-bottom: 6px; 
-                    font-size: 0.85em;
-                    padding: 6px 8px;
-                    background: #1e40af;
-                    border-radius: 5px;
-                    border-left: 3px solid #60a5fa;
+                    margin-bottom: 8px;
+                    margin-top: 8px;
+                    font-size: 0.9em;
+                    padding: 8px 10px;
+                    background: rgba(30, 64, 175, 0.6);
+                    border-radius: 6px;
+                    border-left: 4px solid #60a5fa;
                     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
                 `;
                 regionLabel.textContent = region;
                 regionDiv.appendChild(regionLabel);
                 
                 const storeTabsDiv = document.createElement('div');
-                storeTabsDiv.style.cssText = 'display: flex; flex-direction: column; gap: 6px;';
+                storeTabsDiv.style.cssText = 'display: flex; flex-direction: column; gap: 8px;';
                 
                 regionGroups[region].forEach((storeId, storeIndex) => {
                     const tab = document.createElement('button');
