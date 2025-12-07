@@ -730,7 +730,9 @@
                 const data = new Uint8Array(arrayBuffer);
                 const workbook = XLSX.read(data, { type: 'array' });
                 
-                refData = workbook;
+                // 將 workbook 轉換為 JSON 陣列
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                refData = XLSX.utils.sheet_to_json(firstSheet);
                 
                 statusEl.textContent = '✅ 參照資料載入成功！';
                 statusEl.style.color = '#10b981';
