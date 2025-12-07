@@ -162,9 +162,9 @@
 
         /* 側邊欄 */
         .sidebar {
-            width: 200px;
+            width: 160px;
             background: linear-gradient(180deg, #2563eb 0%, #1e40af 100%);
-            padding: 20px 15px;
+            padding: 15px 10px;
             position: sticky;
             top: 0;
             height: 100vh;
@@ -191,11 +191,11 @@
         }
 
         .sidebar-header {
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: bold;
             color: #ffffff;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 2px solid rgba(255, 255, 255, 0.3);
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
@@ -203,11 +203,11 @@
         .store-tabs {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 5px;
         }
 
         .store-tab {
-            padding: 10px 12px;
+            padding: 8px 10px;
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 6px;
@@ -220,17 +220,18 @@
         }
 
         .store-tab.active {
-            background: #ffffff;
-            color: #2563eb;
-            border-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: #ffffff;
+            border-color: #f97316;
+            box-shadow: 0 3px 12px rgba(249, 115, 22, 0.4);
             font-weight: 800;
+            transform: translateX(3px);
         }
 
         .store-tab:hover:not(.active) {
             background: #ffffff;
             border-color: rgba(255, 255, 255, 0.8);
-            transform: translateX(3px);
+            transform: translateX(2px);
             color: #2563eb;
         }
 
@@ -1070,11 +1071,11 @@
                 regionLabel.style.cssText = `
                     font-weight: 700; 
                     color: #ffffff; 
-                    margin-bottom: 8px; 
-                    font-size: 0.9em;
-                    padding: 8px 10px;
+                    margin-bottom: 6px; 
+                    font-size: 0.85em;
+                    padding: 6px 8px;
                     background: rgba(255, 255, 255, 0.15);
-                    border-radius: 6px;
+                    border-radius: 5px;
                     border-left: 3px solid rgba(255, 255, 255, 0.5);
                     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
                 `;
