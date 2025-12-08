@@ -1371,10 +1371,14 @@
                             <tr>
                                 <th rowspan="2">產品類別</th>
                                 <th colspan="3" class="number">Care 銷售數量</th>
+                                <th colspan="3" class="number">Care 銷售金額</th>
                                 <th colspan="3" class="number">主機銷售數量</th>
                                 <th colspan="3" class="number">搭售率</th>
                             </tr>
                             <tr>
+                                <th class="number">${period1Name}</th>
+                                <th class="number">${period2Name}</th>
+                                <th class="number">成長率</th>
                                 <th class="number">${period1Name}</th>
                                 <th class="number">${period2Name}</th>
                                 <th class="number">成長率</th>
@@ -1399,19 +1403,23 @@
             ];
 
             careProducts.forEach(product => {
-                // 計算去年的Care數量
+                // 計算去年的Care數量和金額
                 let care1Qty = 0;
+                let care1Amt = 0;
                 if (data1.careByMidCategory) {
                     product.careKeys.forEach(key => {
                         care1Qty += data1.careByMidCategory[key]?.qty || 0;
+                        care1Amt += data1.careByMidCategory[key]?.amt || 0;
                     });
                 }
 
-                // 計算今年的Care數量
+                // 計算今年的Care數量和金額
                 let care2Qty = 0;
+                let care2Amt = 0;
                 if (data2.careByMidCategory) {
                     product.careKeys.forEach(key => {
                         care2Qty += data2.careByMidCategory[key]?.qty || 0;
+                        care2Amt += data2.careByMidCategory[key]?.amt || 0;
                     });
                 }
 
@@ -1425,6 +1433,7 @@
 
                 // YoY
                 const careYoY = calculateYoY(care1Qty, care2Qty);
+                const careAmtYoY = calculateYoY(care1Amt, care2Amt);
                 const mainYoY = calculateYoY(main1Qty, main2Qty);
                 const rateDiff = rate2 - rate1;
 
@@ -1436,6 +1445,13 @@
                         <td class="number">
                             <span class="yoy-badge ${careYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
                                 ${formatYoY(careYoY)}
+                            </span>
+                        </td>
+                        <td class="number">${formatAmount(care1Amt)}</td>
+                        <td class="number">${formatAmount(care2Amt)}</td>
+                        <td class="number">
+                            <span class="yoy-badge ${careAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                                ${formatYoY(careAmtYoY)}
                             </span>
                         </td>
                         <td class="number">${main1Qty.toLocaleString()}</td>
