@@ -1514,31 +1514,31 @@
 
             html += `
                 <tr style="font-weight: 700; background: #fffbf0 !important;">
-                    <td style="background: #fffbf0 !important; border-left: 4px solid #f39c12;"><strong>總計</strong></td>
-                    <td class="number" style="background: white !important;">${totalCare1Qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important;">${totalCare2Qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important;">
+                    <td style="background: #fffbf0 !important; border-left: 4px solid #f39c12; border-top: 3px solid #2c3e50; padding-top: 15px;"><strong>總計</strong></td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalCare1Qty.toLocaleString()}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalCare2Qty.toLocaleString()}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
                         <span class="yoy-badge ${totalCareYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
                             ${formatYoY(totalCareYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: white !important;">${formatAmount(totalCare1Amt)}</td>
-                    <td class="number" style="background: white !important;">${formatAmount(totalCare2Amt)}</td>
-                    <td class="number" style="background: white !important;">
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(totalCare1Amt)}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(totalCare2Amt)}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
                         <span class="yoy-badge ${totalCareAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
                             ${formatYoY(totalCareAmtYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: white !important;">${totalMain1Qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important;">${totalMain2Qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important;">
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalMain1Qty.toLocaleString()}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalMain2Qty.toLocaleString()}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
                         <span class="yoy-badge ${totalMainYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
                             ${formatYoY(totalMainYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: white !important;">${totalRate1.toFixed(2)}%</td>
-                    <td class="number" style="background: white !important;">${totalRate2.toFixed(2)}%</td>
-                    <td class="number" style="background: white !important;">
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalRate1.toFixed(2)}%</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalRate2.toFixed(2)}%</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
                         <span class="yoy-badge ${totalRateDiff >= 0 ? 'yoy-up' : 'yoy-down'}">
                             ${totalRateDiff >= 0 ? '+' : ''}${totalRateDiff.toFixed(2)}%
                         </span>
