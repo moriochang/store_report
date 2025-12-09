@@ -1200,6 +1200,69 @@
                 `;
             });
 
+            // 計算總計（排除Care）
+            let total1Qty = 0;
+            let total1Amt = 0;
+            let total1Profit = 0;
+            let total2Qty = 0;
+            let total2Amt = 0;
+            let total2Profit = 0;
+
+            targetCategories.forEach(category => {
+                if (category !== 'Care') {
+                    const cat1 = data1.categories[category];
+                    const cat2 = data2.categories[category];
+                    total1Qty += cat1.qty;
+                    total1Amt += cat1.amt;
+                    total1Profit += cat1.profit;
+                    total2Qty += cat2.qty;
+                    total2Amt += cat2.amt;
+                    total2Profit += cat2.profit;
+                }
+            });
+
+            const total1ProfitRate = total1Amt > 0 ? (total1Profit / total1Amt * 100) : 0;
+            const total2ProfitRate = total2Amt > 0 ? (total2Profit / total2Amt * 100) : 0;
+
+            const totalQtyYoY = calculateYoY(total1Qty, total2Qty);
+            const totalAmtYoY = calculateYoY(total1Amt, total2Amt);
+            const totalProfitYoY = calculateYoY(total1Profit, total2Profit);
+            const totalProfitRateYoY = total2ProfitRate - total1ProfitRate;
+
+            html += `
+                <tr style="font-weight: 700; background: #fffbf0 !important;">
+                    <td style="background: #fffbf0 !important; border-left: 4px solid #f39c12; border-top: 3px solid #2c3e50; padding-top: 15px;"><strong>總計（排除Care）</strong></td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total1Qty.toLocaleString()}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total2Qty.toLocaleString()}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                        <span class="yoy-badge ${totalQtyYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${formatYoY(totalQtyYoY)}
+                        </span>
+                    </td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total1Amt)}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total2Amt)}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                        <span class="yoy-badge ${totalAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${formatYoY(totalAmtYoY)}
+                        </span>
+                    </td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total1Profit)}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total2Profit)}</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                        <span class="yoy-badge ${totalProfitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${formatYoY(totalProfitYoY)}
+                        </span>
+                    </td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total1ProfitRate.toFixed(2)}%</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total2ProfitRate.toFixed(2)}%</td>
+                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                        <span class="yoy-badge ${totalProfitRateYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${totalProfitRateYoY >= 0 ? '+' : ''}${totalProfitRateYoY.toFixed(2)}%
+                        </span>
+                    </td>
+                </tr>
+            `;
+
             html += `
                         </tbody>
                     </table>
