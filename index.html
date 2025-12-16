@@ -1105,6 +1105,81 @@
             showStoreData(regionGroups[Object.keys(regionGroups)[0]][0]);
         }
 
+        function exportStoreCSV(storeId) {
+            const data1 = analysisResults1[storeId];
+            const data2 = analysisResults2[storeId];
+            const period1Name = document.getElementById('sales1Name').value || '去年';
+            const period2Name = document.getElementById('sales2Name').value || '今年';
+            const storeName = storeNames[storeId] || storeId;
+            
+            // 取得當前日期
+            const today = new Date();
+            const dateStr = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
+            
+            // CSV 表頭
+            let csv = '\uFEFF'; // UTF-8 BOM
+            csv += `店鋪 ${storeName} 銷售數據對比\n\n`;
+            csv += `品項,${period1Name}數量,${period2Name}數量,數量成長率,${period1Name}金額,${period2Name}金額,金額成長率,${period1Name}毛利,${period2Name}毛利,毛利成長率,${period1Name}毛利率,${period2Name}毛利率,毛利率差異\n`;
+            
+            // 各品項資料
+            targetCategories.forEach(category => {
+                const cat1 = data1.categories[category];
+                const cat2 = data2.categories[category];
+                
+                const qtyYoY = calculateYoY(cat1.qty, cat2.qty);
+                const amtYoY = calculateYoY(cat1.amt, cat2.amt);
+                const profitYoY = calculateYoY(cat1.profit, cat2.profit);
+                const profitRateYoY = cat2.profitRate - cat1.profitRate;
+                
+                csv += `${category},`;
+                csv += `${cat1.qty},${cat2.qty},${formatYoY(qtyYoY)},`;
+                csv += `${cat1.amt},${cat2.amt},${formatYoY(amtYoY)},`;
+                csv += `${cat1.profit},${cat2.profit},${formatYoY(profitYoY)},`;
+                csv += `${cat1.profitRate.toFixed(2)}%,${cat2.profitRate.toFixed(2)}%,${profitRateYoY >= 0 ? '+' : ''}${profitRateYoY.toFixed(2)}%\n`;
+            });
+            
+            // 總計（排除Care）
+            let total1Qty = 0, total1Amt = 0, total1Profit = 0;
+            let total2Qty = 0, total2Amt = 0, total2Profit = 0;
+            
+            targetCategories.forEach(category => {
+                if (category !== 'Care') {
+                    const cat1 = data1.categories[category];
+                    const cat2 = data2.categories[category];
+                    total1Qty += cat1.qty;
+                    total1Amt += cat1.amt;
+                    total1Profit += cat1.profit;
+                    total2Qty += cat2.qty;
+                    total2Amt += cat2.amt;
+                    total2Profit += cat2.profit;
+                }
+            });
+            
+            const total1ProfitRate = total1Amt > 0 ? (total1Profit / total1Amt * 100) : 0;
+            const total2ProfitRate = total2Amt > 0 ? (total2Profit / total2Amt * 100) : 0;
+            const totalQtyYoY = calculateYoY(total1Qty, total2Qty);
+            const totalAmtYoY = calculateYoY(total1Amt, total2Amt);
+            const totalProfitYoY = calculateYoY(total1Profit, total2Profit);
+            const totalProfitRateYoY = total2ProfitRate - total1ProfitRate;
+            
+            csv += `總計（排除Care),`;
+            csv += `${total1Qty},${total2Qty},${formatYoY(totalQtyYoY)},`;
+            csv += `${total1Amt},${total2Amt},${formatYoY(totalAmtYoY)},`;
+            csv += `${total1Profit},${total2Profit},${formatYoY(totalProfitYoY)},`;
+            csv += `${total1ProfitRate.toFixed(2)}%,${total2ProfitRate.toFixed(2)}%,${totalProfitRateYoY >= 0 ? '+' : ''}${totalProfitRateYoY.toFixed(2)}%\n`;
+            
+            // 下載 CSV
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `${storeName}_${dateStr}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
         function showStoreData(storeId) {
             document.querySelectorAll('.store-tab').forEach(tab => {
                 tab.classList.remove('active');
@@ -1124,9 +1199,26 @@
             const headerSecondColor = '#E8EDF7';
 
             let html = `
-                <h3 style="font-size: 1.5em; color: #3b82f6; margin-bottom: 20px;">
-                    店鋪 ${storeNames[storeId] || storeId} 銷售數據對比
-                </h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="font-size: 1.5em; color: #3b82f6; margin: 0;">
+                        店鋪 ${storeNames[storeId] || storeId} 銷售數據對比
+                    </h3>
+                    <button onclick="exportStoreCSV(${storeId})" style="
+                        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                        color: white;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        font-weight: bold;
+                        font-size: 0.9em;
+                        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+                        transition: all 0.3s ease;
+                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.4)';" 
+                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(16, 185, 129, 0.3)';">
+                        📥 輸出 CSV
+                    </button>
+                </div>
 
                 <div class="table-container">
                     <table>
