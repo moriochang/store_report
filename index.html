@@ -546,7 +546,7 @@
 
         .chart-container {
             background: white;
-            padding: 25px 25px 35px 25px;
+            padding: 25px;
             border-radius: 10px;
             margin: 30px 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -709,37 +709,21 @@
                 statusEl.textContent = '⏳ 正在從 GitHub 載入參照資料...';
                 statusEl.style.color = '#666';
                 
-                console.log('正在載入參照檔案:', GITHUB_REF_FILE_URL);
-                
                 const response = await fetch(GITHUB_REF_FILE_URL);
                 
-                console.log('Response status:', response.status);
-                
                 if (!response.ok) {
-                    if (response.status === 404) {
-                        throw new Error('找不到檔案 (404)。請確認檔案是否已上傳到 GitHub 的 data 資料夾');
-                    } else if (response.status === 403) {
-                        throw new Error('存取被拒 (403)。請確認 repository 是否為 public');
-                    } else {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
                 const arrayBuffer = await response.arrayBuffer();
-                console.log('檔案大小:', arrayBuffer.byteLength, 'bytes');
-                
                 const data = new Uint8Array(arrayBuffer);
                 const workbook = XLSX.read(data, { type: 'array' });
-                
-                console.log('Sheet 名稱:', workbook.SheetNames);
                 
                 // 將 workbook 轉換為 JSON 陣列
                 const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                 refData = XLSX.utils.sheet_to_json(firstSheet);
                 
-                console.log('參照資料載入成功，共', refData.length, '筆');
-                
-                statusEl.innerHTML = `✅ 參照資料載入成功！<br><span style="font-size: 0.85em; color: #666;">共載入 ${refData.length} 筆產品資料</span>`;
+                statusEl.textContent = '✅ 參照資料載入成功！';
                 statusEl.style.color = '#10b981';
                 
                 checkAnalyzeButton();
@@ -747,13 +731,7 @@
                 console.error('載入參照檔案失敗:', error);
                 statusEl.innerHTML = `
                     ❌ 載入失敗：${error.message}<br>
-                    <span style="font-size: 0.8em; color: #666;">
-                        請檢查：<br>
-                        1. 檔案是否已上傳到 GitHub data 資料夾<br>
-                        2. Repository 是否設為 public<br>
-                        3. 檔案名稱是否為 lizan_reference.xlsx<br>
-                        4. 網路連線是否正常
-                    </span>
+                    <span style="font-size: 0.8em;">請確認 GitHub URL 是否正確設定</span>
                 `;
                 statusEl.style.color = '#ef4444';
             }
@@ -2195,11 +2173,6 @@
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
-                            layout: {
-                                padding: {
-                                    bottom: 20
-                                }
-                            },
                             plugins: {
                                 legend: {
                                     display: true,
@@ -2236,14 +2209,6 @@
                                 }
                             },
                             scales: {
-                                x: {
-                                    ticks: {
-                                        padding: 5, // x 軸標籤與軸線的距離
-                                        font: {
-                                            size: 11
-                                        }
-                                    }
-                                },
                                 y: {
                                     beginAtZero: true,
                                     grace: '10%',
@@ -2254,41 +2219,7 @@
                                     }
                                 }
                             }
-                        },
-                        plugins: [{
-                            id: 'growthIndicators',
-                            afterDraw: function(chart) {
-                                const ctx = chart.ctx;
-                                const xAxis = chart.scales.x;
-                                const yAxis = chart.scales.y;
-                                
-                                ctx.save();
-                                ctx.font = 'bold 16px Arial';
-                                ctx.textAlign = 'center';
-                                ctx.textBaseline = 'top';
-                                
-                                categories.forEach((category, index) => {
-                                    const val1 = normalizedData1[category] || 0;
-                                    const val2 = normalizedData2[category] || 0;
-                                    const yoy = calculateYoY(val1, val2);
-                                    
-                                    if (yoy !== 0) {
-                                        const x = xAxis.getPixelForValue(index);
-                                        const y = yAxis.bottom + 18; // 在 x 軸標籤下方
-                                        
-                                        if (yoy > 0) {
-                                            ctx.fillStyle = '#10b981'; // 綠色
-                                            ctx.fillText('▲', x, y);
-                                        } else {
-                                            ctx.fillStyle = '#ef4444'; // 紅色
-                                            ctx.fillText('▼', x, y);
-                                        }
-                                    }
-                                });
-                                
-                                ctx.restore();
-                            }
-                        }]
+                        }
                         }
                     });
                 });
