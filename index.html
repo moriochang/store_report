@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -14,569 +15,572 @@
             box-sizing: border-box;
         }
 
+```
+    body {
+        font-family: 'Microsoft JhengHei', 'PingFang TC', 'Noto Sans TC', sans-serif;
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+    }
+
+    .container {
+        flex: 1;
+        background: white;
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+
+    .header {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+
+    .header p {
+        font-size: 1.1em;
+        opacity: 0.9;
+    }
+
+    .upload-section {
+        padding: 40px;
+        background: #f8f9fa;
+    }
+
+    .upload-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .upload-box {
+        background: white;
+        border: 3px dashed #3b82f6;
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .upload-box:hover {
+        border-color: #8b5cf6;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+    }
+
+    .upload-box.uploaded {
+        border-color: #10b981;
+        background: #ecfdf5;
+    }
+
+    .upload-box input[type="file"] {
+        display: none;
+    }
+
+    .upload-box input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 10px;
+        border: 2px solid #3b82f6;
+        border-radius: 5px;
+        font-size: 0.9em;
+        text-align: center;
+    }
+
+    .upload-icon {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+    }
+
+    .upload-box h3 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 1.1em;
+    }
+
+    .upload-box p {
+        color: #666;
+        font-size: 0.85em;
+    }
+
+    .file-name {
+        margin-top: 10px;
+        color: #10b981;
+        font-weight: bold;
+        font-size: 0.85em;
+    }
+
+    .analyze-btn {
+        display: block;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+        padding: 15px 30px;
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.2em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .analyze-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(2, 132, 199, 0.4);
+    }
+
+    .analyze-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    .results-section {
+        padding: 40px;
+        display: none;
+    }
+
+    .results-section.show {
+        display: block;
+    }
+
+    .section-title {
+        font-size: 1.8em;
+        color: #333;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid #3b82f6;
+    }
+
+    /* 側邊欄 */
+    .sidebar {
+        width: 180px;
+        background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+        padding: 20px 12px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        flex-shrink: 0;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 側邊欄滾動條樣式 */
+    .sidebar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+        background: rgba(59, 130, 246, 0.5);
+        border-radius: 3px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover {
+        background: rgba(59, 130, 246, 0.8);
+    }
+
+    .sidebar-header {
+        font-size: 1.1em;
+        font-weight: bold;
+        color: #ffffff;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #3b82f6;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        letter-spacing: 0.5px;
+    }
+
+    .store-tabs {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .store-tab {
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9em;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .store-tab.active {
+        background: #3b82f6;
+        color: #ffffff;
+        border-color: #3b82f6;
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        font-weight: 700;
+    }
+
+    .store-tab:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .comparison-container {
+        margin-bottom: 40px;
+    }
+
+    .comparison-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .period-badge {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.9em;
+    }
+
+    .period-1 {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .period-2 {
+        background: #ede9fe;
+        color: #7c3aed;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        margin-bottom: 30px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+    }
+
+    table thead {
+        background: none;
+        color: white;
+    }
+
+    /* 表頭第一層 (品項/銷售數量/銷售金額/毛利額/毛利率) */
+    table th[rowspan="2"],
+    table th[colspan] {
+        background: #1e40af; /* 藍色系 */
+        color: white;
+        padding: 12px 8px;
+        text-align: center !important; /* 強制居中 */
+        font-weight: bold;
+        white-space: nowrap;
+        font-size: calc(0.85em + 3px);
+        border: 1px solid #dcdcdc;
+    }
+
+    /* 表頭第二層 (去年/今年/成長率/差異) */
+    table th {
+        padding: 10px 8px;
+        text-align: right;
+        font-weight: bold;
+        white-space: nowrap;
+        font-size: 0.85em;
+        color: #333; /* 文字顏色改為深色 */
+        background: #E8EDF7; /* 相近的淺藍色 */
+        border: 1px solid #dcdcdc;
+    }
+
+    table td {
+        padding: 10px 8px;
+        border: 1px solid #f0f0f0; 
+        font-size: 0.85em;
+        background: white;
+    }
+
+    table tbody tr:last-child td {
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    table tbody tr:hover {
+        background: #fafbfc;
+    }
+    
+    /* 針對總計摘要列優化 */
+    table tbody tr[style*="font-weight: 600;"] td {
+        background: #f0f4f8 !important;
+    }
+    table tbody tr[style*="font-weight: 700;"] td {
+        background: #fffbf0 !important;
+    }
+
+    .number {
+        text-align: right;
+        font-family: 'Arial', sans-serif;
+        color: #333;
+    }
+
+    .positive {
+        color: #10b981;
+    }
+
+    .negative {
+        color: #dc3545;
+    }
+
+    .yoy-increase {
+        color: #10b981;
+    }
+
+    .yoy-decrease {
+        color: #dc3545;
+    }
+
+    .yoy-neutral {
+        color: #666;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 40px;
+        display: none;
+    }
+
+    .loading.show {
+        display: block;
+    }
+
+    .loading-spinner {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #3b82f6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .top3-section {
+        margin-top: 40px;
+    }
+
+    .top3-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
         body {
-            font-family: 'Microsoft JhengHei', 'PingFang TC', 'Noto Sans TC', sans-serif;
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-        }
-
-        .container {
-            flex: 1;
-            background: white;
-            overflow-y: auto;
-            max-height: 100vh;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .upload-section {
-            padding: 40px;
-            background: #f8f9fa;
-        }
-
-        .upload-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .upload-box {
-            background: white;
-            border: 3px dashed #3b82f6;
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .upload-box:hover {
-            border-color: #8b5cf6;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-        }
-
-        .upload-box.uploaded {
-            border-color: #10b981;
-            background: #ecfdf5;
-        }
-
-        .upload-box input[type="file"] {
-            display: none;
-        }
-
-        .upload-box input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            margin-top: 10px;
-            border: 2px solid #3b82f6;
-            border-radius: 5px;
-            font-size: 0.9em;
-            text-align: center;
-        }
-
-        .upload-icon {
-            font-size: 2.5em;
-            margin-bottom: 15px;
-        }
-
-        .upload-box h3 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        .upload-box p {
-            color: #666;
-            font-size: 0.85em;
-        }
-
-        .file-name {
-            margin-top: 10px;
-            color: #10b981;
-            font-weight: bold;
-            font-size: 0.85em;
-        }
-
-        .analyze-btn {
-            display: block;
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto;
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .analyze-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.4);
-        }
-
-        .analyze-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .results-section {
-            padding: 40px;
-            display: none;
-        }
-
-        .results-section.show {
-            display: block;
-        }
-
-        .section-title {
-            font-size: 1.8em;
-            color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #3b82f6;
-        }
-
-        /* 側邊欄 */
-        .sidebar {
-            width: 180px;
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-            padding: 20px 12px;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
-            flex-shrink: 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        /* 側邊欄滾動條樣式 */
-        .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: rgba(59, 130, 246, 0.5);
-            border-radius: 3px;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb:hover {
-            background: rgba(59, 130, 246, 0.8);
-        }
-
-        .sidebar-header {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #3b82f6;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            letter-spacing: 0.5px;
-        }
-
-        .store-tabs {
-            display: flex;
             flex-direction: column;
-            gap: 8px;
         }
-
-        .store-tab {
-            padding: 10px 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .store-tab.active {
-            background: #3b82f6;
-            color: #ffffff;
-            border-color: #3b82f6;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
-            font-weight: 700;
-        }
-
-        .store-tab:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .comparison-container {
-            margin-bottom: 40px;
-        }
-
-        .comparison-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .period-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-
-        .period-1 {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .period-2 {
-            background: #ede9fe;
-            color: #7c3aed;
-        }
-
-        .table-container {
-            overflow-x: auto;
-            margin-bottom: 30px;
-        }
-
-        table {
+        .sidebar {
             width: 100%;
-            border-collapse: collapse;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #e0e0e0;
-        }
-
-        table thead {
-            background: none;
-            color: white;
-        }
-
-        /* 表頭第一層 (品項/銷售數量/銷售金額/毛利額/毛利率) */
-        table th[rowspan="2"],
-        table th[colspan] {
-            background: #1e40af; /* 藍色系 */
-            color: white;
-            padding: 12px 8px;
-            text-align: center !important; /* 強制居中 */
-            font-weight: bold;
-            white-space: nowrap;
-            font-size: calc(0.85em + 3px);
-            border: 1px solid #dcdcdc;
-        }
-
-        /* 表頭第二層 (去年/今年/成長率/差異) */
-        table th {
-            padding: 10px 8px;
-            text-align: right;
-            font-weight: bold;
-            white-space: nowrap;
-            font-size: 0.85em;
-            color: #333; /* 文字顏色改為深色 */
-            background: #E8EDF7; /* 相近的淺藍色 */
-            border: 1px solid #dcdcdc;
-        }
-
-        table td {
-            padding: 10px 8px;
-            border: 1px solid #f0f0f0; 
-            font-size: 0.85em;
-            background: white;
-        }
-
-        table tbody tr:last-child td {
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        table tbody tr:hover {
-            background: #fafbfc;
-        }
-        
-        /* 針對總計摘要列優化 */
-        table tbody tr[style*="font-weight: 600;"] td {
-            background: #f0f4f8 !important;
-        }
-        table tbody tr[style*="font-weight: 700;"] td {
-            background: #fffbf0 !important;
-        }
-
-        .number {
-            text-align: right;
-            font-family: 'Arial', sans-serif;
-            color: #333;
-        }
-
-        .positive {
-            color: #10b981;
-        }
-
-        .negative {
-            color: #dc3545;
-        }
-
-        .yoy-increase {
-            color: #10b981;
-        }
-
-        .yoy-decrease {
-            color: #dc3545;
-        }
-
-        .yoy-neutral {
-            color: #666;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            display: none;
-        }
-
-        .loading.show {
-            display: block;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3b82f6;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .top3-section {
-            margin-top: 40px;
-        }
-
-        .top3-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                max-height: 300px;
-            }
-            .container {
-                max-height: none;
-            }
-            .top3-grid {
-                grid-template-columns: 1fr;
-            }
-            .upload-grid {
-                grid-template-columns: 1fr;
-            }
-            table th, table td {
-                font-size: 0.75em;
-                padding: 8px 5px;
-            }
-            .yoy-badge {
-                font-size: 0.75em;
-                padding: 4px 8px;
-                min-width: 55px;
-            }
-        }
-
-        @media (max-width: 1400px) {
-            table th, table td {
-                font-size: 0.8em;
-                padding: 9px 6px;
-            }
-        }
-
-        .top3-card {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            min-height: 200px;
-        }
-
-        .top3-card h4 {
-            color: #3b82f6;
-            margin-bottom: 12px;
-            font-size: 1.1em;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #e9ecef;
-        }
-
-        .rank-item {
-            padding: 10px;
-            margin-bottom: 6px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #3b82f6;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .rank-item:nth-child(1) {
-            border-left-color: #FFD700;
-        }
-
-        .rank-item:nth-child(2) {
-            border-left-color: #C0C0C0;
-        }
-
-        .rank-item:nth-child(3) {
-            border-left-color: #CD7F32;
-        }
-
-        .rank-number {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #3b82f6;
-            margin-right: 10px;
-        }
-
-        .rank-info {
-            flex: 1;
-        }
-
-        .rank-name {
-            font-weight: bold;
-            color: #333;
-            word-wrap: break-word;
-            margin-bottom: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .category-header {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin: 25px 0 15px 0;
-            border-left: 5px solid #8b5cf6;
-        }
-
-        .category-header h4 {
-            color: #8b5cf6;
-            font-size: 1.3em;
-            margin: 0;
-        }
-
-        .yoy-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.85em;
-            font-weight: bold;
-            min-width: 65px;
-            text-align: center;
-        }
-
-        .yoy-up {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #c8e6c9;
-        }
-
-        .yoy-down {
-            background: #ffebee;
-            color: #c62828;
-            border: 1px solid #ffcdd2;
-        }
-
-        .comparison-split {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .period-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .period-section h4 {
-            margin-bottom: 15px;
-            color: #3b82f6;
-        }
-
-        .chart-container {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin: 30px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border: 1px solid #e0e0e0;
-        }
-
-        .chart-container h4 {
-            color: #3b82f6;
-            margin-bottom: 20px;
-            font-size: 1.2em;
-            text-align: center;
-        }
-
-        .chart-wrapper {
+            height: auto;
             position: relative;
-            height: 400px;
-            margin: 0 auto;
+            max-height: 300px;
         }
+        .container {
+            max-height: none;
+        }
+        .top3-grid {
+            grid-template-columns: 1fr;
+        }
+        .upload-grid {
+            grid-template-columns: 1fr;
+        }
+        table th, table td {
+            font-size: 0.75em;
+            padding: 8px 5px;
+        }
+        .yoy-badge {
+            font-size: 0.75em;
+            padding: 4px 8px;
+            min-width: 55px;
+        }
+    }
 
-        .percentage-badge {
-            display: inline-block;
-            padding: 3px 8px;
-            background: #e3f2fd;
-            color: #1976d2;
-            border-radius: 4px;
-            font-size: 0.85em;
-            font-weight: bold;
-            margin-left: 8px;
+    @media (max-width: 1400px) {
+        table th, table td {
+            font-size: 0.8em;
+            padding: 9px 6px;
         }
-    </style>
+    }
+
+    .top3-card {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        min-height: 200px;
+    }
+
+    .top3-card h4 {
+        color: #3b82f6;
+        margin-bottom: 12px;
+        font-size: 1.1em;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    .rank-item {
+        padding: 10px;
+        margin-bottom: 6px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid #3b82f6;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .rank-item:nth-child(1) {
+        border-left-color: #FFD700;
+    }
+
+    .rank-item:nth-child(2) {
+        border-left-color: #C0C0C0;
+    }
+
+    .rank-item:nth-child(3) {
+        border-left-color: #CD7F32;
+    }
+
+    .rank-number {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #3b82f6;
+        margin-right: 10px;
+    }
+
+    .rank-info {
+        flex: 1;
+    }
+
+    .rank-name {
+        font-weight: bold;
+        color: #333;
+        word-wrap: break-word;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .category-header {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin: 25px 0 15px 0;
+        border-left: 5px solid #8b5cf6;
+    }
+
+    .category-header h4 {
+        color: #8b5cf6;
+        font-size: 1.3em;
+        margin: 0;
+    }
+
+    .yoy-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.85em;
+        font-weight: bold;
+        min-width: 65px;
+        text-align: center;
+    }
+
+    .yoy-up {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
+    }
+
+    .yoy-down {
+        background: #ffebee;
+        color: #c62828;
+        border: 1px solid #ffcdd2;
+    }
+
+    .comparison-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .period-section {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .period-section h4 {
+        margin-bottom: 15px;
+        color: #3b82f6;
+    }
+
+    .chart-container {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        margin: 30px 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border: 1px solid #e0e0e0;
+    }
+
+    .chart-container h4 {
+        color: #3b82f6;
+        margin-bottom: 20px;
+        font-size: 1.2em;
+        text-align: center;
+    }
+
+    .chart-wrapper {
+        position: relative;
+        height: 400px;
+        margin: 0 auto;
+    }
+
+    .percentage-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        background: #e3f2fd;
+        color: #1976d2;
+        border-radius: 4px;
+        font-size: 0.85em;
+        font-weight: bold;
+        margin-left: 8px;
+    }
+</style>
+```
+
 </head>
 <body>
     <!-- 側邊欄 -->
@@ -585,392 +589,292 @@
         <div class="store-tabs" id="storeTabs"></div>
     </div>
 
-    <!-- 主要內容區 -->
-    <div class="container">
-        <div class="header">
-            <h1>📊 銷售報表分析系統（年度對比版）</h1>
-            <p>上傳兩份報表進行YoY對比分析 - 參照資料自動從 GitHub 載入</p>
-        </div>
-
-        <div class="upload-section">
-            <div class="upload-grid">
-                <div class="upload-box" id="sales1UploadBox" onclick="document.getElementById('sales1File').click()">
-                    <div class="upload-icon">📊</div>
-                    <h3>銷售報表 1</h3>
-                    <p>上傳第一份報表 (.xls/.xlsx)</p>
-                    <input type="file" id="sales1File" accept=".xls,.xlsx" onchange="handleFileUpload('sales1', this)">
-                    <input type="text" id="sales1Name" placeholder="例如：2024年10月" value="去年">
-                    <div class="file-name" id="sales1FileName"></div>
-                </div>
-
-                <div class="upload-box" id="sales2UploadBox" onclick="handleBoxClick('sales2', event)">
-                    <div class="upload-icon">📊</div>
-                    <h3>銷售報表 2</h3>
-                    <p>上傳第二份報表 (.xls/.xlsx)</p>
-                    <input type="file" id="sales2File" accept=".xls,.xlsx" onchange="handleFileUpload('sales2', this)">
-                    <input type="text" id="sales2Name" placeholder="例如：2025年10月" value="今年">
-                    <div class="file-name" id="sales2FileName"></div>
-                </div>
-            </div>
-
-            <div style="margin: 20px 0; padding: 15px; background: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 8px;">
-                <p style="color: #1e40af; margin: 0; font-size: 0.95em;">
-                    📌 <strong>參照資料：</strong>系統將自動從 GitHub 載入 lizan_reference.xlsx
-                </p>
-                <p id="refLoadStatus" style="color: #666; margin: 8px 0 0 0; font-size: 0.85em;">正在載入參照資料...</p>
-            </div>
-
-            <button class="analyze-btn" id="analyzeBtn" onclick="analyzeData()" disabled>
-                🚀 開始分析與對比
-            </button>
-        </div>
-
-        <div class="loading" id="loading">
-            <div class="loading-spinner"></div>
-            <p style="margin-top: 20px;">正在分析資料...</p>
-        </div>
-
-        <div class="results-section" id="results">
-            <h2 class="section-title">📊 銷售分析結果與年度對比</h2>
-            <div id="storeContent"></div>
-        </div>
+```
+<!-- 主要內容區 -->
+<div class="container">
+    <div class="header">
+        <h1>📊 銷售報表分析系統（年度對比版）</h1>
+        <p>上傳兩份報表進行YoY對比分析 - 參照資料自動從 GitHub 載入</p>
     </div>
 
-    <script>
-        // GitHub 參照檔案 URL
-        const GITHUB_REF_FILE_URL = 'https://raw.githubusercontent.com/moriochang/store_report/main/data/lizan_reference.xlsx';
+    <div class="upload-section">
+        <div class="upload-grid">
+            <div class="upload-box" id="sales1UploadBox" onclick="document.getElementById('sales1File').click()">
+                <div class="upload-icon">📊</div>
+                <h3>銷售報表 1</h3>
+                <p>上傳第一份報表 (.xls/.xlsx)</p>
+                <input type="file" id="sales1File" accept=".xls,.xlsx" onchange="handleFileUpload('sales1', this)">
+                <input type="text" id="sales1Name" placeholder="例如：2024年10月" value="去年">
+                <div class="file-name" id="sales1FileName"></div>
+            </div>
+
+            <div class="upload-box" id="sales2UploadBox" onclick="handleBoxClick('sales2', event)">
+                <div class="upload-icon">📊</div>
+                <h3>銷售報表 2</h3>
+                <p>上傳第二份報表 (.xls/.xlsx)</p>
+                <input type="file" id="sales2File" accept=".xls,.xlsx" onchange="handleFileUpload('sales2', this)">
+                <input type="text" id="sales2Name" placeholder="例如：2025年10月" value="今年">
+                <div class="file-name" id="sales2FileName"></div>
+            </div>
+        </div>
+
+        <div style="margin: 20px 0; padding: 15px; background: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 8px;">
+            <p style="color: #1e40af; margin: 0; font-size: 0.95em;">
+                📌 <strong>參照資料：</strong>系統將自動從 GitHub 載入 lizan_reference.xlsx
+            </p>
+            <p id="refLoadStatus" style="color: #666; margin: 8px 0 0 0; font-size: 0.85em;">正在載入參照資料...</p>
+        </div>
+
+        <button class="analyze-btn" id="analyzeBtn" onclick="analyzeData()" disabled>
+            🚀 開始分析與對比
+        </button>
+    </div>
+
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+        <p style="margin-top: 20px;">正在分析資料...</p>
+    </div>
+
+    <div class="results-section" id="results">
+        <h2 class="section-title">📊 銷售分析結果與年度對比</h2>
+        <div id="storeContent"></div>
+    </div>
+</div>
+
+<script>
+    // GitHub 參照檔案 URL
+    const GITHUB_REF_FILE_URL = 'https://raw.githubusercontent.com/moriochang/store_report/main/data/lizan_reference.xlsx';
+    
+    let sales1Data = null;
+    let sales2Data = null;
+    let refData = null;
+    let analysisResults1 = null;
+    let analysisResults2 = null;
+
+    // 店鋪代號直接顯示
+    const storeIds = [0, 45, 47, 48, 51, 57, 61, 65, 75, 76, 77, 81, 84, 86, 88, 89, 97, 115, 116, 117, 820, 821];
+
+    // 區域分類
+    const regionGroups = {
+        '總公司': [0],
+        '北一區': [45, 47, 48],
+        '北二區': [51, 57, 61, 65],
+        '中區': [75, 76, 77, 81, 84],
+        '台南區': [86, 88, 89, 97],
+        '高雄區': [115, 116, 117],
+        '線上EC': [820, 821]
+    };
+
+    // 店鋪名稱映射
+    const storeNames = {
+        0: '全社',
+        45: '45',
+        47: '47',
+        48: '48',
+        51: '51',
+        57: '57',
+        61: '61',
+        65: '65',
+        75: '75',
+        76: '76',
+        77: '77',
+        81: '81',
+        84: '84',
+        86: '86',
+        88: '88',
+        89: '89',
+        97: '97',
+        115: '115',
+        116: '116',
+        117: '117',
+        820: '820',
+        821: '821'
+    };
+
+    const targetCategories = ['CPU', 'iPad', 'iPhone', 'Apple Watch', 'AirPods', 'Audio', 'Care', 'Accy', '3rd Party'];
+
+    // Audio和Care使用小分類
+    const smallCategoryList = ['Audio', 'Accy'];
+
+    // 註冊 ChartDataLabels 插件（全局）
+    if (typeof ChartDataLabels !== 'undefined') {
+        Chart.register(ChartDataLabels);
+    }
+
+    // 頁面載入時自動載入 GitHub 參照檔案
+    window.addEventListener('DOMContentLoaded', function() {
+        loadReferenceFromGitHub();
+    });
+
+    // 從 GitHub 載入參照檔案
+    async function loadReferenceFromGitHub() {
+        const statusEl = document.getElementById('refLoadStatus');
         
-        let sales1Data = null;
-        let sales2Data = null;
-        let refData = null;
-        let analysisResults1 = null;
-        let analysisResults2 = null;
-
-        // 店鋪代號直接顯示
-        const storeIds = [0, 45, 47, 48, 51, 57, 61, 65, 75, 76, 77, 81, 84, 86, 88, 89, 97, 115, 116, 117, 820, 821];
-
-        // 區域分類
-        const regionGroups = {
-            '總公司': [0],
-            '北一區': [45, 47, 48],
-            '北二區': [51, 57, 61, 65],
-            '中區': [75, 76, 77, 81, 84],
-            '台南區': [86, 88, 89, 97],
-            '高雄區': [115, 116, 117],
-            '線上EC': [820, 821]
-        };
-
-        // 店鋪名稱映射
-        const storeNames = {
-            0: '全社',
-            45: '45',
-            47: '47',
-            48: '48',
-            51: '51',
-            57: '57',
-            61: '61',
-            65: '65',
-            75: '75',
-            76: '76',
-            77: '77',
-            81: '81',
-            84: '84',
-            86: '86',
-            88: '88',
-            89: '89',
-            97: '97',
-            115: '115',
-            116: '116',
-            117: '117',
-            820: '820',
-            821: '821'
-        };
-
-        const targetCategories = ['CPU', 'iPad', 'iPhone', 'Apple Watch', 'AirPods', 'Audio', 'Care', 'Accy', '3rd Party'];
-
-        // Audio和Care使用小分類
-        const smallCategoryList = ['Audio', 'Accy'];
-
-        // 註冊 ChartDataLabels 插件（全局）
-        if (typeof ChartDataLabels !== 'undefined') {
-            Chart.register(ChartDataLabels);
-        }
-
-        // 頁面載入時自動載入 GitHub 參照檔案
-        window.addEventListener('DOMContentLoaded', function() {
-            loadReferenceFromGitHub();
-        });
-
-        // 從 GitHub 載入參照檔案
-        async function loadReferenceFromGitHub() {
-            const statusEl = document.getElementById('refLoadStatus');
+        try {
+            statusEl.textContent = '⏳ 正在從 GitHub 載入參照資料...';
+            statusEl.style.color = '#666';
             
-            try {
-                statusEl.textContent = '⏳ 正在從 GitHub 載入參照資料...';
-                statusEl.style.color = '#666';
-                
-                const response = await fetch(GITHUB_REF_FILE_URL);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const arrayBuffer = await response.arrayBuffer();
-                const data = new Uint8Array(arrayBuffer);
-                const workbook = XLSX.read(data, { type: 'array' });
-                
-                // 將 workbook 轉換為 JSON 陣列
-                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                refData = XLSX.utils.sheet_to_json(firstSheet);
-                
-                statusEl.textContent = '✅ 參照資料載入成功！';
-                statusEl.style.color = '#10b981';
-                
-                checkAnalyzeButton();
-            } catch (error) {
-                console.error('載入參照檔案失敗:', error);
-                statusEl.innerHTML = `
-                    ❌ 載入失敗：${error.message}<br>
-                    <span style="font-size: 0.8em;">請確認 GitHub URL 是否正確設定</span>
-                `;
-                statusEl.style.color = '#ef4444';
+            const response = await fetch(GITHUB_REF_FILE_URL);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            
+            const arrayBuffer = await response.arrayBuffer();
+            const data = new Uint8Array(arrayBuffer);
+            const workbook = XLSX.read(data, { type: 'array' });
+            
+            // 將 workbook 轉換為 JSON 陣列
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            refData = XLSX.utils.sheet_to_json(firstSheet);
+            
+            statusEl.textContent = '✅ 參照資料載入成功！';
+            statusEl.style.color = '#10b981';
+            
+            checkAnalyzeButton();
+        } catch (error) {
+            console.error('載入參照檔案失敗:', error);
+            statusEl.innerHTML = `
+                ❌ 載入失敗：${error.message}<br>
+                <span style="font-size: 0.8em;">請確認 GitHub URL 是否正確設定</span>
+            `;
+            statusEl.style.color = '#ef4444';
         }
+    }
 
-        function handleBoxClick(type, event) {
-            if (event.target.tagName !== 'INPUT' || event.target.type !== 'text') {
-                document.getElementById(type + 'File').click();
+    function handleBoxClick(type, event) {
+        if (event.target.tagName !== 'INPUT' || event.target.type !== 'text') {
+            document.getElementById(type + 'File').click();
+        }
+    }
+
+    function handleFileUpload(type, input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, {type: 'array'});
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+
+            if (type === 'sales1') {
+                sales1Data = jsonData;
+                document.getElementById('sales1FileName').textContent = `✓ ${file.name}`;
+                document.getElementById('sales1UploadBox').classList.add('uploaded');
+            } else if (type === 'sales2') {
+                sales2Data = jsonData;
+                document.getElementById('sales2FileName').textContent = `✓ ${file.name}`;
+                document.getElementById('sales2UploadBox').classList.add('uploaded');
+            } else {
+                refData = jsonData;
+                document.getElementById('refFileName').textContent = `✓ ${file.name}`;
+                document.getElementById('refUploadBox').classList.add('uploaded');
             }
-        }
 
-        function handleFileUpload(type, input) {
-            const file = input.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, {type: 'array'});
-                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                const jsonData = XLSX.utils.sheet_to_json(firstSheet);
-
-                if (type === 'sales1') {
-                    sales1Data = jsonData;
-                    document.getElementById('sales1FileName').textContent = `✓ ${file.name}`;
-                    document.getElementById('sales1UploadBox').classList.add('uploaded');
-                } else if (type === 'sales2') {
-                    sales2Data = jsonData;
-                    document.getElementById('sales2FileName').textContent = `✓ ${file.name}`;
-                    document.getElementById('sales2UploadBox').classList.add('uploaded');
-                } else {
-                    refData = jsonData;
-                    document.getElementById('refFileName').textContent = `✓ ${file.name}`;
-                    document.getElementById('refUploadBox').classList.add('uploaded');
-                }
-
-                checkReadyToAnalyze();
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function checkReadyToAnalyze() {
-            if (sales1Data && sales2Data && refData) {
-                document.getElementById('analyzeBtn').disabled = false;
-            }
-        }
-
-        // checkAnalyzeButton 的別名，用於 GitHub 載入完成後調用
-        function checkAnalyzeButton() {
             checkReadyToAnalyze();
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    function checkReadyToAnalyze() {
+        if (sales1Data && sales2Data && refData) {
+            document.getElementById('analyzeBtn').disabled = false;
         }
+    }
 
-        function processSalesData(salesData, refMap) {
-            const filteredData = salesData
-                .filter(item => storeIds.includes(item.store_code_id))
-                .map(item => {
-                    const ref = refMap[item.product_code] || {};
-                    return {
-                        ...item,
-                        大分類: ref.大分類 || '未分類',
-                        中分類: ref.中分類 || '未分類',
-                        小分類: ref.小分類 || '未分類'
-                    };
-                });
+    // checkAnalyzeButton 的別名，用於 GitHub 載入完成後調用
+    function checkAnalyzeButton() {
+        checkReadyToAnalyze();
+    }
 
-            const results = {};
-            
-            storeIds.forEach(storeId => {
-                // 跳過ID為0（全社），稍後會自動計算
-                if (storeId === 0) return;
-                
-                const storeData = filteredData.filter(item => item.store_code_id == storeId);
-                
-                results[storeId] = {
-                    id: storeId,
-                    categories: {},
-                    categoryTop3: {},
-                    careByMidCategory: {}  // 新增：Care的中分類統計
+    function processSalesData(salesData, refMap) {
+        const filteredData = salesData
+            .filter(item => storeIds.includes(item.store_code_id))
+            .map(item => {
+                const ref = refMap[item.product_code] || {};
+                return {
+                    ...item,
+                    大分類: ref.大分類 || '未分類',
+                    中分類: ref.中分類 || '未分類',
+                    小分類: ref.小分類 || '未分類'
                 };
-
-                // 按大分類統計
-                targetCategories.forEach(category => {
-                    const categoryData = storeData.filter(item => item.大分類 === category);
-                    
-                    const totalQty = categoryData.reduce((sum, item) => sum + (item.total_qty || 0), 0);
-                    const totalAmt = categoryData.reduce((sum, item) => sum + (item.total_amt_t1 || 0), 0);
-                    const totalCost = categoryData.reduce((sum, item) => sum + (item.total_cost || 0), 0);
-                    const totalAdj = categoryData.reduce((sum, item) => sum + (item.total_ADJ_COST || 0), 0);
-                    
-                    const profit = totalAmt - totalCost + totalAdj;
-                    const profitRate = totalAmt > 0 ? (profit / totalAmt * 100) : 0;
-
-                    results[storeId].categories[category] = {
-                        qty: totalQty,
-                        amt: totalAmt,
-                        profit: profit,
-                        profitRate: profitRate
-                    };
-                });
-
-                // 統計Care的中分類數據（用於計算搭售率）
-                const careData = storeData.filter(item => item.大分類 === 'Care');
-                careData.forEach(item => {
-                    const midCategory = item.中分類;
-                    if (!results[storeId].careByMidCategory[midCategory]) {
-                        results[storeId].careByMidCategory[midCategory] = {
-                            qty: 0,
-                            amt: 0
-                        };
-                    }
-                    results[storeId].careByMidCategory[midCategory].qty += item.total_qty || 0;
-                    results[storeId].careByMidCategory[midCategory].amt += item.total_amt_t1 || 0;
-                });
-
-                // 計算每個大分類的Top3和完整數據
-                targetCategories.forEach(bigCategory => {
-                    const categoryItems = storeData.filter(item => item.大分類 === bigCategory);
-                    const groupData = {};
-                    let categoryTotalQty = 0;
-                    let categoryTotalAmt = 0;
-                    
-                    categoryItems.forEach(item => {
-                        // Audio、Accy用小分類，其他用中分類
-                        const key = smallCategoryList.includes(bigCategory) ? item.小分類 : item.中分類;
-                        if (!groupData[key]) {
-                            groupData[key] = {
-                                name: key,
-                                qty: 0,
-                                amt: 0
-                            };
-                        }
-                        groupData[key].qty += item.total_qty || 0;
-                        groupData[key].amt += item.total_amt_t1 || 0;
-                        categoryTotalQty += item.total_qty || 0;
-                        categoryTotalAmt += item.total_amt_t1 || 0;
-                    });
-
-                    const allData = Object.values(groupData);
-                    
-                    const top3Qty = [...allData]
-                        .sort((a, b) => b.qty - a.qty)
-                        .slice(0, 3);
-
-                    const top3Amt = [...allData]
-                        .sort((a, b) => b.amt - a.amt)
-                        .slice(0, 3);
-
-                    results[storeId].categoryTop3[bigCategory] = {
-                        top3Qty: top3Qty,
-                        top3Amt: top3Amt,
-                        allData: allData,
-                        totalQty: categoryTotalQty,
-                        totalAmt: categoryTotalAmt
-                    };
-                });
             });
 
-            // 計算「全社」數據（所有店別的加總）
-            results[0] = {
-                id: 0,
+        const results = {};
+        
+        storeIds.forEach(storeId => {
+            // 跳過ID為0（全社），稍後會自動計算
+            if (storeId === 0) return;
+            
+            const storeData = filteredData.filter(item => item.store_code_id == storeId);
+            
+            results[storeId] = {
+                id: storeId,
                 categories: {},
                 categoryTop3: {},
-                careByMidCategory: {}
+                careByMidCategory: {}  // 新增：Care的中分類統計
             };
 
-            // 初始化全社的大分類數據
+            // 按大分類統計
             targetCategories.forEach(category => {
-                results[0].categories[category] = {
-                    qty: 0,
-                    amt: 0,
-                    profit: 0,
-                    profitRate: 0
+                const categoryData = storeData.filter(item => item.大分類 === category);
+                
+                const totalQty = categoryData.reduce((sum, item) => sum + (item.total_qty || 0), 0);
+                const totalAmt = categoryData.reduce((sum, item) => sum + (item.total_amt_t1 || 0), 0);
+                const totalCost = categoryData.reduce((sum, item) => sum + (item.total_cost || 0), 0);
+                const totalAdj = categoryData.reduce((sum, item) => sum + (item.total_ADJ_COST || 0), 0);
+                
+                const profit = totalAmt - totalCost + totalAdj;
+                const profitRate = totalAmt > 0 ? (profit / totalAmt * 100) : 0;
+
+                results[storeId].categories[category] = {
+                    qty: totalQty,
+                    amt: totalAmt,
+                    profit: profit,
+                    profitRate: profitRate
                 };
             });
 
-            // 加總所有店鋪的大分類數據（排除ID為0的自己）
-            storeIds.forEach(storeId => {
-                if (storeId === 0) return; // 跳過自己
-                
-                targetCategories.forEach(category => {
-                    const storeData = results[storeId].categories[category];
-                    results[0].categories[category].qty += storeData.qty;
-                    results[0].categories[category].amt += storeData.amt;
-                    results[0].categories[category].profit += storeData.profit;
-                });
+            // 統計Care的中分類數據（用於計算搭售率）
+            const careData = storeData.filter(item => item.大分類 === 'Care');
+            careData.forEach(item => {
+                const midCategory = item.中分類;
+                if (!results[storeId].careByMidCategory[midCategory]) {
+                    results[storeId].careByMidCategory[midCategory] = {
+                        qty: 0,
+                        amt: 0
+                    };
+                }
+                results[storeId].careByMidCategory[midCategory].qty += item.total_qty || 0;
+                results[storeId].careByMidCategory[midCategory].amt += item.total_amt_t1 || 0;
             });
 
-            // 計算全社的毛利率
-            targetCategories.forEach(category => {
-                const amt = results[0].categories[category].amt;
-                const profit = results[0].categories[category].profit;
-                results[0].categories[category].profitRate = amt > 0 ? (profit / amt * 100) : 0;
-            });
-
-            // 加總Care的中分類數據
-            storeIds.forEach(storeId => {
-                if (storeId === 0) return;
+            // 計算每個大分類的Top3和完整數據
+            targetCategories.forEach(bigCategory => {
+                const categoryItems = storeData.filter(item => item.大分類 === bigCategory);
+                const groupData = {};
+                let categoryTotalQty = 0;
+                let categoryTotalAmt = 0;
                 
-                Object.keys(results[storeId].careByMidCategory).forEach(midCategory => {
-                    if (!results[0].careByMidCategory[midCategory]) {
-                        results[0].careByMidCategory[midCategory] = {
+                categoryItems.forEach(item => {
+                    // Audio、Accy用小分類，其他用中分類
+                    const key = smallCategoryList.includes(bigCategory) ? item.小分類 : item.中分類;
+                    if (!groupData[key]) {
+                        groupData[key] = {
+                            name: key,
                             qty: 0,
                             amt: 0
                         };
                     }
-                    results[0].careByMidCategory[midCategory].qty += results[storeId].careByMidCategory[midCategory].qty;
-                    results[0].careByMidCategory[midCategory].amt += results[storeId].careByMidCategory[midCategory].amt;
-                });
-            });
-
-            // 計算全社的Top3（需要合併所有店鋪的中分類/小分類數據）
-            targetCategories.forEach(bigCategory => {
-                const allGroupData = {};
-                let totalQty = 0;
-                let totalAmt = 0;
-
-                // 合併所有店鋪的數據
-                storeIds.forEach(storeId => {
-                    if (storeId === 0) return;
-                    
-                    const storeTop3 = results[storeId].categoryTop3[bigCategory];
-                    if (storeTop3 && storeTop3.allData) {
-                        storeTop3.allData.forEach(item => {
-                            if (!allGroupData[item.name]) {
-                                allGroupData[item.name] = {
-                                    name: item.name,
-                                    qty: 0,
-                                    amt: 0
-                                };
-                            }
-                            allGroupData[item.name].qty += item.qty;
-                            allGroupData[item.name].amt += item.amt;
-                        });
-                        totalQty += storeTop3.totalQty;
-                        totalAmt += storeTop3.totalAmt;
-                    }
+                    groupData[key].qty += item.total_qty || 0;
+                    groupData[key].amt += item.total_amt_t1 || 0;
+                    categoryTotalQty += item.total_qty || 0;
+                    categoryTotalAmt += item.total_amt_t1 || 0;
                 });
 
-                const allData = Object.values(allGroupData);
+                const allData = Object.values(groupData);
                 
                 const top3Qty = [...allData]
                     .sort((a, b) => b.qty - a.qty)
@@ -980,1250 +884,1353 @@
                     .sort((a, b) => b.amt - a.amt)
                     .slice(0, 3);
 
-                results[0].categoryTop3[bigCategory] = {
+                results[storeId].categoryTop3[bigCategory] = {
                     top3Qty: top3Qty,
                     top3Amt: top3Amt,
                     allData: allData,
-                    totalQty: totalQty,
-                    totalAmt: totalAmt
+                    totalQty: categoryTotalQty,
+                    totalAmt: categoryTotalAmt
                 };
             });
+        });
 
-            return results;
-        }
+        // 計算「全社」數據（所有店別的加總）
+        results[0] = {
+            id: 0,
+            categories: {},
+            categoryTop3: {},
+            careByMidCategory: {}
+        };
 
-        function analyzeData() {
-            document.getElementById('loading').classList.add('show');
-            document.getElementById('results').classList.remove('show');
-
-            setTimeout(() => {
-                try {
-                    // 建立參照資料對照表
-                    const refMap = {};
-                    refData.forEach(item => {
-                        refMap[item.Code] = {
-                            大分類: item['大分類'],
-                            中分類: item['中分類'],
-                            小分類: item['小分類']
-                        };
-                    });
-
-                    // 處理兩份報表
-                    analysisResults1 = processSalesData(sales1Data, refMap);
-                    analysisResults2 = processSalesData(sales2Data, refMap);
-
-                    displayResults();
-                } catch (error) {
-                    alert('分析過程發生錯誤：' + error.message);
-                    console.error(error);
-                }
-
-                document.getElementById('loading').classList.remove('show');
-                document.getElementById('results').classList.add('show');
-                document.getElementById('sidebarContainer').style.display = 'block';
-            }, 500);
-        }
-
-        function calculateYoY(value1, value2) {
-            if (value1 === 0) return value2 > 0 ? 100 : 0;
-            return ((value2 - value1) / value1 * 100);
-        }
-
-        function formatYoY(yoy) {
-            const sign = yoy >= 0 ? '+' : '';
-            return `${sign}${yoy.toFixed(2)}%`;
-        }
-
-        function getYoYClass(yoy) {
-            if (yoy > 0) return 'yoy-increase';
-            if (yoy < 0) return 'yoy-decrease';
-            return 'yoy-neutral';
-        }
-        
-        // 新增金額格式化函數，不含貨幣符號
-        function formatAmount(amount) {
-            return amount.toLocaleString('zh-TW', {maximumFractionDigits: 0});
-        }
-
-        function displayResults() {
-            const tabsContainer = document.getElementById('storeTabs');
-            const contentContainer = document.getElementById('storeContent');
-
-            tabsContainer.innerHTML = '';
-            
-            // 創建區域標籤
-            const regionColors = {
-                '總公司': '#fef3c7',  // 淡金色
-                '北一區': '#dbeafe',  // 淡藍色
-                '北二區': '#ede9fe',  // 淡紫色
-                '中區': '#fef9c3',    // 淡黃色
-                '台南區': '#d1fae5',  // 淡綠色
-                '高雄區': '#fce7f3',  // 淡粉色
-                '線上EC': '#f1f5f9'   // 淡灰藍
+        // 初始化全社的大分類數據
+        targetCategories.forEach(category => {
+            results[0].categories[category] = {
+                qty: 0,
+                amt: 0,
+                profit: 0,
+                profitRate: 0
             };
+        });
 
-            Object.keys(regionGroups).forEach((region, index) => {
-                const regionDiv = document.createElement('div');
-                regionDiv.style.cssText = `margin-bottom: 15px;`;
-                
-                const regionLabel = document.createElement('div');
-                regionLabel.style.cssText = `
-                    font-weight: 700; 
-                    color: #ffffff; 
-                    margin-bottom: 8px;
-                    margin-top: 8px;
-                    font-size: 0.85em;
-                    padding: 8px 10px;
-                    background: #0f3460;
-                    border-radius: 6px;
-                    border-left: 3px solid #3b82f6;
-                    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-                    letter-spacing: 0.5px;
-                `;
-                regionLabel.textContent = region;
-                regionDiv.appendChild(regionLabel);
-                
-                const storeTabsDiv = document.createElement('div');
-                storeTabsDiv.style.cssText = 'display: flex; flex-direction: column; gap: 8px;';
-                
-                regionGroups[region].forEach((storeId, storeIndex) => {
-                    const tab = document.createElement('button');
-                    tab.className = 'store-tab';
-                    if (index === 0 && storeIndex === 0) {
-                        tab.classList.add('active');
-                    }
-                    tab.textContent = storeNames[storeId] || storeId;
-                    tab.dataset.storeId = storeId;  // 儲存實際的店鋪ID
-                    tab.onclick = () => showStoreData(storeId);
-                    storeTabsDiv.appendChild(tab);
-                });
-                
-                regionDiv.appendChild(storeTabsDiv);
-                tabsContainer.appendChild(regionDiv);
-            });
-
-            showStoreData(regionGroups[Object.keys(regionGroups)[0]][0]);
-        }
-
-        function exportStoreCSV(storeId) {
-            const data1 = analysisResults1[storeId];
-            const data2 = analysisResults2[storeId];
-            const period1Name = document.getElementById('sales1Name').value || '去年';
-            const period2Name = document.getElementById('sales2Name').value || '今年';
-            const storeName = storeNames[storeId] || storeId;
-            
-            // 取得當前日期
-            const today = new Date();
-            const dateStr = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
-            
-            // CSV 表頭
-            let csv = '\uFEFF'; // UTF-8 BOM
-            csv += `店鋪 ${storeName} 銷售數據對比\n\n`;
-            csv += `品項,${period1Name}數量,${period2Name}數量,數量成長率,${period1Name}金額,${period2Name}金額,金額成長率,${period1Name}毛利,${period2Name}毛利,毛利成長率,${period1Name}毛利率,${period2Name}毛利率,毛利率差異\n`;
-            
-            // 各品項資料
-            targetCategories.forEach(category => {
-                const cat1 = data1.categories[category];
-                const cat2 = data2.categories[category];
-                
-                const qtyYoY = calculateYoY(cat1.qty, cat2.qty);
-                const amtYoY = calculateYoY(cat1.amt, cat2.amt);
-                const profitYoY = calculateYoY(cat1.profit, cat2.profit);
-                const profitRateYoY = cat2.profitRate - cat1.profitRate;
-                
-                csv += `${category},`;
-                csv += `${cat1.qty},${cat2.qty},${formatYoY(qtyYoY)},`;
-                csv += `${cat1.amt},${cat2.amt},${formatYoY(amtYoY)},`;
-                csv += `${cat1.profit},${cat2.profit},${formatYoY(profitYoY)},`;
-                csv += `${cat1.profitRate.toFixed(2)}%,${cat2.profitRate.toFixed(2)}%,${profitRateYoY >= 0 ? '+' : ''}${profitRateYoY.toFixed(2)}%\n`;
-            });
-            
-            // 總計（排除Care）
-            let total1Qty = 0, total1Amt = 0, total1Profit = 0;
-            let total2Qty = 0, total2Amt = 0, total2Profit = 0;
+        // 加總所有店鋪的大分類數據（排除ID為0的自己）
+        storeIds.forEach(storeId => {
+            if (storeId === 0) return; // 跳過自己
             
             targetCategories.forEach(category => {
-                if (category !== 'Care') {
-                    const cat1 = data1.categories[category];
-                    const cat2 = data2.categories[category];
-                    total1Qty += cat1.qty;
-                    total1Amt += cat1.amt;
-                    total1Profit += cat1.profit;
-                    total2Qty += cat2.qty;
-                    total2Amt += cat2.amt;
-                    total2Profit += cat2.profit;
+                const storeData = results[storeId].categories[category];
+                results[0].categories[category].qty += storeData.qty;
+                results[0].categories[category].amt += storeData.amt;
+                results[0].categories[category].profit += storeData.profit;
+            });
+        });
+
+        // 計算全社的毛利率
+        targetCategories.forEach(category => {
+            const amt = results[0].categories[category].amt;
+            const profit = results[0].categories[category].profit;
+            results[0].categories[category].profitRate = amt > 0 ? (profit / amt * 100) : 0;
+        });
+
+        // 加總Care的中分類數據
+        storeIds.forEach(storeId => {
+            if (storeId === 0) return;
+            
+            Object.keys(results[storeId].careByMidCategory).forEach(midCategory => {
+                if (!results[0].careByMidCategory[midCategory]) {
+                    results[0].careByMidCategory[midCategory] = {
+                        qty: 0,
+                        amt: 0
+                    };
+                }
+                results[0].careByMidCategory[midCategory].qty += results[storeId].careByMidCategory[midCategory].qty;
+                results[0].careByMidCategory[midCategory].amt += results[storeId].careByMidCategory[midCategory].amt;
+            });
+        });
+
+        // 計算全社的Top3（需要合併所有店鋪的中分類/小分類數據）
+        targetCategories.forEach(bigCategory => {
+            const allGroupData = {};
+            let totalQty = 0;
+            let totalAmt = 0;
+
+            // 合併所有店鋪的數據
+            storeIds.forEach(storeId => {
+                if (storeId === 0) return;
+                
+                const storeTop3 = results[storeId].categoryTop3[bigCategory];
+                if (storeTop3 && storeTop3.allData) {
+                    storeTop3.allData.forEach(item => {
+                        if (!allGroupData[item.name]) {
+                            allGroupData[item.name] = {
+                                name: item.name,
+                                qty: 0,
+                                amt: 0
+                            };
+                        }
+                        allGroupData[item.name].qty += item.qty;
+                        allGroupData[item.name].amt += item.amt;
+                    });
+                    totalQty += storeTop3.totalQty;
+                    totalAmt += storeTop3.totalAmt;
                 }
             });
-            
-            const total1ProfitRate = total1Amt > 0 ? (total1Profit / total1Amt * 100) : 0;
-            const total2ProfitRate = total2Amt > 0 ? (total2Profit / total2Amt * 100) : 0;
-            const totalQtyYoY = calculateYoY(total1Qty, total2Qty);
-            const totalAmtYoY = calculateYoY(total1Amt, total2Amt);
-            const totalProfitYoY = calculateYoY(total1Profit, total2Profit);
-            const totalProfitRateYoY = total2ProfitRate - total1ProfitRate;
-            
-            csv += `總計（排除Care),`;
-            csv += `${total1Qty},${total2Qty},${formatYoY(totalQtyYoY)},`;
-            csv += `${total1Amt},${total2Amt},${formatYoY(totalAmtYoY)},`;
-            csv += `${total1Profit},${total2Profit},${formatYoY(totalProfitYoY)},`;
-            csv += `${total1ProfitRate.toFixed(2)}%,${total2ProfitRate.toFixed(2)}%,${totalProfitRateYoY >= 0 ? '+' : ''}${totalProfitRateYoY.toFixed(2)}%\n`;
-            
-            // 下載 CSV
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', `${storeName}_${dateStr}.csv`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
 
-        function showStoreData(storeId) {
-            document.querySelectorAll('.store-tab').forEach(tab => {
-                tab.classList.remove('active');
-                if (tab.dataset.storeId == storeId) {
+            const allData = Object.values(allGroupData);
+            
+            const top3Qty = [...allData]
+                .sort((a, b) => b.qty - a.qty)
+                .slice(0, 3);
+
+            const top3Amt = [...allData]
+                .sort((a, b) => b.amt - a.amt)
+                .slice(0, 3);
+
+            results[0].categoryTop3[bigCategory] = {
+                top3Qty: top3Qty,
+                top3Amt: top3Amt,
+                allData: allData,
+                totalQty: totalQty,
+                totalAmt: totalAmt
+            };
+        });
+
+        return results;
+    }
+
+    function analyzeData() {
+        document.getElementById('loading').classList.add('show');
+        document.getElementById('results').classList.remove('show');
+
+        setTimeout(() => {
+            try {
+                // 建立參照資料對照表
+                const refMap = {};
+                refData.forEach(item => {
+                    refMap[item.Code] = {
+                        大分類: item['大分類'],
+                        中分類: item['中分類'],
+                        小分類: item['小分類']
+                    };
+                });
+
+                // 處理兩份報表
+                analysisResults1 = processSalesData(sales1Data, refMap);
+                analysisResults2 = processSalesData(sales2Data, refMap);
+
+                displayResults();
+            } catch (error) {
+                alert('分析過程發生錯誤：' + error.message);
+                console.error(error);
+            }
+
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('results').classList.add('show');
+            document.getElementById('sidebarContainer').style.display = 'block';
+        }, 500);
+    }
+
+    function calculateYoY(value1, value2) {
+        if (value1 === 0) return value2 > 0 ? 100 : 0;
+        return ((value2 - value1) / value1 * 100);
+    }
+
+    function formatYoY(yoy) {
+        const sign = yoy >= 0 ? '+' : '';
+        return `${sign}${yoy.toFixed(2)}%`;
+    }
+
+    function getYoYClass(yoy) {
+        if (yoy > 0) return 'yoy-increase';
+        if (yoy < 0) return 'yoy-decrease';
+        return 'yoy-neutral';
+    }
+    
+    // 新增金額格式化函數，不含貨幣符號
+    function formatAmount(amount) {
+        return amount.toLocaleString('zh-TW', {maximumFractionDigits: 0});
+    }
+
+    function displayResults() {
+        const tabsContainer = document.getElementById('storeTabs');
+        const contentContainer = document.getElementById('storeContent');
+
+        tabsContainer.innerHTML = '';
+        
+        // 創建區域標籤
+        const regionColors = {
+            '總公司': '#fef3c7',  // 淡金色
+            '北一區': '#dbeafe',  // 淡藍色
+            '北二區': '#ede9fe',  // 淡紫色
+            '中區': '#fef9c3',    // 淡黃色
+            '台南區': '#d1fae5',  // 淡綠色
+            '高雄區': '#fce7f3',  // 淡粉色
+            '線上EC': '#f1f5f9'   // 淡灰藍
+        };
+
+        Object.keys(regionGroups).forEach((region, index) => {
+            const regionDiv = document.createElement('div');
+            regionDiv.style.cssText = `margin-bottom: 15px;`;
+            
+            const regionLabel = document.createElement('div');
+            regionLabel.style.cssText = `
+                font-weight: 700; 
+                color: #ffffff; 
+                margin-bottom: 8px;
+                margin-top: 8px;
+                font-size: 0.85em;
+                padding: 8px 10px;
+                background: #0f3460;
+                border-radius: 6px;
+                border-left: 3px solid #3b82f6;
+                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+                letter-spacing: 0.5px;
+            `;
+            regionLabel.textContent = region;
+            regionDiv.appendChild(regionLabel);
+            
+            const storeTabsDiv = document.createElement('div');
+            storeTabsDiv.style.cssText = 'display: flex; flex-direction: column; gap: 8px;';
+            
+            regionGroups[region].forEach((storeId, storeIndex) => {
+                const tab = document.createElement('button');
+                tab.className = 'store-tab';
+                if (index === 0 && storeIndex === 0) {
                     tab.classList.add('active');
                 }
+                tab.textContent = storeNames[storeId] || storeId;
+                tab.dataset.storeId = storeId;  // 儲存實際的店鋪ID
+                tab.onclick = () => showStoreData(storeId);
+                storeTabsDiv.appendChild(tab);
             });
-
-            const data1 = analysisResults1[storeId];
-            const data2 = analysisResults2[storeId];
-            const contentContainer = document.getElementById('storeContent');
-
-            const period1Name = document.getElementById('sales1Name').value || '去年';
-            const period2Name = document.getElementById('sales2Name').value || '今年';
             
-            // 表頭第二層顏色，用於品項欄位
-            const headerSecondColor = '#E8EDF7';
+            regionDiv.appendChild(storeTabsDiv);
+            tabsContainer.appendChild(regionDiv);
+        });
 
-            let html = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3 style="font-size: 1.5em; color: #3b82f6; margin: 0;">
-                        店鋪 ${storeNames[storeId] || storeId} 銷售數據對比
-                    </h3>
-                    <button onclick="exportStoreCSV(${storeId})" style="
-                        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                        color: white;
-                        border: none;
-                        padding: 10px 20px;
-                        border-radius: 8px;
-                        cursor: pointer;
-                        font-weight: bold;
-                        font-size: 0.9em;
-                        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-                        transition: all 0.3s ease;
-                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.4)';" 
-                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(16, 185, 129, 0.3)';">
-                        📥 輸出 CSV
-                    </button>
-                </div>
+        showStoreData(regionGroups[Object.keys(regionGroups)[0]][0]);
+    }
 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th rowspan="2">品項</th>
-                                <th colspan="3" class="number">銷售數量</th>
-                                <th colspan="3" class="number">銷售金額</th>
-                                <th colspan="3" class="number">毛利額</th>
-                                <th colspan="3" class="number">毛利率</th>
-                            </tr>
-                            <tr>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">差異</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-
-            targetCategories.forEach(category => {
+    function exportStoreCSV(storeId) {
+        const data1 = analysisResults1[storeId];
+        const data2 = analysisResults2[storeId];
+        const period1Name = document.getElementById('sales1Name').value || '去年';
+        const period2Name = document.getElementById('sales2Name').value || '今年';
+        const storeName = storeNames[storeId] || storeId;
+        
+        // 取得當前日期
+        const today = new Date();
+        const dateStr = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
+        
+        // CSV 表頭
+        let csv = '\uFEFF'; // UTF-8 BOM
+        csv += `店鋪 ${storeName} 銷售數據對比\n\n`;
+        csv += `品項,${period1Name}數量,${period2Name}數量,數量成長率,${period1Name}金額,${period2Name}金額,金額成長率,${period1Name}毛利,${period2Name}毛利,毛利成長率,${period1Name}毛利率,${period2Name}毛利率,毛利率差異\n`;
+        
+        // 各品項資料
+        targetCategories.forEach(category => {
+            const cat1 = data1.categories[category];
+            const cat2 = data2.categories[category];
+            
+            const qtyYoY = calculateYoY(cat1.qty, cat2.qty);
+            const amtYoY = calculateYoY(cat1.amt, cat2.amt);
+            const profitYoY = calculateYoY(cat1.profit, cat2.profit);
+            const profitRateYoY = cat2.profitRate - cat1.profitRate;
+            
+            csv += `${category},`;
+            csv += `${cat1.qty},${cat2.qty},${formatYoY(qtyYoY)},`;
+            csv += `${Math.round(cat1.amt)},${Math.round(cat2.amt)},${formatYoY(amtYoY)},`;
+            csv += `${Math.round(cat1.profit)},${Math.round(cat2.profit)},${formatYoY(profitYoY)},`;
+            csv += `${cat1.profitRate.toFixed(2)}%,${cat2.profitRate.toFixed(2)}%,${profitRateYoY >= 0 ? '+' : ''}${profitRateYoY.toFixed(2)}%\n`;
+        });
+        
+        // 總計（排除Care）
+        let total1Qty = 0, total1Amt = 0, total1Profit = 0;
+        let total2Qty = 0, total2Amt = 0, total2Profit = 0;
+        
+        targetCategories.forEach(category => {
+            if (category !== 'Care') {
                 const cat1 = data1.categories[category];
                 const cat2 = data2.categories[category];
-                
-                const qtyYoY = calculateYoY(cat1.qty, cat2.qty);
-                const amtYoY = calculateYoY(cat1.amt, cat2.amt);
-                const profitYoY = calculateYoY(cat1.profit, cat2.profit);
-                const profitRateYoY = cat2.profitRate - cat1.profitRate;
+                total1Qty += cat1.qty;
+                total1Amt += cat1.amt;
+                total1Profit += cat1.profit;
+                total2Qty += cat2.qty;
+                total2Amt += cat2.amt;
+                total2Profit += cat2.profit;
+            }
+        });
+        
+        const total1ProfitRate = total1Amt > 0 ? (total1Profit / total1Amt * 100) : 0;
+        const total2ProfitRate = total2Amt > 0 ? (total2Profit / total2Amt * 100) : 0;
+        const totalQtyYoY = calculateYoY(total1Qty, total2Qty);
+        const totalAmtYoY = calculateYoY(total1Amt, total2Amt);
+        const totalProfitYoY = calculateYoY(total1Profit, total2Profit);
+        const totalProfitRateYoY = total2ProfitRate - total1ProfitRate;
+        
+        csv += `總計（排除Care),`;
+        csv += `${total1Qty},${total2Qty},${formatYoY(totalQtyYoY)},`;
+        csv += `${Math.round(total1Amt)},${Math.round(total2Amt)},${formatYoY(totalAmtYoY)},`;
+        csv += `${Math.round(total1Profit)},${Math.round(total2Profit)},${formatYoY(totalProfitYoY)},`;
+        csv += `${total1ProfitRate.toFixed(2)}%,${total2ProfitRate.toFixed(2)}%,${totalProfitRateYoY >= 0 ? '+' : ''}${totalProfitRateYoY.toFixed(2)}%\n`;
+        
+        // 下載 CSV
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', `${storeName}_${dateStr}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 
-                html += `
-                    <tr>
-                        <td style="background: ${headerSecondColor};"><strong>${category}</strong></td>
-                        <td class="number">${cat1.qty.toLocaleString()}</td>
-                        <td class="number">${cat2.qty.toLocaleString()}</td>
-                        <td class="number">
-                            <span class="yoy-badge ${qtyYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                                ${formatYoY(qtyYoY)}
-                            </span>
-                        </td>
-                        <td class="number">${formatAmount(cat1.amt)}</td>
-                        <td class="number">${formatAmount(cat2.amt)}</td>
-                        <td class="number">
-                            <span class="yoy-badge ${amtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                                ${formatYoY(amtYoY)}
-                            </span>
-                        </td>
-                        <td class="number">${formatAmount(cat1.profit)}</td>
-                        <td class="number">${formatAmount(cat2.profit)}</td>
-                        <td class="number">
-                            <span class="yoy-badge ${profitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                                ${formatYoY(profitYoY)}
-                            </span>
-                        </td>
-                        <td class="number">${cat1.profitRate.toFixed(2)}%</td>
-                        <td class="number">${cat2.profitRate.toFixed(2)}%</td>
-                        <td class="number">
-                            <span class="yoy-badge ${profitRateYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                                ${profitRateYoY >= 0 ? '+' : ''}${profitRateYoY.toFixed(2)}%
-                            </span>
-                        </td>
-                    </tr>
-                `;
-            });
+    function showStoreData(storeId) {
+        document.querySelectorAll('.store-tab').forEach(tab => {
+            tab.classList.remove('active');
+            if (tab.dataset.storeId == storeId) {
+                tab.classList.add('active');
+            }
+        });
 
-            // 計算總計（排除Care）
-            let total1Qty = 0;
-            let total1Amt = 0;
-            let total1Profit = 0;
-            let total2Qty = 0;
-            let total2Amt = 0;
-            let total2Profit = 0;
+        const data1 = analysisResults1[storeId];
+        const data2 = analysisResults2[storeId];
+        const contentContainer = document.getElementById('storeContent');
 
-            targetCategories.forEach(category => {
-                if (category !== 'Care') {
-                    const cat1 = data1.categories[category];
-                    const cat2 = data2.categories[category];
-                    total1Qty += cat1.qty;
-                    total1Amt += cat1.amt;
-                    total1Profit += cat1.profit;
-                    total2Qty += cat2.qty;
-                    total2Amt += cat2.amt;
-                    total2Profit += cat2.profit;
-                }
-            });
+        const period1Name = document.getElementById('sales1Name').value || '去年';
+        const period2Name = document.getElementById('sales2Name').value || '今年';
+        
+        // 表頭第二層顏色，用於品項欄位
+        const headerSecondColor = '#E8EDF7';
 
-            const total1ProfitRate = total1Amt > 0 ? (total1Profit / total1Amt * 100) : 0;
-            const total2ProfitRate = total2Amt > 0 ? (total2Profit / total2Amt * 100) : 0;
-
-            const totalQtyYoY = calculateYoY(total1Qty, total2Qty);
-            const totalAmtYoY = calculateYoY(total1Amt, total2Amt);
-            const totalProfitYoY = calculateYoY(total1Profit, total2Profit);
-            const totalProfitRateYoY = total2ProfitRate - total1ProfitRate;
-
-            html += `
-                <tr style="font-weight: 700; background: #fffbf0 !important;">
-                    <td style="background: #fffbf0 !important; border-left: 4px solid #f39c12; border-top: 3px solid #2c3e50; padding-top: 15px;"><strong>總計（排除Care）</strong></td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total1Qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total2Qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
-                        <span class="yoy-badge ${totalQtyYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(totalQtyYoY)}
-                        </span>
-                    </td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total1Amt)}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total2Amt)}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
-                        <span class="yoy-badge ${totalAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(totalAmtYoY)}
-                        </span>
-                    </td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total1Profit)}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total2Profit)}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
-                        <span class="yoy-badge ${totalProfitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(totalProfitYoY)}
-                        </span>
-                    </td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total1ProfitRate.toFixed(2)}%</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total2ProfitRate.toFixed(2)}%</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
-                        <span class="yoy-badge ${totalProfitRateYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${totalProfitRateYoY >= 0 ? '+' : ''}${totalProfitRateYoY.toFixed(2)}%
-                        </span>
-                    </td>
-                </tr>
-            `;
-
-            html += `
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3 style="font-size: 1.5em; color: #3b82f6; margin: 40px 0 15px 0;">
-                    📊 總計摘要
+        let html = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="font-size: 1.5em; color: #3b82f6; margin: 0;">
+                    店鋪 ${storeNames[storeId] || storeId} 銷售數據對比
                 </h3>
-                <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
-                    ※ 周邊業績 = AirPods + Audio + Accy + 3rd Party<br>
-                    ※ 總計數據排除 Care
-                </p>
+                <button onclick="exportStoreCSV(${storeId})" style="
+                    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 0.9em;
+                    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+                    transition: all 0.3s ease;
+                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.4)';" 
+                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(16, 185, 129, 0.3)';">
+                    📥 輸出 CSV
+                </button>
+            </div>
 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th rowspan="2">項目</th>
-                                <th colspan="3" class="number">銷售數量</th>
-                                <th colspan="3" class="number">銷售金額</th>
-                                <th colspan="3" class="number">毛利額</th>
-                                <th colspan="3" class="number">毛利率</th>
-                            </tr>
-                            <tr>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">差異</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">品項</th>
+                            <th colspan="3" class="number">銷售數量</th>
+                            <th colspan="3" class="number">銷售金額</th>
+                            <th colspan="3" class="number">毛利額</th>
+                            <th colspan="3" class="number">毛利率</th>
+                        </tr>
+                        <tr>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">成長率</th>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">成長率</th>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">成長率</th>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">差異</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
 
-            // 計算周邊業績 = AirPods + Audio + Accy + 3rd Party
-            const peripheralCategories = ['AirPods', 'Audio', 'Accy', '3rd Party'];
-            let peripheral1 = { qty: 0, amt: 0, profit: 0 };
-            let peripheral2 = { qty: 0, amt: 0, profit: 0 };
+        targetCategories.forEach(category => {
+            const cat1 = data1.categories[category];
+            const cat2 = data2.categories[category];
             
-            peripheralCategories.forEach(cat => {
-                peripheral1.qty += data1.categories[cat].qty;
-                peripheral1.amt += data1.categories[cat].amt;
-                peripheral1.profit += data1.categories[cat].profit;
-                peripheral2.qty += data2.categories[cat].qty;
-                peripheral2.amt += data2.categories[cat].amt;
-                peripheral2.profit += data2.categories[cat].profit;
-            });
-            
-            peripheral1.profitRate = peripheral1.amt > 0 ? (peripheral1.profit / peripheral1.amt * 100) : 0;
-            peripheral2.profitRate = peripheral2.amt > 0 ? (peripheral2.profit / peripheral2.amt * 100) : 0;
-
-            const pQtyYoY = calculateYoY(peripheral1.qty, peripheral2.qty);
-            const pAmtYoY = calculateYoY(peripheral1.amt, peripheral2.amt);
-            const pProfitYoY = calculateYoY(peripheral1.profit, peripheral2.profit);
-            const pProfitRateYoY = peripheral2.profitRate - peripheral1.profitRate;
+            const qtyYoY = calculateYoY(cat1.qty, cat2.qty);
+            const amtYoY = calculateYoY(cat1.amt, cat2.amt);
+            const profitYoY = calculateYoY(cat1.profit, cat2.profit);
+            const profitRateYoY = cat2.profitRate - cat1.profitRate;
 
             html += `
-                <tr style="font-weight: 600;">
-                    <td style="background: #f0f4f8 !important; border-left: 4px solid #5a6c7d;"><strong>周邊業績</strong></td>
-                    <td class="number" style="background: white !important;">${peripheral1.qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important;">${peripheral2.qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important;">
-                        <span class="yoy-badge ${pQtyYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(pQtyYoY)}
+                <tr>
+                    <td style="background: ${headerSecondColor};"><strong>${category}</strong></td>
+                    <td class="number">${cat1.qty.toLocaleString()}</td>
+                    <td class="number">${cat2.qty.toLocaleString()}</td>
+                    <td class="number">
+                        <span class="yoy-badge ${qtyYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${formatYoY(qtyYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: white !important;">${formatAmount(peripheral1.amt)}</td>
-                    <td class="number" style="background: white !important;">${formatAmount(peripheral2.amt)}</td>
-                    <td class="number" style="background: white !important;">
-                        <span class="yoy-badge ${pAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(pAmtYoY)}
+                    <td class="number">${formatAmount(cat1.amt)}</td>
+                    <td class="number">${formatAmount(cat2.amt)}</td>
+                    <td class="number">
+                        <span class="yoy-badge ${amtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${formatYoY(amtYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: white !important;">${formatAmount(peripheral1.profit)}</td>
-                    <td class="number" style="background: white !important;">${formatAmount(peripheral2.profit)}</td>
-                    <td class="number" style="background: white !important;">
-                        <span class="yoy-badge ${pProfitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(pProfitYoY)}
+                    <td class="number">${formatAmount(cat1.profit)}</td>
+                    <td class="number">${formatAmount(cat2.profit)}</td>
+                    <td class="number">
+                        <span class="yoy-badge ${profitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${formatYoY(profitYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: white !important;">${peripheral1.profitRate.toFixed(2)}%</td>
-                    <td class="number" style="background: white !important;">${peripheral2.profitRate.toFixed(2)}%</td>
-                    <td class="number" style="background: white !important;">
-                        <span class="yoy-badge ${pProfitRateYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${pProfitRateYoY >= 0 ? '+' : ''}${pProfitRateYoY.toFixed(2)}%
+                    <td class="number">${cat1.profitRate.toFixed(2)}%</td>
+                    <td class="number">${cat2.profitRate.toFixed(2)}%</td>
+                    <td class="number">
+                        <span class="yoy-badge ${profitRateYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${profitRateYoY >= 0 ? '+' : ''}${profitRateYoY.toFixed(2)}%
                         </span>
                     </td>
                 </tr>
             `;
+        });
 
-            // 計算總計（排除Care）
-            const excludeCategories = ['Care'];
-            let total1 = { qty: 0, amt: 0, profit: 0 };
-            let total2 = { qty: 0, amt: 0, profit: 0 };
-            
-            targetCategories.forEach(cat => {
-                if (!excludeCategories.includes(cat)) {
-                    total1.qty += data1.categories[cat].qty;
-                    total1.amt += data1.categories[cat].amt;
-                    total1.profit += data1.categories[cat].profit;
-                    total2.qty += data2.categories[cat].qty;
-                    total2.amt += data2.categories[cat].amt;
-                    total2.profit += data2.categories[cat].profit;
-                }
-            });
-            
-            total1.profitRate = total1.amt > 0 ? (total1.profit / total1.amt * 100) : 0;
-            total2.profitRate = total2.amt > 0 ? (total2.profit / total2.amt * 100) : 0;
+        // 計算總計（排除Care）
+        let total1Qty = 0;
+        let total1Amt = 0;
+        let total1Profit = 0;
+        let total2Qty = 0;
+        let total2Amt = 0;
+        let total2Profit = 0;
 
-            const tQtyYoY = calculateYoY(total1.qty, total2.qty);
-            const tAmtYoY = calculateYoY(total1.amt, total2.amt);
-            const tProfitYoY = calculateYoY(total1.profit, total2.profit);
-            const tProfitRateYoY = total2.profitRate - total1.profitRate;
+        targetCategories.forEach(category => {
+            if (category !== 'Care') {
+                const cat1 = data1.categories[category];
+                const cat2 = data2.categories[category];
+                total1Qty += cat1.qty;
+                total1Amt += cat1.amt;
+                total1Profit += cat1.profit;
+                total2Qty += cat2.qty;
+                total2Amt += cat2.amt;
+                total2Profit += cat2.profit;
+            }
+        });
 
-            html += `
-                <tr style="font-weight: 700;">
-                    <td style="background: #fffbf0 !important; border-left: 4px solid #f39c12;"><strong>總計（排除Care）</strong></td>
-                    <td class="number" style="background: white !important;">${total1.qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important;">${total2.qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important;">
-                        <span class="yoy-badge ${tQtyYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(tQtyYoY)}
-                        </span>
-                    </td>
-                    <td class="number" style="background: white !important;">${formatAmount(total1.amt)}</td>
-                    <td class="number" style="background: white !important;">${formatAmount(total2.amt)}</td>
-                    <td class="number" style="background: white !important;">
-                        <span class="yoy-badge ${tAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(tAmtYoY)}
-                        </span>
-                    </td>
-                    <td class="number" style="background: white !important;">${formatAmount(total1.profit)}</td>
-                    <td class="number" style="background: white !important;">${formatAmount(total2.profit)}</td>
-                    <td class="number" style="background: white !important;">
-                        <span class="yoy-badge ${tProfitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(tProfitYoY)}
-                        </span>
-                    </td>
-                    <td class="number" style="background: white !important;">${total1.profitRate.toFixed(2)}%</td>
-                    <td class="number" style="background: white !important;">${total2.profitRate.toFixed(2)}%</td>
-                    <td class="number" style="background: white !important;">
-                        <span class="yoy-badge ${tProfitRateYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${tProfitRateYoY >= 0 ? '+' : ''}${tProfitRateYoY.toFixed(2)}%
-                        </span>
-                    </td>
-                </tr>
-                        </tbody>
-                    </table>
-                </div>
+        const total1ProfitRate = total1Amt > 0 ? (total1Profit / total1Amt * 100) : 0;
+        const total2ProfitRate = total2Amt > 0 ? (total2Profit / total2Amt * 100) : 0;
 
-                <!-- Care 搭售率分析 -->
-                <h3 style="font-size: 1.5em; color: #3b82f6; margin: 40px 0 15px 0;">
-                    💚 Care 產品搭售率分析
-                </h3>
-                <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
-                    ※ 搭售率 = (ACPP+ + iCPP) / 主機銷售數量 × 100%
-                </p>
+        const totalQtyYoY = calculateYoY(total1Qty, total2Qty);
+        const totalAmtYoY = calculateYoY(total1Amt, total2Amt);
+        const totalProfitYoY = calculateYoY(total1Profit, total2Profit);
+        const totalProfitRateYoY = total2ProfitRate - total1ProfitRate;
 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th rowspan="2">產品類別</th>
-                                <th colspan="3" class="number">Care 銷售數量</th>
-                                <th colspan="3" class="number">Care 銷售金額</th>
-                                <th colspan="3" class="number">主機銷售數量</th>
-                                <th colspan="3" class="number">搭售率</th>
-                            </tr>
-                            <tr>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">成長率</th>
-                                <th class="number">${period1Name}</th>
-                                <th class="number">${period2Name}</th>
-                                <th class="number">差異</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
+        html += `
+            <tr style="font-weight: 700; background: #fffbf0 !important;">
+                <td style="background: #fffbf0 !important; border-left: 4px solid #f39c12; border-top: 3px solid #2c3e50; padding-top: 15px;"><strong>總計（排除Care）</strong></td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total1Qty.toLocaleString()}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total2Qty.toLocaleString()}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                    <span class="yoy-badge ${totalQtyYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(totalQtyYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total1Amt)}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total2Amt)}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                    <span class="yoy-badge ${totalAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(totalAmtYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total1Profit)}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(total2Profit)}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                    <span class="yoy-badge ${totalProfitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(totalProfitYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total1ProfitRate.toFixed(2)}%</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${total2ProfitRate.toFixed(2)}%</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                    <span class="yoy-badge ${totalProfitRateYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${totalProfitRateYoY >= 0 ? '+' : ''}${totalProfitRateYoY.toFixed(2)}%
+                    </span>
+                </td>
+            </tr>
+        `;
 
-            // Care搭售率計算
-            const careProducts = [
-                { name: 'CPU', careKeys: ['CPU ACPP+', 'CPU iCPP'], mainCategory: 'CPU' },
-                { name: 'iPad', careKeys: ['iPad ACPP+', 'iPad iCPP'], mainCategory: 'iPad' },
-                { name: 'iPhone', careKeys: ['iPhone ACPP+', 'iPhone iCPP'], mainCategory: 'iPhone' },
-                { name: 'Apple Watch', careKeys: ['AW ACPP+', 'AW iCPP'], mainCategory: 'Apple Watch' },
-                { name: 'AirPods', careKeys: ['AirPods ACPP+', 'AirPods iCPP', 'AirPords iCPP'], mainCategory: 'AirPods' }
-            ];
+        html += `
+                    </tbody>
+                </table>
+            </div>
 
-            careProducts.forEach(product => {
-                // 計算去年的Care數量和金額
-                let care1Qty = 0;
-                let care1Amt = 0;
-                if (data1.careByMidCategory) {
-                    product.careKeys.forEach(key => {
-                        care1Qty += data1.careByMidCategory[key]?.qty || 0;
-                        care1Amt += data1.careByMidCategory[key]?.amt || 0;
-                    });
-                }
+            <h3 style="font-size: 1.5em; color: #3b82f6; margin: 40px 0 15px 0;">
+                📊 總計摘要
+            </h3>
+            <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
+                ※ 周邊業績 = AirPods + Audio + Accy + 3rd Party<br>
+                ※ 總計數據排除 Care
+            </p>
 
-                // 計算今年的Care數量和金額
-                let care2Qty = 0;
-                let care2Amt = 0;
-                if (data2.careByMidCategory) {
-                    product.careKeys.forEach(key => {
-                        care2Qty += data2.careByMidCategory[key]?.qty || 0;
-                        care2Amt += data2.careByMidCategory[key]?.amt || 0;
-                    });
-                }
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">項目</th>
+                            <th colspan="3" class="number">銷售數量</th>
+                            <th colspan="3" class="number">銷售金額</th>
+                            <th colspan="3" class="number">毛利額</th>
+                            <th colspan="3" class="number">毛利率</th>
+                        </tr>
+                        <tr>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">成長率</th>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">成長率</th>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">成長率</th>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">差異</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
 
-                // 主機數量
-                const main1Qty = data1.categories[product.mainCategory]?.qty || 0;
-                const main2Qty = data2.categories[product.mainCategory]?.qty || 0;
+        // 計算周邊業績 = AirPods + Audio + Accy + 3rd Party
+        const peripheralCategories = ['AirPods', 'Audio', 'Accy', '3rd Party'];
+        let peripheral1 = { qty: 0, amt: 0, profit: 0 };
+        let peripheral2 = { qty: 0, amt: 0, profit: 0 };
+        
+        peripheralCategories.forEach(cat => {
+            peripheral1.qty += data1.categories[cat].qty;
+            peripheral1.amt += data1.categories[cat].amt;
+            peripheral1.profit += data1.categories[cat].profit;
+            peripheral2.qty += data2.categories[cat].qty;
+            peripheral2.amt += data2.categories[cat].amt;
+            peripheral2.profit += data2.categories[cat].profit;
+        });
+        
+        peripheral1.profitRate = peripheral1.amt > 0 ? (peripheral1.profit / peripheral1.amt * 100) : 0;
+        peripheral2.profitRate = peripheral2.amt > 0 ? (peripheral2.profit / peripheral2.amt * 100) : 0;
 
-                // 搭售率
-                const rate1 = main1Qty > 0 ? (care1Qty / main1Qty * 100) : 0;
-                const rate2 = main2Qty > 0 ? (care2Qty / main2Qty * 100) : 0;
+        const pQtyYoY = calculateYoY(peripheral1.qty, peripheral2.qty);
+        const pAmtYoY = calculateYoY(peripheral1.amt, peripheral2.amt);
+        const pProfitYoY = calculateYoY(peripheral1.profit, peripheral2.profit);
+        const pProfitRateYoY = peripheral2.profitRate - peripheral1.profitRate;
 
-                // YoY
-                const careYoY = calculateYoY(care1Qty, care2Qty);
-                const careAmtYoY = calculateYoY(care1Amt, care2Amt);
-                const mainYoY = calculateYoY(main1Qty, main2Qty);
-                const rateDiff = rate2 - rate1;
+        html += `
+            <tr style="font-weight: 600;">
+                <td style="background: #f0f4f8 !important; border-left: 4px solid #5a6c7d;"><strong>周邊業績</strong></td>
+                <td class="number" style="background: white !important;">${peripheral1.qty.toLocaleString()}</td>
+                <td class="number" style="background: white !important;">${peripheral2.qty.toLocaleString()}</td>
+                <td class="number" style="background: white !important;">
+                    <span class="yoy-badge ${pQtyYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(pQtyYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important;">${formatAmount(peripheral1.amt)}</td>
+                <td class="number" style="background: white !important;">${formatAmount(peripheral2.amt)}</td>
+                <td class="number" style="background: white !important;">
+                    <span class="yoy-badge ${pAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(pAmtYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important;">${formatAmount(peripheral1.profit)}</td>
+                <td class="number" style="background: white !important;">${formatAmount(peripheral2.profit)}</td>
+                <td class="number" style="background: white !important;">
+                    <span class="yoy-badge ${pProfitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(pProfitYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important;">${peripheral1.profitRate.toFixed(2)}%</td>
+                <td class="number" style="background: white !important;">${peripheral2.profitRate.toFixed(2)}%</td>
+                <td class="number" style="background: white !important;">
+                    <span class="yoy-badge ${pProfitRateYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${pProfitRateYoY >= 0 ? '+' : ''}${pProfitRateYoY.toFixed(2)}%
+                    </span>
+                </td>
+            </tr>
+        `;
 
-                html += `
-                    <tr>
-                        <td style="background: #f0f4f8 !important;"><strong>${product.name}</strong></td>
-                        <td class="number">${care1Qty.toLocaleString()}</td>
-                        <td class="number">${care2Qty.toLocaleString()}</td>
-                        <td class="number">
-                            <span class="yoy-badge ${careYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                                ${formatYoY(careYoY)}
-                            </span>
-                        </td>
-                        <td class="number">${formatAmount(care1Amt)}</td>
-                        <td class="number">${formatAmount(care2Amt)}</td>
-                        <td class="number">
-                            <span class="yoy-badge ${careAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                                ${formatYoY(careAmtYoY)}
-                            </span>
-                        </td>
-                        <td class="number">${main1Qty.toLocaleString()}</td>
-                        <td class="number">${main2Qty.toLocaleString()}</td>
-                        <td class="number">
-                            <span class="yoy-badge ${mainYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                                ${formatYoY(mainYoY)}
-                            </span>
-                        </td>
-                        <td class="number">${rate1.toFixed(2)}%</td>
-                        <td class="number">${rate2.toFixed(2)}%</td>
-                        <td class="number">
-                            <span class="yoy-badge ${rateDiff >= 0 ? 'yoy-up' : 'yoy-down'}">
-                                ${rateDiff >= 0 ? '+' : ''}${rateDiff.toFixed(2)}%
-                            </span>
-                        </td>
-                    </tr>
-                `;
-            });
+        // 計算總計（排除Care）
+        const excludeCategories = ['Care'];
+        let total1 = { qty: 0, amt: 0, profit: 0 };
+        let total2 = { qty: 0, amt: 0, profit: 0 };
+        
+        targetCategories.forEach(cat => {
+            if (!excludeCategories.includes(cat)) {
+                total1.qty += data1.categories[cat].qty;
+                total1.amt += data1.categories[cat].amt;
+                total1.profit += data1.categories[cat].profit;
+                total2.qty += data2.categories[cat].qty;
+                total2.amt += data2.categories[cat].amt;
+                total2.profit += data2.categories[cat].profit;
+            }
+        });
+        
+        total1.profitRate = total1.amt > 0 ? (total1.profit / total1.amt * 100) : 0;
+        total2.profitRate = total2.amt > 0 ? (total2.profit / total2.amt * 100) : 0;
 
-            // 計算總計
-            let totalCare1Qty = 0;
-            let totalCare1Amt = 0;
-            let totalCare2Qty = 0;
-            let totalCare2Amt = 0;
-            let totalMain1Qty = 0;
-            let totalMain2Qty = 0;
+        const tQtyYoY = calculateYoY(total1.qty, total2.qty);
+        const tAmtYoY = calculateYoY(total1.amt, total2.amt);
+        const tProfitYoY = calculateYoY(total1.profit, total2.profit);
+        const tProfitRateYoY = total2.profitRate - total1.profitRate;
 
-            careProducts.forEach(product => {
-                // 計算去年的Care數量和金額
-                if (data1.careByMidCategory) {
-                    product.careKeys.forEach(key => {
-                        totalCare1Qty += data1.careByMidCategory[key]?.qty || 0;
-                        totalCare1Amt += data1.careByMidCategory[key]?.amt || 0;
-                    });
-                }
+        html += `
+            <tr style="font-weight: 700;">
+                <td style="background: #fffbf0 !important; border-left: 4px solid #f39c12;"><strong>總計（排除Care）</strong></td>
+                <td class="number" style="background: white !important;">${total1.qty.toLocaleString()}</td>
+                <td class="number" style="background: white !important;">${total2.qty.toLocaleString()}</td>
+                <td class="number" style="background: white !important;">
+                    <span class="yoy-badge ${tQtyYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(tQtyYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important;">${formatAmount(total1.amt)}</td>
+                <td class="number" style="background: white !important;">${formatAmount(total2.amt)}</td>
+                <td class="number" style="background: white !important;">
+                    <span class="yoy-badge ${tAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(tAmtYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important;">${formatAmount(total1.profit)}</td>
+                <td class="number" style="background: white !important;">${formatAmount(total2.profit)}</td>
+                <td class="number" style="background: white !important;">
+                    <span class="yoy-badge ${tProfitYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(tProfitYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important;">${total1.profitRate.toFixed(2)}%</td>
+                <td class="number" style="background: white !important;">${total2.profitRate.toFixed(2)}%</td>
+                <td class="number" style="background: white !important;">
+                    <span class="yoy-badge ${tProfitRateYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${tProfitRateYoY >= 0 ? '+' : ''}${tProfitRateYoY.toFixed(2)}%
+                    </span>
+                </td>
+            </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                // 計算今年的Care數量和金額
-                if (data2.careByMidCategory) {
-                    product.careKeys.forEach(key => {
-                        totalCare2Qty += data2.careByMidCategory[key]?.qty || 0;
-                        totalCare2Amt += data2.careByMidCategory[key]?.amt || 0;
-                    });
-                }
+            <!-- Care 搭售率分析 -->
+            <h3 style="font-size: 1.5em; color: #3b82f6; margin: 40px 0 15px 0;">
+                💚 Care 產品搭售率分析
+            </h3>
+            <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
+                ※ 搭售率 = (ACPP+ + iCPP) / 主機銷售數量 × 100%
+            </p>
 
-                // 主機數量
-                totalMain1Qty += data1.categories[product.mainCategory]?.qty || 0;
-                totalMain2Qty += data2.categories[product.mainCategory]?.qty || 0;
-            });
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">產品類別</th>
+                            <th colspan="3" class="number">Care 銷售數量</th>
+                            <th colspan="3" class="number">Care 銷售金額</th>
+                            <th colspan="3" class="number">主機銷售數量</th>
+                            <th colspan="3" class="number">搭售率</th>
+                        </tr>
+                        <tr>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">成長率</th>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">成長率</th>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">成長率</th>
+                            <th class="number">${period1Name}</th>
+                            <th class="number">${period2Name}</th>
+                            <th class="number">差異</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
 
-            // 總搭售率
-            const totalRate1 = totalMain1Qty > 0 ? (totalCare1Qty / totalMain1Qty * 100) : 0;
-            const totalRate2 = totalMain2Qty > 0 ? (totalCare2Qty / totalMain2Qty * 100) : 0;
+        // Care搭售率計算
+        const careProducts = [
+            { name: 'CPU', careKeys: ['CPU ACPP+', 'CPU iCPP'], mainCategory: 'CPU' },
+            { name: 'iPad', careKeys: ['iPad ACPP+', 'iPad iCPP'], mainCategory: 'iPad' },
+            { name: 'iPhone', careKeys: ['iPhone ACPP+', 'iPhone iCPP'], mainCategory: 'iPhone' },
+            { name: 'Apple Watch', careKeys: ['AW ACPP+', 'AW iCPP'], mainCategory: 'Apple Watch' },
+            { name: 'AirPods', careKeys: ['AirPods ACPP+', 'AirPods iCPP', 'AirPords iCPP'], mainCategory: 'AirPods' }
+        ];
+
+        careProducts.forEach(product => {
+            // 計算去年的Care數量和金額
+            let care1Qty = 0;
+            let care1Amt = 0;
+            if (data1.careByMidCategory) {
+                product.careKeys.forEach(key => {
+                    care1Qty += data1.careByMidCategory[key]?.qty || 0;
+                    care1Amt += data1.careByMidCategory[key]?.amt || 0;
+                });
+            }
+
+            // 計算今年的Care數量和金額
+            let care2Qty = 0;
+            let care2Amt = 0;
+            if (data2.careByMidCategory) {
+                product.careKeys.forEach(key => {
+                    care2Qty += data2.careByMidCategory[key]?.qty || 0;
+                    care2Amt += data2.careByMidCategory[key]?.amt || 0;
+                });
+            }
+
+            // 主機數量
+            const main1Qty = data1.categories[product.mainCategory]?.qty || 0;
+            const main2Qty = data2.categories[product.mainCategory]?.qty || 0;
+
+            // 搭售率
+            const rate1 = main1Qty > 0 ? (care1Qty / main1Qty * 100) : 0;
+            const rate2 = main2Qty > 0 ? (care2Qty / main2Qty * 100) : 0;
 
             // YoY
-            const totalCareYoY = calculateYoY(totalCare1Qty, totalCare2Qty);
-            const totalCareAmtYoY = calculateYoY(totalCare1Amt, totalCare2Amt);
-            const totalMainYoY = calculateYoY(totalMain1Qty, totalMain2Qty);
-            const totalRateDiff = totalRate2 - totalRate1;
+            const careYoY = calculateYoY(care1Qty, care2Qty);
+            const careAmtYoY = calculateYoY(care1Amt, care2Amt);
+            const mainYoY = calculateYoY(main1Qty, main2Qty);
+            const rateDiff = rate2 - rate1;
 
             html += `
-                <tr style="font-weight: 700; background: #fffbf0 !important;">
-                    <td style="background: #fffbf0 !important; border-left: 4px solid #f39c12; border-top: 3px solid #2c3e50; padding-top: 15px;"><strong>總計</strong></td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalCare1Qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalCare2Qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
-                        <span class="yoy-badge ${totalCareYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(totalCareYoY)}
+                <tr>
+                    <td style="background: #f0f4f8 !important;"><strong>${product.name}</strong></td>
+                    <td class="number">${care1Qty.toLocaleString()}</td>
+                    <td class="number">${care2Qty.toLocaleString()}</td>
+                    <td class="number">
+                        <span class="yoy-badge ${careYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${formatYoY(careYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(totalCare1Amt)}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(totalCare2Amt)}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
-                        <span class="yoy-badge ${totalCareAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(totalCareAmtYoY)}
+                    <td class="number">${formatAmount(care1Amt)}</td>
+                    <td class="number">${formatAmount(care2Amt)}</td>
+                    <td class="number">
+                        <span class="yoy-badge ${careAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${formatYoY(careAmtYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalMain1Qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalMain2Qty.toLocaleString()}</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
-                        <span class="yoy-badge ${totalMainYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${formatYoY(totalMainYoY)}
+                    <td class="number">${main1Qty.toLocaleString()}</td>
+                    <td class="number">${main2Qty.toLocaleString()}</td>
+                    <td class="number">
+                        <span class="yoy-badge ${mainYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${formatYoY(mainYoY)}
                         </span>
                     </td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalRate1.toFixed(2)}%</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalRate2.toFixed(2)}%</td>
-                    <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
-                        <span class="yoy-badge ${totalRateDiff >= 0 ? 'yoy-up' : 'yoy-down'}">
-                            ${totalRateDiff >= 0 ? '+' : ''}${totalRateDiff.toFixed(2)}%
+                    <td class="number">${rate1.toFixed(2)}%</td>
+                    <td class="number">${rate2.toFixed(2)}%</td>
+                    <td class="number">
+                        <span class="yoy-badge ${rateDiff >= 0 ? 'yoy-up' : 'yoy-down'}">
+                            ${rateDiff >= 0 ? '+' : ''}${rateDiff.toFixed(2)}%
                         </span>
                     </td>
                 </tr>
             `;
+        });
+
+        // 計算總計
+        let totalCare1Qty = 0;
+        let totalCare1Amt = 0;
+        let totalCare2Qty = 0;
+        let totalCare2Amt = 0;
+        let totalMain1Qty = 0;
+        let totalMain2Qty = 0;
+
+        careProducts.forEach(product => {
+            // 計算去年的Care數量和金額
+            if (data1.careByMidCategory) {
+                product.careKeys.forEach(key => {
+                    totalCare1Qty += data1.careByMidCategory[key]?.qty || 0;
+                    totalCare1Amt += data1.careByMidCategory[key]?.amt || 0;
+                });
+            }
+
+            // 計算今年的Care數量和金額
+            if (data2.careByMidCategory) {
+                product.careKeys.forEach(key => {
+                    totalCare2Qty += data2.careByMidCategory[key]?.qty || 0;
+                    totalCare2Amt += data2.careByMidCategory[key]?.amt || 0;
+                });
+            }
+
+            // 主機數量
+            totalMain1Qty += data1.categories[product.mainCategory]?.qty || 0;
+            totalMain2Qty += data2.categories[product.mainCategory]?.qty || 0;
+        });
+
+        // 總搭售率
+        const totalRate1 = totalMain1Qty > 0 ? (totalCare1Qty / totalMain1Qty * 100) : 0;
+        const totalRate2 = totalMain2Qty > 0 ? (totalCare2Qty / totalMain2Qty * 100) : 0;
+
+        // YoY
+        const totalCareYoY = calculateYoY(totalCare1Qty, totalCare2Qty);
+        const totalCareAmtYoY = calculateYoY(totalCare1Amt, totalCare2Amt);
+        const totalMainYoY = calculateYoY(totalMain1Qty, totalMain2Qty);
+        const totalRateDiff = totalRate2 - totalRate1;
+
+        html += `
+            <tr style="font-weight: 700; background: #fffbf0 !important;">
+                <td style="background: #fffbf0 !important; border-left: 4px solid #f39c12; border-top: 3px solid #2c3e50; padding-top: 15px;"><strong>總計</strong></td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalCare1Qty.toLocaleString()}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalCare2Qty.toLocaleString()}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                    <span class="yoy-badge ${totalCareYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(totalCareYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(totalCare1Amt)}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${formatAmount(totalCare2Amt)}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                    <span class="yoy-badge ${totalCareAmtYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(totalCareAmtYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalMain1Qty.toLocaleString()}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalMain2Qty.toLocaleString()}</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                    <span class="yoy-badge ${totalMainYoY >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${formatYoY(totalMainYoY)}
+                    </span>
+                </td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalRate1.toFixed(2)}%</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">${totalRate2.toFixed(2)}%</td>
+                <td class="number" style="background: white !important; border-top: 3px solid #2c3e50; padding-top: 15px;">
+                    <span class="yoy-badge ${totalRateDiff >= 0 ? 'yoy-up' : 'yoy-down'}">
+                        ${totalRateDiff >= 0 ? '+' : ''}${totalRateDiff.toFixed(2)}%
+                    </span>
+                </td>
+            </tr>
+        `;
+
+        html += `
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="top3-section">
+                <h3 style="font-size: 1.5em; color: #3b82f6; margin-bottom: 15px;">
+                    🏆 各大分類熱銷品項 Top 3 對比
+                </h3>
+                <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
+                    ※ CPU、iPad、iPhone、Apple Watch、AirPods、Care、3rd Party 使用<strong>中分類</strong>排名<br>
+                    ※ Audio、Accy 使用<strong>小分類</strong>排名
+                </p>
+        `;
+
+        targetCategories.forEach(bigCategory => {
+            const categoryData1 = data1.categoryTop3[bigCategory];
+            const categoryData2 = data2.categoryTop3[bigCategory];
+            
+            // 只要任一期間有資料就顯示
+            const hasData1 = categoryData1 && categoryData1.top3Qty.length > 0;
+            const hasData2 = categoryData2 && categoryData2.top3Qty.length > 0;
+            
+            if (!hasData1 && !hasData2) return;
+
+            const classificationText = smallCategoryList.includes(bigCategory) ? '小分類' : '中分類';
 
             html += `
-                        </tbody>
-                    </table>
+                <div class="category-header">
+                    <h4>${bigCategory} - ${classificationText}排名</h4>
                 </div>
-
-                <div class="top3-section">
-                    <h3 style="font-size: 1.5em; color: #3b82f6; margin-bottom: 15px;">
-                        🏆 各大分類熱銷品項 Top 3 對比
-                    </h3>
-                    <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
-                        ※ CPU、iPad、iPhone、Apple Watch、AirPods、Care、3rd Party 使用<strong>中分類</strong>排名<br>
-                        ※ Audio、Accy 使用<strong>小分類</strong>排名
-                    </p>
+                
+                <h4 style="color: #3b82f6; margin: 20px 0 10px 0;">📦 按銷售數量排名</h4>
+                <div class="comparison-split">
+                    <div class="period-section">
+                        <h4><span class="period-badge period-1">${period1Name}</span></h4>
             `;
 
-            targetCategories.forEach(bigCategory => {
-                const categoryData1 = data1.categoryTop3[bigCategory];
-                const categoryData2 = data2.categoryTop3[bigCategory];
-                
-                // 只要任一期間有資料就顯示
-                const hasData1 = categoryData1 && categoryData1.top3Qty.length > 0;
-                const hasData2 = categoryData2 && categoryData2.top3Qty.length > 0;
-                
-                if (!hasData1 && !hasData2) return;
-
-                const classificationText = smallCategoryList.includes(bigCategory) ? '小分類' : '中分類';
-
-                html += `
-                    <div class="category-header">
-                        <h4>${bigCategory} - ${classificationText}排名</h4>
-                    </div>
-                    
-                    <h4 style="color: #3b82f6; margin: 20px 0 10px 0;">📦 按銷售數量排名</h4>
-                    <div class="comparison-split">
-                        <div class="period-section">
-                            <h4><span class="period-badge period-1">${period1Name}</span></h4>
-                `;
-
-                if (hasData1) {
-                    const total1Qty = categoryData1.totalQty || 0;
-                    categoryData1.top3Qty.forEach((item, index) => {
-                        const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
-                        const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
-                        const percentage = total1Qty > 0 ? ((item.qty / total1Qty) * 100).toFixed(1) : 0;
-                        html += `
-                            <div class="rank-item">
-                                <div class="rank-number">${index + 1}</div>
-                                <div class="rank-info">
-                                    <div class="rank-name">
-                                        <span style="flex: 1;">${item.name}</span>
-                                        <span class="percentage-badge">佔比 ${percentage}%</span>
-                                    </div>
-                                    <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
-                                        數量: ${qtyDisplay} | 金額: ${amtDisplay}
-                                    </div>
+            if (hasData1) {
+                const total1Qty = categoryData1.totalQty || 0;
+                categoryData1.top3Qty.forEach((item, index) => {
+                    const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
+                    const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
+                    const percentage = total1Qty > 0 ? ((item.qty / total1Qty) * 100).toFixed(1) : 0;
+                    html += `
+                        <div class="rank-item">
+                            <div class="rank-number">${index + 1}</div>
+                            <div class="rank-info">
+                                <div class="rank-name">
+                                    <span style="flex: 1;">${item.name}</span>
+                                    <span class="percentage-badge">佔比 ${percentage}%</span>
+                                </div>
+                                <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
+                                    數量: ${qtyDisplay} | 金額: ${amtDisplay}
                                 </div>
                             </div>
-                        `;
-                    });
-                    // 顯示大分類總銷售數量
-                    const bigCatQty1 = data1.categories[bigCategory]?.qty || 0;
-                    html += `
-                        <div style="margin-top: 15px; padding: 12px; background: #dbeafe; border-left: 4px solid #3b82f6; border-radius: 5px;">
-                            <strong style="color: #333;">📊 ${bigCategory} 總銷售數量：</strong>
-                            <span style="color: #3b82f6; font-weight: bold; font-size: 1.1em;">${bigCatQty1.toLocaleString()} 件</span>
                         </div>
                     `;
-                } else {
-                    html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
-                }
-
+                });
+                // 顯示大分類總銷售數量
+                const bigCatQty1 = data1.categories[bigCategory]?.qty || 0;
                 html += `
-                        </div>
-                        <div class="period-section">
-                            <h4><span class="period-badge period-2">${period2Name}</span></h4>
+                    <div style="margin-top: 15px; padding: 12px; background: #dbeafe; border-left: 4px solid #3b82f6; border-radius: 5px;">
+                        <strong style="color: #333;">📊 ${bigCategory} 總銷售數量：</strong>
+                        <span style="color: #3b82f6; font-weight: bold; font-size: 1.1em;">${bigCatQty1.toLocaleString()} 件</span>
+                    </div>
                 `;
-
-                if (hasData2) {
-                    const total2Qty = categoryData2.totalQty || 0;
-                    categoryData2.top3Qty.forEach((item, index) => {
-                        const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
-                        const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
-                        const percentage = total2Qty > 0 ? ((item.qty / total2Qty) * 100).toFixed(1) : 0;
-                        html += `
-                            <div class="rank-item">
-                                <div class="rank-number">${index + 1}</div>
-                                <div class="rank-info">
-                                    <div class="rank-name">
-                                        <span style="flex: 1;">${item.name}</span>
-                                        <span class="percentage-badge">佔比 ${percentage}%</span>
-                                    </div>
-                                    <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
-                                        數量: ${qtyDisplay} | 金額: ${amtDisplay}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    // 顯示大分類總銷售數量
-                    const bigCatQty2 = data2.categories[bigCategory]?.qty || 0;
-                    html += `
-                        <div style="margin-top: 15px; padding: 12px; background: #ede9fe; border-left: 4px solid #8b5cf6; border-radius: 5px;">
-                            <strong style="color: #333;">📊 ${bigCategory} 總銷售數量：</strong>
-                            <span style="color: #8b5cf6; font-weight: bold; font-size: 1.1em;">${bigCatQty2.toLocaleString()} 件</span>
-                        </div>
-                    `;
-                } else {
-                    html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
-                }
-
-                html += `
-                        </div>
-                    </div>
-
-                    <h4 style="color: #3b82f6; margin: 20px 0 10px 0;">💰 按銷售金額排名</h4>
-                    <div class="comparison-split">
-                        <div class="period-section">
-                            <h4><span class="period-badge period-1">${period1Name}</span></h4>
-                `;
-
-                if (hasData1) {
-                    const total1Amt = categoryData1.totalAmt || 0;
-                    categoryData1.top3Amt.forEach((item, index) => {
-                        const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
-                        const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
-                        const percentage = total1Amt > 0 ? ((item.amt / total1Amt) * 100).toFixed(1) : 0;
-                        html += `
-                            <div class="rank-item">
-                                <div class="rank-number">${index + 1}</div>
-                                <div class="rank-info">
-                                    <div class="rank-name">
-                                        ${item.name}
-                                        <span class="percentage-badge">佔比 ${percentage}%</span>
-                                    </div>
-                                    <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
-                                        數量: ${qtyDisplay} | 金額: ${amtDisplay}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    // 顯示大分類總銷售金額
-                    const bigCatAmt1 = data1.categories[bigCategory]?.amt || 0;
-                    html += `
-                        <div style="margin-top: 15px; padding: 12px; background: #dbeafe; border-left: 4px solid #3b82f6; border-radius: 5px;">
-                            <strong style="color: #333;">💰 ${bigCategory} 總銷售金額：</strong>
-                            <span style="color: #3b82f6; font-weight: bold; font-size: 1.1em;">${formatAmount(bigCatAmt1)}</span>
-                        </div>
-                    `;
-                } else {
-                    html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
-                }
-
-                html += `
-                        </div>
-                        <div class="period-section">
-                            <h4><span class="period-badge period-2">${period2Name}</span></h4>
-                `;
-
-                if (hasData2) {
-                    const total2Amt = categoryData2.totalAmt || 0;
-                    categoryData2.top3Amt.forEach((item, index) => {
-                        const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
-                        const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
-                        const percentage = total2Amt > 0 ? ((item.amt / total2Amt) * 100).toFixed(1) : 0;
-                        html += `
-                            <div class="rank-item">
-                                <div class="rank-number">${index + 1}</div>
-                                <div class="rank-info">
-                                    <div class="rank-name">
-                                        ${item.name}
-                                        <span class="percentage-badge">佔比 ${percentage}%</span>
-                                    </div>
-                                    <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
-                                        數量: ${qtyDisplay} | 金額: ${amtDisplay}
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    // 顯示大分類總銷售金額
-                    const bigCatAmt2 = data2.categories[bigCategory]?.amt || 0;
-                    html += `
-                        <div style="margin-top: 15px; padding: 12px; background: #ede9fe; border-left: 4px solid #8b5cf6; border-radius: 5px;">
-                            <strong style="color: #333;">💰 ${bigCategory} 總銷售金額：</strong>
-                            <span style="color: #8b5cf6; font-weight: bold; font-size: 1.1em;">${formatAmount(bigCatAmt2)}</span>
-                        </div>
-                    `;
-                } else {
-                    html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
-                }
-
-                // 添加圖表
-                if (hasData1 || hasData2) {
-                    const chartId = `chart-${storeId}-${bigCategory.replace(/\s+/g, '-')}`;
-                    
-                    // 判斷是否需要顯示大分類摘要
-                    const showCategorySummary = ['CPU', 'iPad', 'iPhone', 'Apple Watch', 'AirPods', 'Audio', 'Care', 'Accy', '3rd Party'].includes(bigCategory);
-                    
-                    html += `
-                        </div>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <h4>📊 ${bigCategory} ${classificationText}銷售數量對比</h4>
-                    `;
-                    
-                    // 如果需要顯示大分類摘要
-                    if (showCategorySummary) {
-                        const qty1 = data1.categories[bigCategory]?.qty || 0;
-                        const qty2 = data2.categories[bigCategory]?.qty || 0;
-                        const growthRate = qty1 > 0 ? ((qty2 - qty1) / qty1 * 100) : 0;
-                        const growthQty = qty2 - qty1;
-                        const growthColor = growthRate >= 0 ? '#10b981' : '#ef4444';
-                        const growthQtyText = (growthQty >= 0 ? '+' : '') + growthQty.toLocaleString() + '件';
-                        const growthRateText = (growthRate >= 0 ? '+' : '') + growthRate.toFixed(2) + '%';
-                        
-                        html += `
-                        <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 30px;">
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <span style="display: inline-block; width: 16px; height: 16px; background: rgba(25, 118, 210, 0.7); border: 2px solid rgba(25, 118, 210, 1); border-radius: 3px;"></span>
-                                <span style="color: #1976d2; font-weight: bold;">去年：${qty1.toLocaleString()}件</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <span style="display: inline-block; width: 16px; height: 16px; background: rgba(123, 31, 162, 0.7); border: 2px solid rgba(123, 31, 162, 1); border-radius: 3px;"></span>
-                                <span style="color: #7b1fa2; font-weight: bold;">今年：${qty2.toLocaleString()}件</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <span style="color: ${growthColor}; font-weight: bold; font-size: 1.1em;">${growthQtyText} ${growthRateText}</span>
-                            </div>
-                        </div>
-                        `;
-                    }
-                    
-                    html += `
-                        <div class="chart-wrapper">
-                            <canvas id="${chartId}"></canvas>
-                        </div>
-                    </div>
-                    `;
-                } else {
-                    html += `
-                        </div>
-                    </div>
-                    `;
-                }
-            });
+            } else {
+                html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
+            }
 
             html += `
-                </div>
+                    </div>
+                    <div class="period-section">
+                        <h4><span class="period-badge period-2">${period2Name}</span></h4>
             `;
 
-            contentContainer.innerHTML = html;
+            if (hasData2) {
+                const total2Qty = categoryData2.totalQty || 0;
+                categoryData2.top3Qty.forEach((item, index) => {
+                    const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
+                    const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
+                    const percentage = total2Qty > 0 ? ((item.qty / total2Qty) * 100).toFixed(1) : 0;
+                    html += `
+                        <div class="rank-item">
+                            <div class="rank-number">${index + 1}</div>
+                            <div class="rank-info">
+                                <div class="rank-name">
+                                    <span style="flex: 1;">${item.name}</span>
+                                    <span class="percentage-badge">佔比 ${percentage}%</span>
+                                </div>
+                                <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
+                                    數量: ${qtyDisplay} | 金額: ${amtDisplay}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                // 顯示大分類總銷售數量
+                const bigCatQty2 = data2.categories[bigCategory]?.qty || 0;
+                html += `
+                    <div style="margin-top: 15px; padding: 12px; background: #ede9fe; border-left: 4px solid #8b5cf6; border-radius: 5px;">
+                        <strong style="color: #333;">📊 ${bigCategory} 總銷售數量：</strong>
+                        <span style="color: #8b5cf6; font-weight: bold; font-size: 1.1em;">${bigCatQty2.toLocaleString()} 件</span>
+                    </div>
+                `;
+            } else {
+                html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
+            }
 
-            // 名稱標準化函數
-            function normalizeProductName(name, category) {
-                if (!name) return name;
+            html += `
+                    </div>
+                </div>
+
+                <h4 style="color: #3b82f6; margin: 20px 0 10px 0;">💰 按銷售金額排名</h4>
+                <div class="comparison-split">
+                    <div class="period-section">
+                        <h4><span class="period-badge period-1">${period1Name}</span></h4>
+            `;
+
+            if (hasData1) {
+                const total1Amt = categoryData1.totalAmt || 0;
+                categoryData1.top3Amt.forEach((item, index) => {
+                    const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
+                    const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
+                    const percentage = total1Amt > 0 ? ((item.amt / total1Amt) * 100).toFixed(1) : 0;
+                    html += `
+                        <div class="rank-item">
+                            <div class="rank-number">${index + 1}</div>
+                            <div class="rank-info">
+                                <div class="rank-name">
+                                    ${item.name}
+                                    <span class="percentage-badge">佔比 ${percentage}%</span>
+                                </div>
+                                <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
+                                    數量: ${qtyDisplay} | 金額: ${amtDisplay}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                // 顯示大分類總銷售金額
+                const bigCatAmt1 = data1.categories[bigCategory]?.amt || 0;
+                html += `
+                    <div style="margin-top: 15px; padding: 12px; background: #dbeafe; border-left: 4px solid #3b82f6; border-radius: 5px;">
+                        <strong style="color: #333;">💰 ${bigCategory} 總銷售金額：</strong>
+                        <span style="color: #3b82f6; font-weight: bold; font-size: 1.1em;">${formatAmount(bigCatAmt1)}</span>
+                    </div>
+                `;
+            } else {
+                html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
+            }
+
+            html += `
+                    </div>
+                    <div class="period-section">
+                        <h4><span class="period-badge period-2">${period2Name}</span></h4>
+            `;
+
+            if (hasData2) {
+                const total2Amt = categoryData2.totalAmt || 0;
+                categoryData2.top3Amt.forEach((item, index) => {
+                    const qtyDisplay = item.qty > 0 ? `${item.qty.toLocaleString()} 件` : '-';
+                    const amtDisplay = item.amt > 0 ? `${formatAmount(item.amt)}` : '-';
+                    const percentage = total2Amt > 0 ? ((item.amt / total2Amt) * 100).toFixed(1) : 0;
+                    html += `
+                        <div class="rank-item">
+                            <div class="rank-number">${index + 1}</div>
+                            <div class="rank-info">
+                                <div class="rank-name">
+                                    ${item.name}
+                                    <span class="percentage-badge">佔比 ${percentage}%</span>
+                                </div>
+                                <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
+                                    數量: ${qtyDisplay} | 金額: ${amtDisplay}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                // 顯示大分類總銷售金額
+                const bigCatAmt2 = data2.categories[bigCategory]?.amt || 0;
+                html += `
+                    <div style="margin-top: 15px; padding: 12px; background: #ede9fe; border-left: 4px solid #8b5cf6; border-radius: 5px;">
+                        <strong style="color: #333;">💰 ${bigCategory} 總銷售金額：</strong>
+                        <span style="color: #8b5cf6; font-weight: bold; font-size: 1.1em;">${formatAmount(bigCatAmt2)}</span>
+                    </div>
+                `;
+            } else {
+                html += `<p style="color: #999; padding: 20px; text-align: center;">此期間無資料</p>`;
+            }
+
+            // 添加圖表
+            if (hasData1 || hasData2) {
+                const chartId = `chart-${storeId}-${bigCategory.replace(/\s+/g, '-')}`;
                 
-                let normalizedName = name.trim();
+                // 判斷是否需要顯示大分類摘要
+                const showCategorySummary = ['CPU', 'iPad', 'iPhone', 'Apple Watch', 'AirPods', 'Audio', 'Care', 'Accy', '3rd Party'].includes(bigCategory);
                 
-                // CPU類：特殊處理和標準化
-                if (category === 'CPU') {
-                    // MacBook Pro -> MBP (不區分大小寫)
-                    const upperName = normalizedName.toUpperCase();
+                html += `
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h4>📊 ${bigCategory} ${classificationText}銷售數量對比</h4>
+                `;
+                
+                // 如果需要顯示大分類摘要
+                if (showCategorySummary) {
+                    const qty1 = data1.categories[bigCategory]?.qty || 0;
+                    const qty2 = data2.categories[bigCategory]?.qty || 0;
+                    const growthRate = qty1 > 0 ? ((qty2 - qty1) / qty1 * 100) : 0;
+                    const growthQty = qty2 - qty1;
+                    const growthColor = growthRate >= 0 ? '#10b981' : '#ef4444';
+                    const growthQtyText = (growthQty >= 0 ? '+' : '') + growthQty.toLocaleString() + '件';
+                    const growthRateText = (growthRate >= 0 ? '+' : '') + growthRate.toFixed(2) + '%';
                     
-                    if (upperName.includes('MACBOOK PRO') || upperName.includes('MBP')) {
-                        if (upperName.includes('14')) {
-                            return 'MBP 14';
-                        }
-                        if (upperName.includes('16')) {
-                            return 'MBP 16';
-                        }
+                    html += `
+                    <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 30px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="display: inline-block; width: 16px; height: 16px; background: rgba(25, 118, 210, 0.7); border: 2px solid rgba(25, 118, 210, 1); border-radius: 3px;"></span>
+                            <span style="color: #1976d2; font-weight: bold;">去年：${qty1.toLocaleString()}件</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="display: inline-block; width: 16px; height: 16px; background: rgba(123, 31, 162, 0.7); border: 2px solid rgba(123, 31, 162, 1); border-radius: 3px;"></span>
+                            <span style="color: #7b1fa2; font-weight: bold;">今年：${qty2.toLocaleString()}件</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="color: ${growthColor}; font-weight: bold; font-size: 1.1em;">${growthQtyText} ${growthRateText}</span>
+                        </div>
+                    </div>
+                    `;
+                }
+                
+                html += `
+                    <div class="chart-wrapper">
+                        <canvas id="${chartId}"></canvas>
+                    </div>
+                </div>
+                `;
+            } else {
+                html += `
+                    </div>
+                </div>
+                `;
+            }
+        });
+
+        html += `
+            </div>
+        `;
+
+        contentContainer.innerHTML = html;
+
+        // 名稱標準化函數
+        function normalizeProductName(name, category) {
+            if (!name) return name;
+            
+            let normalizedName = name.trim();
+            
+            // CPU類：特殊處理和標準化
+            if (category === 'CPU') {
+                // MacBook Pro -> MBP (不區分大小寫)
+                const upperName = normalizedName.toUpperCase();
+                
+                if (upperName.includes('MACBOOK PRO') || upperName.includes('MBP')) {
+                    if (upperName.includes('14')) {
+                        return 'MBP 14';
                     }
-                    
-                    // 移除其他MacBook的晶片型號
+                    if (upperName.includes('16')) {
+                        return 'MBP 16';
+                    }
+                }
+                
+                // 移除其他MacBook的晶片型號
+                normalizedName = normalizedName.replace(/\s*\([^)]*\)/g, '').trim();
+                
+                return normalizedName;
+            }
+            
+            // iPad類：統一不同版本
+            if (category === 'iPad') {
+                // iPad 9/10/iPad(A16) -> iPad
+                if (normalizedName.includes('iPad 9') || 
+                    normalizedName.includes('iPad 10') || 
+                    normalizedName.includes('iPad(A16)') ||
+                    normalizedName.includes('iPad (A16)')) {
+                    return 'iPad';
+                }
+                
+                // iPad Air 11in
+                if (normalizedName.includes('iPad Air') && normalizedName.includes('11')) {
+                    return 'iPad Air 11in';
+                }
+                
+                // iPad Air 13in
+                if (normalizedName.includes('iPad Air') && normalizedName.includes('13')) {
+                    return 'iPad Air 13in';
+                }
+                
+                // iPad mini 6/iPad mini(A17 Pro) -> iPad mini
+                if (normalizedName.includes('iPad mini 6') || 
+                    normalizedName.includes('iPad mini(A17 Pro)') ||
+                    normalizedName.includes('iPad mini (A17 Pro)')) {
+                    return 'iPad mini';
+                }
+                
+                // iPad Pro 11 (移除晶片型號)
+                if (normalizedName.includes('iPad Pro') && normalizedName.includes('11')) {
+                    return 'iPad Pro 11';
+                }
+                
+                // iPad Pro 13 (移除晶片型號)
+                if (normalizedName.includes('iPad Pro') && normalizedName.includes('13')) {
+                    return 'iPad Pro 13';
+                }
+                
+                // iPad Pro - 移除晶片型號
+                if (normalizedName.includes('iPad Pro')) {
                     normalizedName = normalizedName.replace(/\s*\([^)]*\)/g, '').trim();
-                    
-                    return normalizedName;
-                }
-                
-                // iPad類：統一不同版本
-                if (category === 'iPad') {
-                    // iPad 9/10/iPad(A16) -> iPad
-                    if (normalizedName.includes('iPad 9') || 
-                        normalizedName.includes('iPad 10') || 
-                        normalizedName.includes('iPad(A16)') ||
-                        normalizedName.includes('iPad (A16)')) {
-                        return 'iPad';
-                    }
-                    
-                    // iPad Air 11in
-                    if (normalizedName.includes('iPad Air') && normalizedName.includes('11')) {
-                        return 'iPad Air 11in';
-                    }
-                    
-                    // iPad Air 13in
-                    if (normalizedName.includes('iPad Air') && normalizedName.includes('13')) {
-                        return 'iPad Air 13in';
-                    }
-                    
-                    // iPad mini 6/iPad mini(A17 Pro) -> iPad mini
-                    if (normalizedName.includes('iPad mini 6') || 
-                        normalizedName.includes('iPad mini(A17 Pro)') ||
-                        normalizedName.includes('iPad mini (A17 Pro)')) {
-                        return 'iPad mini';
-                    }
-                    
-                    // iPad Pro 11 (移除晶片型號)
-                    if (normalizedName.includes('iPad Pro') && normalizedName.includes('11')) {
-                        return 'iPad Pro 11';
-                    }
-                    
-                    // iPad Pro 13 (移除晶片型號)
-                    if (normalizedName.includes('iPad Pro') && normalizedName.includes('13')) {
-                        return 'iPad Pro 13';
-                    }
-                    
-                    // iPad Pro - 移除晶片型號
-                    if (normalizedName.includes('iPad Pro')) {
-                        normalizedName = normalizedName.replace(/\s*\([^)]*\)/g, '').trim();
-                        return normalizedName;
-                    }
-                    
-                    return normalizedName;
-                }
-                
-                // AirPods類：統一版本
-                if (category === 'AirPods') {
-                    // AirPods Max (不分版本)
-                    if (normalizedName.includes('AirPods Max')) {
-                        return 'AirPods Max';
-                    }
-                    
-                    // AirPods Pro (不分版本，移除代數)
-                    if (normalizedName.includes('AirPods Pro')) {
-                        return 'AirPods Pro';
-                    }
-                    
-                    // AirPods 3/4 -> AirPods (標準版)
-                    if (normalizedName.includes('AirPods') && !normalizedName.includes('Pro') && !normalizedName.includes('Max')) {
-                        return 'AirPods';
-                    }
-                    
-                    return normalizedName;
-                }
-                
-                // Audio類：HomePod系列
-                if (category === 'Audio') {
-                    // HomePod mini
-                    if (normalizedName.includes('HomePod mini')) {
-                        return 'HomePod mini';
-                    }
-                    
-                    // HomePod (標準版，排除mini)
-                    if (normalizedName.includes('HomePod') && !normalizedName.includes('mini')) {
-                        return 'HomePod';
-                    }
-                    
-                    return normalizedName;
-                }
-                
-                // Apple Watch類：統一系列版本
-                if (category === 'Apple Watch') {
-                    // Series 10/11 -> Series
-                    if (normalizedName.includes('S10') || normalizedName.includes('S11')) {
-                        return normalizedName.replace(/S1[01]/g, 'Series').trim();
-                    }
-                    
-                    // SE 2/3 -> SE
-                    if (normalizedName.includes('SE 2') || normalizedName.includes('SE 3')) {
-                        return normalizedName.replace(/SE [23]/g, 'SE').trim();
-                    }
-                    
-                    // Ultra 2/3 -> Ultra
-                    if (normalizedName.includes('Ultra 2') || normalizedName.includes('Ultra 3')) {
-                        return normalizedName.replace(/Ultra [23]/g, 'Ultra').trim();
-                    }
-                    
-                    return normalizedName;
-                }
-                
-                // iPhone類：移除年份數字
-                if (category === 'iPhone') {
-                    // iPhone 17 Pro Max -> iPhone Pro Max
-                    // iPhone 16 -> iPhone
-                    normalizedName = normalizedName.replace(/iPhone\s+\d+/g, 'iPhone').trim();
                     return normalizedName;
                 }
                 
                 return normalizedName;
             }
+            
+            // AirPods類：統一版本
+            if (category === 'AirPods') {
+                // AirPods Max (不分版本)
+                if (normalizedName.includes('AirPods Max')) {
+                    return 'AirPods Max';
+                }
+                
+                // AirPods Pro (不分版本，移除代數)
+                if (normalizedName.includes('AirPods Pro')) {
+                    return 'AirPods Pro';
+                }
+                
+                // AirPods 3/4 -> AirPods (標準版)
+                if (normalizedName.includes('AirPods') && !normalizedName.includes('Pro') && !normalizedName.includes('Max')) {
+                    return 'AirPods';
+                }
+                
+                return normalizedName;
+            }
+            
+            // Audio類：HomePod系列
+            if (category === 'Audio') {
+                // HomePod mini
+                if (normalizedName.includes('HomePod mini')) {
+                    return 'HomePod mini';
+                }
+                
+                // HomePod (標準版，排除mini)
+                if (normalizedName.includes('HomePod') && !normalizedName.includes('mini')) {
+                    return 'HomePod';
+                }
+                
+                return normalizedName;
+            }
+            
+            // Apple Watch類：統一系列版本
+            if (category === 'Apple Watch') {
+                // Series 10/11 -> Series
+                if (normalizedName.includes('S10') || normalizedName.includes('S11')) {
+                    return normalizedName.replace(/S1[01]/g, 'Series').trim();
+                }
+                
+                // SE 2/3 -> SE
+                if (normalizedName.includes('SE 2') || normalizedName.includes('SE 3')) {
+                    return normalizedName.replace(/SE [23]/g, 'SE').trim();
+                }
+                
+                // Ultra 2/3 -> Ultra
+                if (normalizedName.includes('Ultra 2') || normalizedName.includes('Ultra 3')) {
+                    return normalizedName.replace(/Ultra [23]/g, 'Ultra').trim();
+                }
+                
+                return normalizedName;
+            }
+            
+            // iPhone類：移除年份數字
+            if (category === 'iPhone') {
+                // iPhone 17 Pro Max -> iPhone Pro Max
+                // iPhone 16 -> iPhone
+                normalizedName = normalizedName.replace(/iPhone\s+\d+/g, 'iPhone').trim();
+                return normalizedName;
+            }
+            
+            return normalizedName;
+        }
 
-            // 渲染所有圖表
-            setTimeout(() => {
-                targetCategories.forEach(bigCategory => {
-                    const categoryData1 = data1.categoryTop3[bigCategory];
-                    const categoryData2 = data2.categoryTop3[bigCategory];
-                    
-                    const hasData1 = categoryData1 && categoryData1.allData && categoryData1.allData.length > 0;
-                    const hasData2 = categoryData2 && categoryData2.allData && categoryData2.allData.length > 0;
-                    
-                    if (!hasData1 && !hasData2) return;
+        // 渲染所有圖表
+        setTimeout(() => {
+            targetCategories.forEach(bigCategory => {
+                const categoryData1 = data1.categoryTop3[bigCategory];
+                const categoryData2 = data2.categoryTop3[bigCategory];
+                
+                const hasData1 = categoryData1 && categoryData1.allData && categoryData1.allData.length > 0;
+                const hasData2 = categoryData2 && categoryData2.allData && categoryData2.allData.length > 0;
+                
+                if (!hasData1 && !hasData2) return;
 
-                    // 渲染中分類圖表
-                    const chartId = `chart-${storeId}-${bigCategory.replace(/\s+/g, '-')}`;
-                    const canvas = document.getElementById(chartId);
-                    if (!canvas) return;
+                // 渲染中分類圖表
+                const chartId = `chart-${storeId}-${bigCategory.replace(/\s+/g, '-')}`;
+                const canvas = document.getElementById(chartId);
+                if (!canvas) return;
 
-                    // 收集並標準化中分類名稱
-                    const normalizedData1 = {};
-                    const normalizedData2 = {};
-                    
-                    if (hasData1) {
-                        categoryData1.allData.forEach(item => {
-                            const normalizedName = normalizeProductName(item.name, bigCategory);
-                            if (!normalizedData1[normalizedName]) {
-                                normalizedData1[normalizedName] = 0;
+                // 收集並標準化中分類名稱
+                const normalizedData1 = {};
+                const normalizedData2 = {};
+                
+                if (hasData1) {
+                    categoryData1.allData.forEach(item => {
+                        const normalizedName = normalizeProductName(item.name, bigCategory);
+                        if (!normalizedData1[normalizedName]) {
+                            normalizedData1[normalizedName] = 0;
+                        }
+                        normalizedData1[normalizedName] += item.qty;
+                    });
+                }
+                
+                if (hasData2) {
+                    categoryData2.allData.forEach(item => {
+                        const normalizedName = normalizeProductName(item.name, bigCategory);
+                        if (!normalizedData2[normalizedName]) {
+                            normalizedData2[normalizedName] = 0;
+                        }
+                        normalizedData2[normalizedName] += item.qty;
+                    });
+                }
+
+                // 收集所有標準化後的分類名稱
+                const allCategories = new Set([
+                    ...Object.keys(normalizedData1),
+                    ...Object.keys(normalizedData2)
+                ]);
+                const categories = Array.from(allCategories).sort();
+
+                // 準備數據
+                const data1Values = categories.map(cat => normalizedData1[cat] || 0);
+                const data2Values = categories.map(cat => normalizedData2[cat] || 0);
+
+                // 判斷是否要顯示數量標籤（Care, Accy, 3rd Party 不顯示）
+                const shouldShowLabels = !['Care', 'Accy', '3rd Party'].includes(bigCategory);
+
+                // 創建圖表
+                new Chart(canvas, {
+                    type: 'bar',
+                    plugins: [ChartDataLabels],
+                    data: {
+                        labels: categories,
+                        datasets: [
+                            {
+                                label: period1Name,
+                                data: data1Values,
+                                backgroundColor: 'rgba(25, 118, 210, 0.7)',
+                                borderColor: 'rgba(25, 118, 210, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: period2Name,
+                                data: data2Values,
+                                backgroundColor: 'rgba(123, 31, 162, 0.7)',
+                                borderColor: 'rgba(123, 31, 162, 1)',
+                                borderWidth: 1
                             }
-                            normalizedData1[normalizedName] += item.qty;
-                        });
-                    }
-                    
-                    if (hasData2) {
-                        categoryData2.allData.forEach(item => {
-                            const normalizedName = normalizeProductName(item.name, bigCategory);
-                            if (!normalizedData2[normalizedName]) {
-                                normalizedData2[normalizedName] = 0;
-                            }
-                            normalizedData2[normalizedName] += item.qty;
-                        });
-                    }
-
-                    // 收集所有標準化後的分類名稱
-                    const allCategories = new Set([
-                        ...Object.keys(normalizedData1),
-                        ...Object.keys(normalizedData2)
-                    ]);
-                    const categories = Array.from(allCategories).sort();
-
-                    // 準備數據
-                    const data1Values = categories.map(cat => normalizedData1[cat] || 0);
-                    const data2Values = categories.map(cat => normalizedData2[cat] || 0);
-
-                    // 判斷是否要顯示數量標籤（Care, Accy, 3rd Party 不顯示）
-                    const shouldShowLabels = !['Care', 'Accy', '3rd Party'].includes(bigCategory);
-
-                    // 創建圖表
-                    new Chart(canvas, {
-                        type: 'bar',
-                        plugins: [ChartDataLabels],
-                        data: {
-                            labels: categories,
-                            datasets: [
-                                {
-                                    label: period1Name,
-                                    data: data1Values,
-                                    backgroundColor: 'rgba(25, 118, 210, 0.7)',
-                                    borderColor: 'rgba(25, 118, 210, 1)',
-                                    borderWidth: 1
-                                },
-                                {
-                                    label: period2Name,
-                                    data: data2Values,
-                                    backgroundColor: 'rgba(123, 31, 162, 0.7)',
-                                    borderColor: 'rgba(123, 31, 162, 1)',
-                                    borderWidth: 1
-                                }
-                            ]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    display: true,
-                                    position: 'bottom',
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            let label = context.dataset.label || '';
-                                            if (label) {
-                                                label += ': ';
-                                            }
-                                            label += context.parsed.y.toLocaleString() + ' 件';
-                                            return label;
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
                                         }
-                                    }
-                                },
-                                datalabels: {
-                                    display: shouldShowLabels,
-                                    anchor: 'end',
-                                    align: 'end',
-                                    offset: 4,
-                                    color: function(context) {
-                                        // 根據 dataset 索引返回對應顏色
-                                        return context.datasetIndex === 0 ? 'rgb(25, 118, 210)' : 'rgb(123, 31, 162)';
-                                    },
-                                    font: {
-                                        weight: 'bold',
-                                        size: 10
-                                    },
-                                    formatter: function(value) {
-                                        return value > 0 ? value.toLocaleString() : '';
+                                        label += context.parsed.y.toLocaleString() + ' 件';
+                                        return label;
                                     }
                                 }
                             },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    grace: '10%',
-                                    ticks: {
-                                        callback: function(value) {
-                                            return value.toLocaleString();
-                                        }
+                            datalabels: {
+                                display: shouldShowLabels,
+                                anchor: 'end',
+                                align: 'end',
+                                offset: 4,
+                                color: function(context) {
+                                    // 根據 dataset 索引返回對應顏色
+                                    return context.datasetIndex === 0 ? 'rgb(25, 118, 210)' : 'rgb(123, 31, 162)';
+                                },
+                                font: {
+                                    weight: 'bold',
+                                    size: 10
+                                },
+                                formatter: function(value) {
+                                    return value > 0 ? value.toLocaleString() : '';
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grace: '10%',
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toLocaleString();
                                     }
                                 }
                             }
                         }
-                    });
+                    }
                 });
-            }, 100);
-        }
-    </script>
+            });
+        }, 100);
+    }
+</script>
+```
+
 </body>
 </html>
