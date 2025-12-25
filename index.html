@@ -585,7 +585,7 @@
 
     .chart-container {
         background: white;
-        padding: 25px 25px 35px 25px;
+        padding: 25px;
         border-radius: 10px;
         margin: 30px 0;
         box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -603,7 +603,7 @@
 
     .chart-wrapper {
         position: relative;
-        height: 500px;
+        height: 460px;
         margin: 0 auto;
     }
 
@@ -2227,8 +2227,8 @@
                                     
                                     const x = xAxis.getPixelForValue(index);
                                     
-                                    // 第一行：數量增減（在品項名稱下方 65px，避免擋到圖例）
-                                    const y1 = yAxis.bottom + 65;
+                                    // 第一行：數量增減（在品項名稱下方 45px）
+                                    const y1 = yAxis.bottom + 45;
                                     ctx.font = 'bold 12px Arial';
                                     ctx.fillStyle = diff >= 0 ? '#10b981' : '#ef4444';
                                     const diffText = diff >= 0 ? `+${diff.toLocaleString()}` : diff.toLocaleString();
@@ -2276,7 +2276,7 @@
                         maintainAspectRatio: false,
                         layout: {
                             padding: {
-                                bottom: 55
+                                bottom: 35
                             }
                         },
                         plugins: {
