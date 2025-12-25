@@ -2227,8 +2227,8 @@
                                     
                                     const x = xAxis.getPixelForValue(index);
                                     
-                                    // 第一行：數量增減（在品項名稱下方 45px）
-                                    const y1 = yAxis.bottom + 45;
+                                    // 第一行：數量增減（在品項名稱下方 35px）
+                                    const y1 = yAxis.bottom + 35;
                                     ctx.font = 'bold 12px Arial';
                                     ctx.fillStyle = diff >= 0 ? '#10b981' : '#ef4444';
                                     const diffText = diff >= 0 ? `+${diff.toLocaleString()}` : diff.toLocaleString();
@@ -2276,7 +2276,7 @@
                         maintainAspectRatio: false,
                         layout: {
                             padding: {
-                                bottom: 45
+                                bottom: 40
                             }
                         },
                         plugins: {
