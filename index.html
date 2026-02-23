@@ -744,8 +744,8 @@
 
     const targetCategories = ['CPU', 'iPad', 'iPhone', 'Apple Watch', 'AirPods', 'Audio', 'Care', 'Accy', '3rd Party'];
 
-    // Audio和Care使用小分類
-    const smallCategoryList = ['Audio', 'Accy'];
+    // 只有Audio使用小分類，其他都使用中分類
+    const smallCategoryList = ['Audio'];
 
     // 註冊 ChartDataLabels 插件（全局）
     if (typeof ChartDataLabels !== 'undefined') {
@@ -1767,8 +1767,8 @@
                     🏆 各大分類熱銷品項 Top 3 對比
                 </h3>
                 <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
-                    ※ CPU、iPad、iPhone、Apple Watch、AirPods、Care、3rd Party 使用<strong>中分類</strong>排名<br>
-                    ※ Audio、Accy 使用<strong>小分類</strong>排名
+                    ※ CPU、iPad、iPhone、Apple Watch、AirPods、Care、Accy、3rd Party 使用<strong>中分類</strong>排名<br>
+                    ※ Audio 使用<strong>小分類</strong>排名
                 </p>
         `;
 
