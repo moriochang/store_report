@@ -1995,7 +1995,7 @@
                 const isHorizontalChart = ['Accy', '3rd Party'].includes(bigCategory);
                 
                 html += `
-                    <div class="chart-wrapper" style="${isHorizontalChart ? 'height: auto; min-height: 600px;' : ''}">
+                    <div class="chart-wrapper" style="${isHorizontalChart ? 'height: auto; min-height: 800px;' : ''}">
                         <canvas id="${chartId}"></canvas>
                     </div>
                 </div>
@@ -2224,8 +2224,7 @@
                                 ctx.save();
                                 
                                 if (isHorizontal) {
-                                    // 橫式圖表：在品項右側顯示數據
-                                    ctx.textAlign = 'left';
+                                    // 橫式圖表：在品項右側顯示數據（加強視覺引導）
                                     ctx.textBaseline = 'middle';
                                     
                                     categories.forEach((category, index) => {
@@ -2235,23 +2234,47 @@
                                         const yoy = val1 > 0 ? ((val2 - val1) / val1 * 100) : 0;
                                         
                                         const y = yAxis.getPixelForValue(index);
+                                        const x1 = xAxis.right + 25;  // 增加間距
                                         
-                                        // 第一列：數量增減（在品項右側 15px）
-                                        const x1 = xAxis.right + 15;
-                                        ctx.font = 'bold 11px Arial';
-                                        ctx.fillStyle = diff >= 0 ? '#10b981' : '#ef4444';
+                                        // 繪製分隔線
+                                        ctx.strokeStyle = '#e0e0e0';
+                                        ctx.lineWidth = 1;
+                                        ctx.beginPath();
+                                        ctx.moveTo(xAxis.right + 10, y);
+                                        ctx.lineTo(xAxis.right + 20, y);
+                                        ctx.stroke();
+                                        
+                                        // 第一列：數量增減（帶背景框）
+                                        ctx.font = 'bold 12px Arial';
                                         const diffText = diff >= 0 ? `+${diff.toLocaleString()}` : diff.toLocaleString();
+                                        const diffTextWidth = ctx.measureText(diffText).width;
+                                        
+                                        // 繪製背景框
+                                        const bgColor = diff >= 0 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)';
+                                        ctx.fillStyle = bgColor;
+                                        ctx.fillRect(x1 - 4, y - 10, diffTextWidth + 8, 20);
+                                        
+                                        // 繪製文字
+                                        ctx.textAlign = 'left';
+                                        ctx.fillStyle = diff >= 0 ? '#10b981' : '#ef4444';
                                         ctx.fillText(diffText, x1, y);
                                         
-                                        // 第二列：成長率（在第一列右側 70px）
-                                        const x2 = x1 + 70;
-                                        ctx.font = 'bold 11px Arial';
+                                        // 第二列：成長率（在第一列右側，帶背景框）
+                                        const x2 = x1 + diffTextWidth + 20;
+                                        ctx.font = 'bold 12px Arial';
                                         
                                         if (yoy !== 0) {
                                             const symbol = yoy > 0 ? '▲' : '▼';
                                             const percentText = yoy >= 0 ? `+${yoy.toFixed(1)}%` : `${yoy.toFixed(1)}%`;
                                             const fullText = `${symbol} ${percentText}`;
+                                            const percentTextWidth = ctx.measureText(fullText).width;
                                             
+                                            // 繪製背景框
+                                            const percentBgColor = yoy > 0 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)';
+                                            ctx.fillStyle = percentBgColor;
+                                            ctx.fillRect(x2 - 4, y - 10, percentTextWidth + 8, 20);
+                                            
+                                            // 繪製文字
                                             ctx.fillStyle = yoy > 0 ? '#10b981' : '#ef4444';
                                             ctx.fillText(fullText, x2, y);
                                         }
@@ -2320,7 +2343,7 @@
                         maintainAspectRatio: false,
                         layout: {
                             padding: isHorizontal ? {
-                                right: 150  // 橫式圖表右側留空給數據
+                                right: 200  // 橫式圖表右側留更多空間給數據和背景框
                             } : {
                                 bottom: 40  // 豎式圖表底部留空給數據
                             }
@@ -2344,9 +2367,9 @@
                                 }
                             },
                             datalabels: {
-                                display: shouldShowLabels,
-                                anchor: 'end',
-                                align: 'end',
+                                display: true,  // 橫式圖表也要顯示數值
+                                anchor: isHorizontal ? 'end' : 'end',
+                                align: isHorizontal ? 'end' : 'end',
                                 offset: 4,
                                 color: function(context) {
                                     // 根據 dataset 索引返回對應顏色
@@ -2373,8 +2396,10 @@
                             },
                             y: {
                                 ticks: {
+                                    padding: 8,  // 增加行高，讓數據不擁擠
                                     font: {
-                                        weight: 'bold'
+                                        weight: 'bold',
+                                        size: 12  // 品項名稱字體也稍微增大
                                     }
                                 }
                             }
