@@ -1991,8 +1991,11 @@
                     `;
                 }
                 
+                // 判斷是否使用橫式圖表
+                const isHorizontalChart = ['Accy', '3rd Party'].includes(bigCategory);
+                
                 html += `
-                    <div class="chart-wrapper">
+                    <div class="chart-wrapper" style="${isHorizontalChart ? 'height: auto; min-height: 600px;' : ''}">
                         <canvas id="${chartId}"></canvas>
                     </div>
                 </div>
@@ -2202,6 +2205,9 @@
 
                 // 判斷是否要顯示數量標籤（Care, Accy, 3rd Party 不顯示）
                 const shouldShowLabels = !['Care', 'Accy', '3rd Party'].includes(bigCategory);
+                
+                // 判斷是否使用橫式圖表（Accy 和 3rd Party 品項太多，改用橫式）
+                const isHorizontal = ['Accy', '3rd Party'].includes(bigCategory);
 
                 // 創建圖表
                 new Chart(canvas, {
@@ -2216,37 +2222,74 @@
                                 const yAxis = chart.scales.y;
                                 
                                 ctx.save();
-                                ctx.textAlign = 'center';
-                                ctx.textBaseline = 'top';
                                 
-                                categories.forEach((category, index) => {
-                                    const val1 = normalizedData1[category] || 0;
-                                    const val2 = normalizedData2[category] || 0;
-                                    const diff = val2 - val1;
-                                    const yoy = val1 > 0 ? ((val2 - val1) / val1 * 100) : 0;
+                                if (isHorizontal) {
+                                    // 橫式圖表：在品項右側顯示數據
+                                    ctx.textAlign = 'left';
+                                    ctx.textBaseline = 'middle';
                                     
-                                    const x = xAxis.getPixelForValue(index);
-                                    
-                                    // 第一行：數量增減（在品項名稱下方 35px）
-                                    const y1 = yAxis.bottom + 35;
-                                    ctx.font = 'bold 12px Arial';
-                                    ctx.fillStyle = diff >= 0 ? '#10b981' : '#ef4444';
-                                    const diffText = diff >= 0 ? `+${diff.toLocaleString()}` : diff.toLocaleString();
-                                    ctx.fillText(diffText, x, y1);
-                                    
-                                    // 第二行：成長率符號和百分比（在第一行下方 16px）
-                                    const y2 = y1 + 16;
-                                    ctx.font = 'bold 12px Arial';
-                                    
-                                    if (yoy !== 0) {
-                                        const symbol = yoy > 0 ? '▲' : '▼';
-                                        const percentText = yoy >= 0 ? `+${yoy.toFixed(1)}%` : `${yoy.toFixed(1)}%`;
-                                        const fullText = `${symbol} ${percentText}`;
+                                    categories.forEach((category, index) => {
+                                        const val1 = normalizedData1[category] || 0;
+                                        const val2 = normalizedData2[category] || 0;
+                                        const diff = val2 - val1;
+                                        const yoy = val1 > 0 ? ((val2 - val1) / val1 * 100) : 0;
                                         
-                                        ctx.fillStyle = yoy > 0 ? '#10b981' : '#ef4444';
-                                        ctx.fillText(fullText, x, y2);
-                                    }
-                                });
+                                        const y = yAxis.getPixelForValue(index);
+                                        
+                                        // 第一列：數量增減（在品項右側 15px）
+                                        const x1 = xAxis.right + 15;
+                                        ctx.font = 'bold 11px Arial';
+                                        ctx.fillStyle = diff >= 0 ? '#10b981' : '#ef4444';
+                                        const diffText = diff >= 0 ? `+${diff.toLocaleString()}` : diff.toLocaleString();
+                                        ctx.fillText(diffText, x1, y);
+                                        
+                                        // 第二列：成長率（在第一列右側 70px）
+                                        const x2 = x1 + 70;
+                                        ctx.font = 'bold 11px Arial';
+                                        
+                                        if (yoy !== 0) {
+                                            const symbol = yoy > 0 ? '▲' : '▼';
+                                            const percentText = yoy >= 0 ? `+${yoy.toFixed(1)}%` : `${yoy.toFixed(1)}%`;
+                                            const fullText = `${symbol} ${percentText}`;
+                                            
+                                            ctx.fillStyle = yoy > 0 ? '#10b981' : '#ef4444';
+                                            ctx.fillText(fullText, x2, y);
+                                        }
+                                    });
+                                } else {
+                                    // 豎式圖表：原有的下方顯示邏輯
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'top';
+                                    
+                                    categories.forEach((category, index) => {
+                                        const val1 = normalizedData1[category] || 0;
+                                        const val2 = normalizedData2[category] || 0;
+                                        const diff = val2 - val1;
+                                        const yoy = val1 > 0 ? ((val2 - val1) / val1 * 100) : 0;
+                                        
+                                        const x = xAxis.getPixelForValue(index);
+                                        
+                                        // 第一行：數量增減（在品項名稱下方 35px）
+                                        const y1 = yAxis.bottom + 35;
+                                        ctx.font = 'bold 12px Arial';
+                                        ctx.fillStyle = diff >= 0 ? '#10b981' : '#ef4444';
+                                        const diffText = diff >= 0 ? `+${diff.toLocaleString()}` : diff.toLocaleString();
+                                        ctx.fillText(diffText, x, y1);
+                                        
+                                        // 第二行：成長率符號和百分比（在第一行下方 16px）
+                                        const y2 = y1 + 16;
+                                        ctx.font = 'bold 12px Arial';
+                                        
+                                        if (yoy !== 0) {
+                                            const symbol = yoy > 0 ? '▲' : '▼';
+                                            const percentText = yoy >= 0 ? `+${yoy.toFixed(1)}%` : `${yoy.toFixed(1)}%`;
+                                            const fullText = `${symbol} ${percentText}`;
+                                            
+                                            ctx.fillStyle = yoy > 0 ? '#10b981' : '#ef4444';
+                                            ctx.fillText(fullText, x, y2);
+                                        }
+                                    });
+                                }
                                 
                                 ctx.restore();
                             }
@@ -2272,11 +2315,14 @@
                         ]
                     },
                     options: {
+                        indexAxis: isHorizontal ? 'y' : 'x',
                         responsive: true,
                         maintainAspectRatio: false,
                         layout: {
-                            padding: {
-                                bottom: 40
+                            padding: isHorizontal ? {
+                                right: 150  // 橫式圖表右側留空給數據
+                            } : {
+                                bottom: 40  // 豎式圖表底部留空給數據
                             }
                         },
                         plugins: {
@@ -2291,7 +2337,8 @@
                                         if (label) {
                                             label += ': ';
                                         }
-                                        label += context.parsed.y.toLocaleString() + ' 件';
+                                        const value = isHorizontal ? context.parsed.x : context.parsed.y;
+                                        label += value.toLocaleString() + ' 件';
                                         return label;
                                     }
                                 }
@@ -2314,7 +2361,24 @@
                                 }
                             }
                         },
-                        scales: {
+                        scales: isHorizontal ? {
+                            x: {
+                                beginAtZero: true,
+                                grace: '10%',
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toLocaleString();
+                                    }
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                }
+                            }
+                        } : {
                             x: {
                                 ticks: {
                                     padding: 5,
