@@ -744,8 +744,19 @@
 
     const targetCategories = ['CPU', 'iPad', 'iPhone', 'Apple Watch', 'AirPods', 'Audio', 'Care', 'Accy', '3rd Party'];
 
-    // 只有Audio使用小分類，其他都使用中分類
-    const smallCategoryList = ['Audio'];
+    // Audio 和 Accy 使用小分類，其他使用中分類
+    const smallCategoryList = ['Audio', 'Accy'];
+
+    // 根據大分類決定 Top 數量
+    function getTopCount(bigCategory) {
+        if (['CPU', 'iPad', 'iPhone', 'Apple Watch'].includes(bigCategory)) {
+            return 5;  // Top 5
+        } else if (['Accy', '3rd Party'].includes(bigCategory)) {
+            return 10; // Top 10
+        } else {
+            return 3;  // 其他維持 Top 3 (AirPods, Audio, Care)
+        }
+    }
 
     // 註冊 ChartDataLabels 插件（全局）
     if (typeof ChartDataLabels !== 'undefined') {
@@ -927,13 +938,15 @@
 
                 const allData = Object.values(groupData);
                 
+                const topCount = getTopCount(bigCategory);
+                
                 const top3Qty = [...allData]
                     .sort((a, b) => b.qty - a.qty)
-                    .slice(0, 3);
+                    .slice(0, topCount);
 
                 const top3Amt = [...allData]
                     .sort((a, b) => b.amt - a.amt)
-                    .slice(0, 3);
+                    .slice(0, topCount);
 
                 results[storeId].categoryTop3[bigCategory] = {
                     top3Qty: top3Qty,
@@ -1028,13 +1041,15 @@
 
             const allData = Object.values(allGroupData);
             
+            const topCount = getTopCount(bigCategory);
+            
             const top3Qty = [...allData]
                 .sort((a, b) => b.qty - a.qty)
-                .slice(0, 3);
+                .slice(0, topCount);
 
             const top3Amt = [...allData]
                 .sort((a, b) => b.amt - a.amt)
-                .slice(0, 3);
+                .slice(0, topCount);
 
             results[0].categoryTop3[bigCategory] = {
                 top3Qty: top3Qty,
@@ -1764,11 +1779,13 @@
 
             <div class="top3-section">
                 <h3 style="font-size: 1.5em; color: #3b82f6; margin-bottom: 15px;">
-                    🏆 各大分類熱銷品項 Top 3 對比
+                    🏆 各大分類熱銷品項排名對比
                 </h3>
                 <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
-                    ※ CPU、iPad、iPhone、Apple Watch、AirPods、Care、Accy、3rd Party 使用<strong>中分類</strong>排名<br>
-                    ※ Audio 使用<strong>小分類</strong>排名
+                    ※ CPU、iPad、iPhone、Apple Watch 使用<strong>中分類</strong>，顯示 <strong>Top 5</strong><br>
+                    ※ AirPods、Care 使用<strong>中分類</strong>，顯示 <strong>Top 3</strong><br>
+                    ※ Accy、3rd Party 使用<strong>小分類</strong>，顯示 <strong>Top 10</strong><br>
+                    ※ Audio 使用<strong>小分類</strong>，顯示 <strong>Top 3</strong>
                 </p>
         `;
 
