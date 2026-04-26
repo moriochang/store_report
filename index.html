@@ -758,6 +758,59 @@
         }
     }
 
+    // 標準化品項名稱（用於合併相同產品的不同命名）
+    function standardizeName(name, bigCategory) {
+        if (!name) return name;
+        
+        const nameUpper = name.toUpperCase();
+        
+        // CPU 品項標準化
+        if (bigCategory === 'CPU') {
+            // MacBook Air 13 系列
+            if (nameUpper.includes('MACBOOK AIR 13') || 
+                nameUpper.includes('MBA 13') || 
+                /13.*M\d+/.test(nameUpper) && nameUpper.includes('AIR')) {
+                return 'MBA 13';
+            }
+            // MacBook Air 15 系列
+            if (nameUpper.includes('MACBOOK AIR 15') || 
+                nameUpper.includes('MBA 15') ||
+                /15.*M\d+/.test(nameUpper) && nameUpper.includes('AIR')) {
+                return 'MBA 15';
+            }
+            // MacBook Pro 14 系列
+            if (nameUpper.includes('MACBOOK PRO 14') || nameUpper.includes('MBP 14') || nameUpper.includes('14 MACBOOK PRO')) {
+                return 'MBP 14';
+            }
+            // MacBook Pro 16 系列
+            if (nameUpper.includes('MACBOOK PRO 16') || nameUpper.includes('MBP 16') || nameUpper.includes('16 MACBOOK PRO')) {
+                return 'MBP 16';
+            }
+            // iMac 系列
+            if (nameUpper.includes('IMAC')) {
+                return 'iMac';
+            }
+            // Mac mini 系列
+            if (nameUpper.includes('MAC MINI')) {
+                return 'Mac mini';
+            }
+            // Mac Studio
+            if (nameUpper.includes('MAC STUDIO')) {
+                return 'Mac Studio';
+            }
+            // Mac Pro
+            if (nameUpper.includes('MAC PRO')) {
+                return 'Mac Pro';
+            }
+            // Display
+            if (nameUpper.includes('DISPLAY')) {
+                return 'Display';
+            }
+        }
+        
+        return name;
+    }
+
     // 註冊 ChartDataLabels 插件（全局）
     if (typeof ChartDataLabels !== 'undefined') {
         Chart.register(ChartDataLabels);
@@ -922,7 +975,11 @@
                 
                 categoryItems.forEach(item => {
                     // Audio、Accy用小分類，其他用中分類
-                    const key = smallCategoryList.includes(bigCategory) ? item.小分類 : item.中分類;
+                    let key = smallCategoryList.includes(bigCategory) ? item.小分類 : item.中分類;
+                    
+                    // 標準化名稱（合併相同產品的不同命名）
+                    key = standardizeName(key, bigCategory);
+                    
                     if (!groupData[key]) {
                         groupData[key] = {
                             name: key,
@@ -1024,15 +1081,18 @@
                 const storeTop3 = results[storeId].categoryTop3[bigCategory];
                 if (storeTop3 && storeTop3.allData) {
                     storeTop3.allData.forEach(item => {
-                        if (!allGroupData[item.name]) {
-                            allGroupData[item.name] = {
-                                name: item.name,
+                        // 標準化名稱（確保合併時使用相同的 key）
+                        const standardName = standardizeName(item.name, bigCategory);
+                        
+                        if (!allGroupData[standardName]) {
+                            allGroupData[standardName] = {
+                                name: standardName,
                                 qty: 0,
                                 amt: 0
                             };
                         }
-                        allGroupData[item.name].qty += item.qty;
-                        allGroupData[item.name].amt += item.amt;
+                        allGroupData[standardName].qty += item.qty;
+                        allGroupData[standardName].amt += item.amt;
                     });
                     totalQty += storeTop3.totalQty;
                     totalAmt += storeTop3.totalAmt;
@@ -2042,6 +2102,21 @@
                 // MacBook Pro -> MBP (不區分大小寫)
                 const upperName = normalizedName.toUpperCase();
                 
+                // MacBook Air 13 系列統一命名
+                if (upperName.includes('MACBOOK AIR 13') || 
+                    upperName.includes('MBA 13') || 
+                    (upperName.includes('AIR') && upperName.includes('13') && upperName.includes('M'))) {
+                    return 'MBA 13';
+                }
+                
+                // MacBook Air 15 系列統一命名
+                if (upperName.includes('MACBOOK AIR 15') || 
+                    upperName.includes('MBA 15') ||
+                    (upperName.includes('AIR') && upperName.includes('15') && upperName.includes('M'))) {
+                    return 'MBA 15';
+                }
+                
+                // MacBook Pro 14 系列統一命名
                 if (upperName.includes('MACBOOK PRO') || upperName.includes('MBP')) {
                     if (upperName.includes('14')) {
                         return 'MBP 14';
@@ -2049,6 +2124,16 @@
                     if (upperName.includes('16')) {
                         return 'MBP 16';
                     }
+                }
+                
+                // iMac 系列
+                if (upperName.includes('IMAC')) {
+                    return 'iMac';
+                }
+                
+                // Mac mini 系列
+                if (upperName.includes('MAC MINI')) {
+                    return 'Mac mini';
                 }
                 
                 // 移除其他MacBook的晶片型號
