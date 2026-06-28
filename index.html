@@ -742,7 +742,7 @@
         821: '821'
     };
 
-    const targetCategories = ['CPU', 'iPad', 'iPhone', 'Apple Watch', 'AirPods', 'Audio', 'Care', 'Accy', '3rd Party'];
+    const targetCategories = ['CPU', 'iPad', 'iPhone', 'Apple Watch', 'AirPods', 'Audio', 'Care', 'Accy', '3rd Party', 'Bundle'];
 
     // Audio 和 Accy 使用小分類，其他使用中分類
     const smallCategoryList = ['Audio', 'Accy'];
@@ -754,7 +754,7 @@
         } else if (['Accy', '3rd Party'].includes(bigCategory)) {
             return 10; // Top 10
         } else {
-            return 3;  // 其他維持 Top 3 (AirPods, Audio, Care)
+            return 3;  // 其他維持 Top 3 (AirPods, Audio, Care, Bundle)
         }
     }
 
@@ -952,6 +952,21 @@
                 };
             });
 
+            // 計算「全部加總（排除 Care）」- 用於總計
+            const allCategoriesData = storeData.filter(item => item.大分類 !== 'Care');
+            const allTotalQty = allCategoriesData.reduce((sum, item) => sum + (item.total_qty || 0), 0);
+            const allTotalAmt = allCategoriesData.reduce((sum, item) => sum + (item.total_amt_t1 || 0), 0);
+            const allTotalCost = allCategoriesData.reduce((sum, item) => sum + (item.total_cost || 0), 0);
+            const allTotalAdj = allCategoriesData.reduce((sum, item) => sum + (item.total_ADJ_COST || 0), 0);
+            const allTotalProfit = allTotalAmt - allTotalCost + allTotalAdj;
+            
+            results[storeId].totalExcludeCare = {
+                qty: allTotalQty,
+                amt: allTotalAmt,
+                profit: allTotalProfit,
+                profitRate: allTotalAmt > 0 ? (allTotalProfit / allTotalAmt * 100) : 0
+            };
+
             // 統計Care的中分類數據（用於計算搭售率）
             const careData = storeData.filter(item => item.大分類 === 'Care');
             careData.forEach(item => {
@@ -1033,6 +1048,14 @@
             };
         });
 
+        // 初始化全社的「總計（排除 Care）」
+        results[0].totalExcludeCare = {
+            qty: 0,
+            amt: 0,
+            profit: 0,
+            profitRate: 0
+        };
+
         // 加總所有店鋪的大分類數據（排除ID為0的自己）
         storeIds.forEach(storeId => {
             if (storeId === 0) return; // 跳過自己
@@ -1043,6 +1066,13 @@
                 results[0].categories[category].amt += storeData.amt;
                 results[0].categories[category].profit += storeData.profit;
             });
+
+            // 加總「總計（排除 Care）」
+            if (results[storeId].totalExcludeCare) {
+                results[0].totalExcludeCare.qty += results[storeId].totalExcludeCare.qty;
+                results[0].totalExcludeCare.amt += results[storeId].totalExcludeCare.amt;
+                results[0].totalExcludeCare.profit += results[storeId].totalExcludeCare.profit;
+            }
         });
 
         // 計算全社的毛利率
@@ -1051,6 +1081,11 @@
             const profit = results[0].categories[category].profit;
             results[0].categories[category].profitRate = amt > 0 ? (profit / amt * 100) : 0;
         });
+
+        // 計算「總計（排除 Care）」的毛利率
+        const allAmt = results[0].totalExcludeCare.amt;
+        const allProfit = results[0].totalExcludeCare.profit;
+        results[0].totalExcludeCare.profitRate = allAmt > 0 ? (allProfit / allAmt * 100) : 0;
 
         // 加總Care的中分類數據
         storeIds.forEach(storeId => {
@@ -1269,22 +1304,13 @@
             csv += `${cat1.profitRate.toFixed(2)}%,${cat2.profitRate.toFixed(2)}%,${profitRateYoY >= 0 ? '+' : ''}${profitRateYoY.toFixed(2)}%\n`;
         });
         
-        // 總計（排除Care）
-        let total1Qty = 0, total1Amt = 0, total1Profit = 0;
-        let total2Qty = 0, total2Amt = 0, total2Profit = 0;
-        
-        targetCategories.forEach(category => {
-            if (category !== 'Care') {
-                const cat1 = data1.categories[category];
-                const cat2 = data2.categories[category];
-                total1Qty += cat1.qty;
-                total1Amt += cat1.amt;
-                total1Profit += cat1.profit;
-                total2Qty += cat2.qty;
-                total2Amt += cat2.amt;
-                total2Profit += cat2.profit;
-            }
-        });
+        // 總計（所有大分類加總後排除 Care）
+        let total1Qty = data1.totalExcludeCare ? data1.totalExcludeCare.qty : 0;
+        let total1Amt = data1.totalExcludeCare ? data1.totalExcludeCare.amt : 0;
+        let total1Profit = data1.totalExcludeCare ? data1.totalExcludeCare.profit : 0;
+        let total2Qty = data2.totalExcludeCare ? data2.totalExcludeCare.qty : 0;
+        let total2Amt = data2.totalExcludeCare ? data2.totalExcludeCare.amt : 0;
+        let total2Profit = data2.totalExcludeCare ? data2.totalExcludeCare.profit : 0;
         
         const total1ProfitRate = total1Amt > 0 ? (total1Profit / total1Amt * 100) : 0;
         const total2ProfitRate = total2Amt > 0 ? (total2Profit / total2Amt * 100) : 0;
@@ -1423,26 +1449,13 @@
             `;
         });
 
-        // 計算總計（排除Care）
-        let total1Qty = 0;
-        let total1Amt = 0;
-        let total1Profit = 0;
-        let total2Qty = 0;
-        let total2Amt = 0;
-        let total2Profit = 0;
-
-        targetCategories.forEach(category => {
-            if (category !== 'Care') {
-                const cat1 = data1.categories[category];
-                const cat2 = data2.categories[category];
-                total1Qty += cat1.qty;
-                total1Amt += cat1.amt;
-                total1Profit += cat1.profit;
-                total2Qty += cat2.qty;
-                total2Amt += cat2.amt;
-                total2Profit += cat2.profit;
-            }
-        });
+        // 總計（所有大分類加總後排除 Care）
+        const total1Qty = data1.totalExcludeCare ? data1.totalExcludeCare.qty : 0;
+        const total1Amt = data1.totalExcludeCare ? data1.totalExcludeCare.amt : 0;
+        const total1Profit = data1.totalExcludeCare ? data1.totalExcludeCare.profit : 0;
+        const total2Qty = data2.totalExcludeCare ? data2.totalExcludeCare.qty : 0;
+        const total2Amt = data2.totalExcludeCare ? data2.totalExcludeCare.amt : 0;
+        const total2Profit = data2.totalExcludeCare ? data2.totalExcludeCare.profit : 0;
 
         const total1ProfitRate = total1Amt > 0 ? (total1Profit / total1Amt * 100) : 0;
         const total2ProfitRate = total2Amt > 0 ? (total2Profit / total2Amt * 100) : 0;
@@ -1495,8 +1508,8 @@
                 📊 總計摘要
             </h3>
             <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
-                ※ 周邊業績 = AirPods + Audio + Accy + 3rd Party<br>
-                ※ 總計數據排除 Care
+                ※ 周邊業績 = AirPods + Audio + Accy + 3rd Party + Bundle<br>
+                ※ 總計數據為所有大分類加總後排除 Care
             </p>
 
             <div class="table-container">
@@ -1527,18 +1540,22 @@
                     <tbody>
         `;
 
-        // 計算周邊業績 = AirPods + Audio + Accy + 3rd Party
-        const peripheralCategories = ['AirPods', 'Audio', 'Accy', '3rd Party'];
+        // 計算周邊業績 = AirPods + Audio + Accy + 3rd Party + Bundle
+        const peripheralCategories = ['AirPods', 'Audio', 'Accy', '3rd Party', 'Bundle'];
         let peripheral1 = { qty: 0, amt: 0, profit: 0 };
         let peripheral2 = { qty: 0, amt: 0, profit: 0 };
         
         peripheralCategories.forEach(cat => {
-            peripheral1.qty += data1.categories[cat].qty;
-            peripheral1.amt += data1.categories[cat].amt;
-            peripheral1.profit += data1.categories[cat].profit;
-            peripheral2.qty += data2.categories[cat].qty;
-            peripheral2.amt += data2.categories[cat].amt;
-            peripheral2.profit += data2.categories[cat].profit;
+            if (data1.categories[cat]) {
+                peripheral1.qty += data1.categories[cat].qty;
+                peripheral1.amt += data1.categories[cat].amt;
+                peripheral1.profit += data1.categories[cat].profit;
+            }
+            if (data2.categories[cat]) {
+                peripheral2.qty += data2.categories[cat].qty;
+                peripheral2.amt += data2.categories[cat].amt;
+                peripheral2.profit += data2.categories[cat].profit;
+            }
         });
         
         peripheral1.profitRate = peripheral1.amt > 0 ? (peripheral1.profit / peripheral1.amt * 100) : 0;
@@ -1583,21 +1600,18 @@
             </tr>
         `;
 
-        // 計算總計（排除Care）
-        const excludeCategories = ['Care'];
-        let total1 = { qty: 0, amt: 0, profit: 0 };
-        let total2 = { qty: 0, amt: 0, profit: 0 };
-        
-        targetCategories.forEach(cat => {
-            if (!excludeCategories.includes(cat)) {
-                total1.qty += data1.categories[cat].qty;
-                total1.amt += data1.categories[cat].amt;
-                total1.profit += data1.categories[cat].profit;
-                total2.qty += data2.categories[cat].qty;
-                total2.amt += data2.categories[cat].amt;
-                total2.profit += data2.categories[cat].profit;
-            }
-        });
+        // 計算總計（所有大分類加總後排除 Care）
+        // 使用在資料處理階段已計算好的 totalExcludeCare
+        let total1 = { 
+            qty: data1.totalExcludeCare ? data1.totalExcludeCare.qty : 0,
+            amt: data1.totalExcludeCare ? data1.totalExcludeCare.amt : 0,
+            profit: data1.totalExcludeCare ? data1.totalExcludeCare.profit : 0
+        };
+        let total2 = { 
+            qty: data2.totalExcludeCare ? data2.totalExcludeCare.qty : 0,
+            amt: data2.totalExcludeCare ? data2.totalExcludeCare.amt : 0,
+            profit: data2.totalExcludeCare ? data2.totalExcludeCare.profit : 0
+        };
         
         total1.profitRate = total1.amt > 0 ? (total1.profit / total1.amt * 100) : 0;
         total2.profitRate = total2.amt > 0 ? (total2.profit / total2.amt * 100) : 0;
@@ -1843,7 +1857,7 @@
                 </h3>
                 <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
                     ※ CPU、iPad、iPhone、Apple Watch 使用<strong>中分類</strong>，顯示 <strong>Top 5</strong><br>
-                    ※ AirPods、Care 使用<strong>中分類</strong>，顯示 <strong>Top 3</strong><br>
+                    ※ AirPods、Care、Bundle 使用<strong>中分類</strong>，顯示 <strong>Top 3</strong><br>
                     ※ Accy、3rd Party 使用<strong>小分類</strong>，顯示 <strong>Top 10</strong><br>
                     ※ Audio 使用<strong>小分類</strong>，顯示 <strong>Top 3</strong>
                 </p>
